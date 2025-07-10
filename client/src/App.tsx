@@ -15,7 +15,7 @@ import { useTelegram } from './hooks/useTelegram';
 
 function App() {
   const { gameState, earnCoins, completeIntro } = useGameState();
-  const { userId } = useTelegram();
+  const { userId, userName, sendDataToBot } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
 
   // Show intro screens if not shown before

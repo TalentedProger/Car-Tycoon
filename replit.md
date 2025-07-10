@@ -45,6 +45,13 @@ Preferred communication style: Simple, everyday language.
 - **Interactive Elements**: Animated coin earning buttons with visual feedback
 - **Responsive Design**: Mobile-optimized layouts with safe area handling
 
+### Telegram Bot Integration
+- **Bot Commands**: /start, /help, /stats commands with inline WebApp buttons
+- **WebApp Launch**: Direct game access through Telegram interface
+- **Data Communication**: Two-way data exchange between game and bot
+- **User Identification**: Automatic user recognition through Telegram API
+- **Progress Sharing**: Send game achievements and stats to bot chat
+
 ### Database Schema
 - **Users Table**: Basic user authentication with username/password
 - **Game Profiles Table**: Per-user game state including coins, clicks, and intro status
@@ -88,6 +95,11 @@ Preferred communication style: Simple, everyday language.
 - **Drizzle ORM**: Type-safe database operations
 - **Express.js**: Web application framework
 - **Connect-pg-simple**: PostgreSQL session store
+
+### Telegram Integration
+- **Node Telegram Bot API**: Full-featured Telegram Bot API client
+- **Telegram WebApp SDK**: Frontend integration with Telegram Mini Apps
+- **Environment Variables**: Secure bot token management
 
 ## Deployment Strategy
 

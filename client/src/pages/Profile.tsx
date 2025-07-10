@@ -1,4 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useTelegram } from '@/hooks/useTelegram';
 
 interface ProfileProps {
   userId: string;
@@ -7,6 +9,16 @@ interface ProfileProps {
 }
 
 export default function Profile({ userId, coins, totalClicks }: ProfileProps) {
+  const { userName, sendDataToBot } = useTelegram();
+
+  const handleSaveProgress = () => {
+    sendDataToBot({
+      action: 'save_progress',
+      coins,
+      totalClicks,
+      userId
+    });
+  };
   return (
     <div className="p-6 pb-24">
       <Card className="mb-6">
@@ -15,7 +27,7 @@ export default function Profile({ userId, coins, totalClicks }: ProfileProps) {
             <div className="w-20 h-20 bg-gradient-to-r from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-2xl">👤</span>
             </div>
-            <h2 className="text-xl font-bold text-dark">Игрок</h2>
+            <h2 className="text-xl font-bold text-dark">{userName}</h2>
             <p className="text-gray-500 text-sm">ID: {userId}</p>
           </div>
           
@@ -33,6 +45,21 @@ export default function Profile({ userId, coins, totalClicks }: ProfileProps) {
               <span className="font-bold text-dark">Новичок</span>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Кнопка сохранения прогресса */}
+      <Card className="mb-6">
+        <CardContent className="p-6 text-center">
+          <Button
+            onClick={handleSaveProgress}
+            className="bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3 rounded-xl w-full mb-3"
+          >
+            📤 Поделиться прогрессом
+          </Button>
+          <p className="text-gray-500 text-sm">
+            Отправить результаты в чат с ботом
+          </p>
         </CardContent>
       </Card>
 

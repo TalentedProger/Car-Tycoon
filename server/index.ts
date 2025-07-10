@@ -1,10 +1,32 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { createTelegramBot, type CarTycoonBot } from "./telegram-bot";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Инициализация Telegram бота
+let telegramBot: CarTycoonBot | null = null;
+
+// Функция для получения URL WebApp
+function getWebAppUrl(): string {
+  const isDevelopment = app.get("env") === "development";
+  const port = process.env.PORT || 5000;
+  
+  if (isDevelopment) {
+    return `http://localhost:${port}`;
+  }
+  
+  // В продакшене используем домен Replit
+  const replitDomain = process.env.REPLIT_DOMAINS || process.env.REPL_SLUG;
+  if (replitDomain) {
+    return `https://${replitDomain}.replit.app`;
+  }
+  
+  return `http://localhost:${port}`;
+}
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -39,6 +61,21 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
+  // Запуск Telegram бота если есть токен
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  if (botToken) {
+    try {
+      const webAppUrl = getWebAppUrl();
+      telegramBot = createTelegramBot(botToken, webAppUrl);
+      log(`🤖 Telegram бот запущен! WebApp URL: ${webAppUrl}`);
+    } catch (error) {
+      log(`❌ Ошибка запуска Telegram бота: ${error}`);
+    }
+  } else {
+    log(`⚠️  TELEGRAM_BOT_TOKEN не найден. Бот не запущен.`);
+    log(`💡 Для запуска бота добавьте токен в переменные окружения.`);
+  }
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
@@ -68,3 +105,6 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
   });
 })();
+
+// Экспорт для использования в других модулях
+export { telegramBot };
