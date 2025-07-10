@@ -13,18 +13,26 @@ let telegramBot: CarTycoonBot | null = null;
 // Функция для получения URL WebApp
 function getWebAppUrl(): string {
   const isDevelopment = app.get("env") === "development";
-  const port = process.env.PORT || 5000;
   
-  if (isDevelopment) {
-    return `http://localhost:${port}`;
-  }
-  
-  // В продакшене используем домен Replit
+  // Проверяем есть ли Replit домен (всегда используем HTTPS для Telegram)
   const replitDomain = process.env.REPLIT_DOMAINS || process.env.REPL_SLUG;
   if (replitDomain) {
-    return `https://${replitDomain}.replit.app`;
+    // Извлекаем первый домен если их несколько
+    const domain = replitDomain.split(',')[0].trim();
+    return `https://${domain}`;
   }
   
+  // Для разработки тоже попробуем HTTPS если возможно
+  const port = process.env.PORT || 5000;
+  
+  // В Replit даже в разработке часто доступен HTTPS
+  if (process.env.REPL_ID || process.env.REPLIT_ENVIRONMENT) {
+    const replId = process.env.REPL_ID || 'unknown';
+    const username = process.env.REPL_OWNER || 'user';
+    return `https://${replId}-${username}.replit.app`;
+  }
+  
+  // Fallback для локальной разработки (не будет работать с Telegram)
   return `http://localhost:${port}`;
 }
 

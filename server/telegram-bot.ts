@@ -27,93 +27,154 @@ export class CarTycoonBot {
 
   private setupHandlers() {
     // Команда /start
-    this.bot.onText(/\/start/, (msg) => {
+    this.bot.onText(/\/start/, async (msg) => {
       const chatId = msg.chat.id;
       const firstName = msg.from?.first_name || 'Игрок';
       
-      const keyboard = {
-        inline_keyboard: [[
-          {
-            text: '🚗 Играть в Car Tycoon',
-            web_app: { url: this.webAppUrl }
-          }
-        ]]
-      };
+      try {
+        // Проверяем является ли URL HTTPS для WebApp
+        const isHttps = this.webAppUrl.startsWith('https://');
+        
+        let keyboard;
+        let message = `🎮 Привет, ${firstName}!\n\n` +
+          `Добро пожаловать в **Car Tycoon** — самую захватывающую игру про автомобильную империю!\n\n` +
+          `🚗 Кликай, зарабатывай монеты\n` +
+          `🏭 Покупай и улучшай заводы\n` +
+          `💰 Строй автомобильную империю\n\n`;
 
-      this.bot.sendMessage(chatId, 
-        `🎮 Привет, ${firstName}!\n\n` +
-        `Добро пожаловать в **Car Tycoon** — самую захватывающую игру про автомобильную империю!\n\n` +
-        `🚗 Кликай, зарабатывай монеты\n` +
-        `🏭 Покупай и улучшай заводы\n` +
-        `💰 Строй автомобильную империю\n\n` +
-        `Нажми кнопку ниже, чтобы начать играть!`, 
-        {
+        if (isHttps) {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🚗 Играть в Car Tycoon',
+                web_app: { url: this.webAppUrl }
+              }
+            ]]
+          };
+          message += `Нажми кнопку ниже, чтобы начать играть!`;
+        } else {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🔗 Открыть игру',
+                url: this.webAppUrl
+              }
+            ]]
+          };
+          message += `Открой игру по ссылке ниже:\n${this.webAppUrl}`;
+        }
+
+        await this.bot.sendMessage(chatId, message, {
           parse_mode: 'Markdown',
           reply_markup: keyboard
-        }
-      );
+        });
+      } catch (error) {
+        console.error('Ошибка в команде /start:', error);
+        // Отправляем простое сообщение без кнопок
+        await this.bot.sendMessage(chatId,
+          `🎮 Привет, ${firstName}!\n\n` +
+          `Добро пожаловать в Car Tycoon!\n\n` +
+          `Игра: ${this.webAppUrl}\n\n` +
+          `Команды: /help /stats`
+        );
+      }
     });
 
     // Команда /help
-    this.bot.onText(/\/help/, (msg) => {
+    this.bot.onText(/\/help/, async (msg) => {
       const chatId = msg.chat.id;
       
-      const keyboard = {
-        inline_keyboard: [[
-          {
-            text: '🚗 Играть сейчас',
-            web_app: { url: this.webAppUrl }
-          }
-        ]]
-      };
+      try {
+        const isHttps = this.webAppUrl.startsWith('https://');
+        let keyboard;
 
-      this.bot.sendMessage(chatId,
-        `🎮 **Car Tycoon - Помощь**\n\n` +
-        `🎯 **Цель игры:**\n` +
-        `Построй самую большую автомобильную империю!\n\n` +
-        `🎲 **Как играть:**\n` +
-        `• Нажимай кнопку "Заработать монеты"\n` +
-        `• Покупай автозаводы для пассивного дохода\n` +
-        `• Улучшай машины и заводы\n` +
-        `• Следи за статистикой в профиле\n\n` +
-        `💡 **Советы:**\n` +
-        `• Чем больше кликов - тем больше монет\n` +
-        `• Заводы приносят монеты автоматически\n` +
-        `• Следи за достижениями\n\n` +
-        `Удачи в построении империи! 🏆`,
-        {
-          parse_mode: 'Markdown',
-          reply_markup: keyboard
+        if (isHttps) {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🚗 Играть сейчас',
+                web_app: { url: this.webAppUrl }
+              }
+            ]]
+          };
+        } else {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🔗 Открыть игру',
+                url: this.webAppUrl
+              }
+            ]]
+          };
         }
-      );
+
+        await this.bot.sendMessage(chatId,
+          `🎮 **Car Tycoon - Помощь**\n\n` +
+          `🎯 **Цель игры:**\n` +
+          `Построй самую большую автомобильную империю!\n\n` +
+          `🎲 **Как играть:**\n` +
+          `• Нажимай кнопку "Заработать монеты"\n` +
+          `• Покупай автозаводы для пассивного дохода\n` +
+          `• Улучшай машины и заводы\n` +
+          `• Следи за статистикой в профиле\n\n` +
+          `💡 **Советы:**\n` +
+          `• Чем больше кликов - тем больше монет\n` +
+          `• Заводы приносят монеты автоматически\n` +
+          `• Следи за достижениями\n\n` +
+          `Удачи в построении империи! 🏆`,
+          {
+            parse_mode: 'Markdown',
+            reply_markup: keyboard
+          }
+        );
+      } catch (error) {
+        console.error('Ошибка в команде /help:', error);
+      }
     });
 
     // Команда /stats
-    this.bot.onText(/\/stats/, (msg) => {
+    this.bot.onText(/\/stats/, async (msg) => {
       const chatId = msg.chat.id;
       const userId = msg.from?.id;
       
-      // В будущем здесь можно получать статистику из базы данных
-      const keyboard = {
-        inline_keyboard: [[
-          {
-            text: '🚗 Открыть игру',
-            web_app: { url: this.webAppUrl }
-          }
-        ]]
-      };
+      try {
+        const isHttps = this.webAppUrl.startsWith('https://');
+        let keyboard;
 
-      this.bot.sendMessage(chatId,
-        `📊 **Твоя статистика в Car Tycoon**\n\n` +
-        `👤 ID игрока: \`${userId}\`\n` +
-        `🎮 Игра: Car Tycoon\n` +
-        `📱 Платформа: Telegram WebApp\n\n` +
-        `Открой игру, чтобы увидеть подробную статистику!`,
-        {
-          parse_mode: 'Markdown',
-          reply_markup: keyboard
+        if (isHttps) {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🚗 Открыть игру',
+                web_app: { url: this.webAppUrl }
+              }
+            ]]
+          };
+        } else {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🔗 Открыть игру',
+                url: this.webAppUrl
+              }
+            ]]
+          };
         }
-      );
+
+        await this.bot.sendMessage(chatId,
+          `📊 **Твоя статистика в Car Tycoon**\n\n` +
+          `👤 ID игрока: \`${userId}\`\n` +
+          `🎮 Игра: Car Tycoon\n` +
+          `📱 Платформа: Telegram WebApp\n\n` +
+          `Открой игру, чтобы увидеть подробную статистику!`,
+          {
+            parse_mode: 'Markdown',
+            reply_markup: keyboard
+          }
+        );
+      } catch (error) {
+        console.error('Ошибка в команде /stats:', error);
+      }
     });
 
     // Обработка данных из WebApp
@@ -143,7 +204,7 @@ export class CarTycoonBot {
     });
 
     // Обработка обычных сообщений
-    this.bot.on('message', (msg) => {
+    this.bot.on('message', async (msg) => {
       const chatId = msg.chat.id;
       const text = msg.text;
       
@@ -152,24 +213,42 @@ export class CarTycoonBot {
         return;
       }
 
-      const keyboard = {
-        inline_keyboard: [[
-          {
-            text: '🚗 Играть в Car Tycoon',
-            web_app: { url: this.webAppUrl }
-          }
-        ]]
-      };
+      try {
+        const isHttps = this.webAppUrl.startsWith('https://');
+        let keyboard;
 
-      this.bot.sendMessage(chatId,
-        `🎮 Привет! Я бот игры Car Tycoon.\n\n` +
-        `Используй команды:\n` +
-        `/start - Начать игру\n` +
-        `/help - Помощь\n` +
-        `/stats - Статистика\n\n` +
-        `Или сразу запускай игру!`,
-        { reply_markup: keyboard }
-      );
+        if (isHttps) {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🚗 Играть в Car Tycoon',
+                web_app: { url: this.webAppUrl }
+              }
+            ]]
+          };
+        } else {
+          keyboard = {
+            inline_keyboard: [[
+              {
+                text: '🔗 Открыть игру',
+                url: this.webAppUrl
+              }
+            ]]
+          };
+        }
+
+        await this.bot.sendMessage(chatId,
+          `🎮 Привет! Я бот игры Car Tycoon.\n\n` +
+          `Используй команды:\n` +
+          `/start - Начать игру\n` +
+          `/help - Помощь\n` +
+          `/stats - Статистика\n\n` +
+          `Или сразу запускай игру!`,
+          { reply_markup: keyboard }
+        );
+      } catch (error) {
+        console.error('Ошибка в обработке сообщения:', error);
+      }
     });
 
     // Обработка ошибок
