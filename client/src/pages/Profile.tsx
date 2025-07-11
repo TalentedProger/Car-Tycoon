@@ -4,18 +4,25 @@ import { useTelegram } from '@/hooks/useTelegram';
 
 interface ProfileProps {
   userId: string;
-  coins: number;
-  totalClicks: number;
+  gameState: {
+    coins: number;
+    level: number;
+    energy: number;
+    maxEnergy: number;
+    hourlyIncome: number;
+    boostsUsedToday: number;
+    boostActive: boolean;
+  };
 }
 
-export default function Profile({ userId, coins, totalClicks }: ProfileProps) {
+export default function Profile({ userId, gameState }: ProfileProps) {
   const { userName, sendDataToBot } = useTelegram();
 
   const handleSaveProgress = () => {
     sendDataToBot({
       action: 'save_progress',
-      coins,
-      totalClicks,
+      coins: gameState.coins,
+      level: gameState.level,
       userId
     });
   };
@@ -32,17 +39,25 @@ export default function Profile({ userId, coins, totalClicks }: ProfileProps) {
           </div>
           
           <div className="space-y-4">
-            <div className="flex justify-between items-center py-3 border-b border-gray-100">
-              <span className="text-gray-600">Всего кликов:</span>
-              <span className="font-bold text-dark">{totalClicks.toLocaleString()}</span>
+            <div className="flex justify-between items-center py-3 border-b border-border">
+              <span className="text-muted-foreground">Уровень:</span>
+              <span className="font-bold text-foreground">{gameState.level}</span>
             </div>
-            <div className="flex justify-between items-center py-3 border-b border-gray-100">
-              <span className="text-gray-600">Всего монет:</span>
-              <span className="font-bold text-dark">{coins.toLocaleString()}</span>
+            <div className="flex justify-between items-center py-3 border-b border-border">
+              <span className="text-muted-foreground">Всего монет:</span>
+              <span className="font-bold text-foreground">{gameState.coins.toLocaleString()}</span>
             </div>
-            <div className="flex justify-between items-center py-3 border-b border-gray-100">
-              <span className="text-gray-600">Время в игре:</span>
-              <span className="font-bold text-dark">Новичок</span>
+            <div className="flex justify-between items-center py-3 border-b border-border">
+              <span className="text-muted-foreground">Энергия:</span>
+              <span className="font-bold text-foreground">{gameState.energy}/{gameState.maxEnergy}</span>
+            </div>
+            <div className="flex justify-between items-center py-3 border-b border-border">
+              <span className="text-muted-foreground">Доход/час:</span>
+              <span className="font-bold text-foreground">{gameState.hourlyIncome}</span>
+            </div>
+            <div className="flex justify-between items-center py-3 border-b border-border">
+              <span className="text-muted-foreground">Бустов использовано:</span>
+              <span className="font-bold text-foreground">{gameState.boostsUsedToday}/2</span>
             </div>
           </div>
         </CardContent>

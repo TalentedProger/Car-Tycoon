@@ -14,7 +14,16 @@ import { useGameState } from './hooks/useGameState';
 import { useTelegram } from './hooks/useTelegram';
 
 function App() {
-  const { gameState, earnCoins, completeIntro } = useGameState();
+  const { 
+    gameState, 
+    earnCoins, 
+    activateBoost, 
+    completeIntro, 
+    canClick, 
+    canBoost, 
+    levelProgress, 
+    boostTimeLeft 
+  } = useGameState();
   const { userId, userName, sendDataToBot } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
 
@@ -35,9 +44,13 @@ function App() {
       case 'home':
         return (
           <Home
-            coins={gameState.coins}
-            totalClicks={gameState.totalClicks}
+            gameState={gameState}
             onEarnCoins={earnCoins}
+            onActivateBoost={activateBoost}
+            canClick={canClick}
+            canBoost={canBoost}
+            levelProgress={levelProgress}
+            boostTimeLeft={boostTimeLeft}
           />
         );
       case 'factories':
@@ -46,16 +59,19 @@ function App() {
         return (
           <Profile
             userId={userId}
-            coins={gameState.coins}
-            totalClicks={gameState.totalClicks}
+            gameState={gameState}
           />
         );
       default:
         return (
           <Home
-            coins={gameState.coins}
-            totalClicks={gameState.totalClicks}
+            gameState={gameState}
             onEarnCoins={earnCoins}
+            onActivateBoost={activateBoost}
+            canClick={canClick}
+            canBoost={canBoost}
+            levelProgress={levelProgress}
+            boostTimeLeft={boostTimeLeft}
           />
         );
     }
@@ -64,14 +80,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-gray-50">
-          {/* Header */}
-          <header className="bg-white shadow-sm border-b border-gray-200 p-4">
-            <h1 className="text-2xl font-bold text-center text-dark">
-              🚗 Car Tycoon
-            </h1>
-          </header>
-
+        <div className="min-h-screen bg-background">
           {/* Main Content */}
           <main className="flex-1">
             {renderScreen()}

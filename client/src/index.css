@@ -3,52 +3,66 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(45, 93%, 70%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
-  --success: hsl(134, 61%, 41%);
-  --warning: hsl(25, 95%, 53%);
-  --dark: hsl(210, 22%, 22%);
+  /* Основные цвета - Футуристическая темная тема */
+  --background: hsl(0, 0%, 5%);
+  --foreground: hsl(0, 0%, 95%);
+  
+  /* Серые тона */
+  --muted: hsl(0, 0%, 12%);
+  --muted-foreground: hsl(0, 0%, 60%);
+  
+  /* Карточки и поверхности */
+  --card: hsla(0, 0%, 8%, 0.8);
+  --card-foreground: hsl(0, 0%, 90%);
+  --popover: hsla(0, 0%, 10%, 0.95);
+  --popover-foreground: hsl(0, 0%, 95%);
+  
+  /* Границы и поля ввода */
+  --border: hsla(0, 0%, 25%, 0.3);
+  --input: hsla(0, 0%, 15%, 0.8);
+  
+  /* Основной цвет - темно-зеленый */
+  --primary: hsl(120, 60%, 35%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  
+  /* Вторичный цвет - серый */
+  --secondary: hsla(0, 0%, 20%, 0.8);
+  --secondary-foreground: hsl(0, 0%, 85%);
+  
+  /* Акцентные цвета - фиолетовый */
+  --accent: hsl(270, 60%, 55%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  
+  /* Другие цвета */
+  --destructive: hsl(0, 60%, 50%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --success: hsl(120, 60%, 45%);
+  --warning: hsl(45, 90%, 55%);
+  
+  /* Специальные цвета для игры */
+  --energy: hsl(190, 80%, 50%);
+  --boost: hsl(270, 70%, 60%);
+  --coins: hsl(45, 90%, 60%);
+  
+  --ring: hsl(120, 60%, 35%);
+  --radius: 1rem;
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
+  /* Темная тема уже основная, но добавим вариации */
+  --background: hsl(0, 0%, 3%);
   --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
+  --muted: hsl(0, 0%, 8%);
+  --muted-foreground: hsl(0, 0%, 65%);
+  --card: hsla(0, 0%, 6%, 0.9);
+  --card-foreground: hsl(0, 0%, 95%);
+  --popover: hsla(0, 0%, 8%, 0.98);
   --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
+  --border: hsla(0, 0%, 30%, 0.4);
+  --input: hsla(0, 0%, 12%, 0.9);
+  --primary: hsl(120, 65%, 40%);
+  --secondary: hsla(0, 0%, 15%, 0.9);
+  --accent: hsl(270, 65%, 60%);
 }
 
 @layer base {
@@ -58,6 +72,21 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    background: linear-gradient(135deg, hsl(0, 0%, 5%) 0%, hsl(0, 0%, 10%) 50%, hsl(0, 0%, 5%) 100%);
+    min-height: 100vh;
+  }
+  
+  /* Прозрачные стеклянные эффекты */
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -78,8 +107,67 @@
     animation: fadeIn 0.5s ease-in;
   }
   
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+  
   .safe-area-inset-bottom {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Игровые элементы */
+  .car-circle {
+    background: radial-gradient(circle at center, 
+      hsla(120, 60%, 35%, 0.8) 0%, 
+      hsla(120, 60%, 25%, 0.6) 50%, 
+      hsla(120, 60%, 15%, 0.4) 100%);
+    border: 3px solid hsla(120, 60%, 45%, 0.7);
+    box-shadow: 
+      0 0 30px hsla(120, 60%, 35%, 0.5),
+      inset 0 0 30px hsla(120, 60%, 50%, 0.2);
+  }
+  
+  .energy-bar {
+    background: linear-gradient(90deg, 
+      hsl(190, 80%, 50%) 0%, 
+      hsl(190, 80%, 40%) 100%);
+    box-shadow: 0 0 10px hsla(190, 80%, 50%, 0.5);
+  }
+  
+  .boost-button {
+    background: linear-gradient(135deg, 
+      hsl(270, 70%, 60%) 0%, 
+      hsl(270, 70%, 50%) 100%);
+    box-shadow: 0 0 15px hsla(270, 70%, 60%, 0.6);
+  }
+  
+  .coin-display {
+    color: hsl(45, 90%, 60%);
+    text-shadow: 0 0 10px hsla(45, 90%, 60%, 0.8);
+  }
+  
+  .level-progress {
+    background: linear-gradient(90deg, 
+      hsl(120, 60%, 35%) 0%, 
+      hsl(120, 60%, 45%) 100%);
+  }
+  
+  .glass-button {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .glass-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -100,6 +188,39 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  100% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -1px, 0);
   }
 }
 
