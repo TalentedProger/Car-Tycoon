@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
@@ -9,6 +9,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Factories from './pages/Factories';
 import Profile from './pages/Profile';
+import { RewardModal } from './components/RewardModal';
 
 import { useGameState } from './hooks/useGameState';
 import { useTelegram } from './hooks/useTelegram';
@@ -22,10 +23,13 @@ function App() {
     canClick, 
     canBoost, 
     levelProgress, 
-    boostTimeLeft 
+    boostTimeLeft,
+    canClaimReward,
+    claimReward
   } = useGameState();
   const { userId, userName, sendDataToBot } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
+  const [showRewardModal, setShowRewardModal] = useState(false);
 
   // Show intro screens if not shown before
   if (!gameState.introShown) {
@@ -51,6 +55,8 @@ function App() {
             canBoost={canBoost}
             levelProgress={levelProgress}
             boostTimeLeft={boostTimeLeft}
+            onOpenReward={() => setShowRewardModal(true)}
+            canClaimReward={canClaimReward()}
           />
         );
       case 'factories':
@@ -72,6 +78,8 @@ function App() {
             canBoost={canBoost}
             levelProgress={levelProgress}
             boostTimeLeft={boostTimeLeft}
+            onOpenReward={() => setShowRewardModal(true)}
+            canClaimReward={canClaimReward()}
           />
         );
     }
@@ -89,6 +97,16 @@ function App() {
           {/* Bottom Navigation */}
           <NavBar activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
+        
+        <RewardModal
+          isOpen={showRewardModal}
+          onClose={() => setShowRewardModal(false)}
+          onClaimReward={claimReward}
+          canClaimReward={canClaimReward()}
+          rewardAmount={Math.floor(gameState.hourlyIncome * 10)}
+          nextRewardTime={gameState.lastRewardTime + 12 * 60 * 60 * 1000}
+        />
+        
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 interface GameState {
   coins: number;
@@ -11,6 +11,8 @@ interface GameState {
   boostEndTime: number;
   lastEnergyUpdate: number;
   introShown: boolean;
+  totalClicks: number;
+  lastRewardTime: number;
 }
 
 const INITIAL_STATE: GameState = {
@@ -24,6 +26,8 @@ const INITIAL_STATE: GameState = {
   boostEndTime: 0,
   lastEnergyUpdate: Date.now(),
   introShown: false,
+  totalClicks: 0,
+  lastRewardTime: 0,
 };
 
 // Вспомогательные функции
@@ -31,31 +35,75 @@ const ENERGY_REGEN_RATE = 1000 / (10 * 60 * 1000); // 1000 энергии за 1
 const BOOST_DURATION = 5 * 60 * 1000; // 5 минут
 const BOOST_MULTIPLIER = 1.5;
 const COINS_PER_LEVEL = 100;
+const REWARD_INTERVAL = 12 * 60 * 60 * 1000; // 12 часов
+
+// Функция для вычисления требуемых кликов для уровня
+const getClicksForLevel = (level: number): number => {
+  if (level <= 1) return 0;
+  return Math.floor(1000 * Math.pow(3, level - 2));
+};
+
+// Функция для вычисления уровня по кликам
+const getLevelFromClicks = (clicks: number): number => {
+  let level = 1;
+  let totalClicks = 0;
+  
+  while (totalClicks + getClicksForLevel(level + 1) <= clicks) {
+    totalClicks += getClicksForLevel(level + 1);
+    level++;
+  }
+  
+  return level;
+};
+
+// Функция для вычисления прогресса уровня
+const getLevelProgress = (clicks: number, level: number): number => {
+  const currentLevelClicks = getClicksForLevel(level);
+  const nextLevelClicks = getClicksForLevel(level + 1);
+  
+  let totalClicksToCurrentLevel = 0;
+  for (let i = 2; i <= level; i++) {
+    totalClicksToCurrentLevel += getClicksForLevel(i);
+  }
+  
+  const clicksInCurrentLevel = clicks - totalClicksToCurrentLevel;
+  return (clicksInCurrentLevel / nextLevelClicks) * 100;
+};
 
 export function useGameState() {
-  const [gameState, setGameState] = useState<GameState>(INITIAL_STATE);
-
-  // Load game state from localStorage
-  useEffect(() => {
-    const savedState = localStorage.getItem('carTycoonGame');
-    const savedIntro = localStorage.getItem('carTycoonIntro');
-    
-    if (savedState) {
-      const parsed = JSON.parse(savedState);
-      setGameState(prev => ({ ...prev, ...parsed }));
+  const [gameState, setGameState] = useState<GameState>(() => {
+    try {
+      const savedState = localStorage.getItem('carTycoonGame');
+      const savedIntro = localStorage.getItem('carTycoonIntro');
+      
+      let initialState = { ...INITIAL_STATE };
+      
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        initialState = { ...initialState, ...parsed };
+      }
+      
+      if (savedIntro === 'true') {
+        initialState = { ...initialState, introShown: true };
+      }
+      
+      return initialState;
+    } catch (error) {
+      console.error('Error loading game state:', error);
+      return INITIAL_STATE;
     }
-    
-    if (savedIntro === 'true') {
-      setGameState(prev => ({ ...prev, introShown: true }));
-    }
-  }, []);
+  });
 
   // Save game state to localStorage
   const saveGameState = useCallback((state: GameState) => {
-    localStorage.setItem('carTycoonGame', JSON.stringify(state));
-    
-    if (state.introShown) {
-      localStorage.setItem('carTycoonIntro', 'true');
+    try {
+      localStorage.setItem('carTycoonGame', JSON.stringify(state));
+      
+      if (state.introShown) {
+        localStorage.setItem('carTycoonIntro', 'true');
+      }
+    } catch (error) {
+      console.error('Error saving game state:', error);
     }
   }, []);
 
@@ -94,8 +142,8 @@ export function useGameState() {
   }, [gameState.boostActive, gameState.boostEndTime, updateGameState]);
 
   // Обновление уровня
-  const updateLevel = useCallback((coins: number) => {
-    const newLevel = Math.floor(coins / COINS_PER_LEVEL) + 1;
+  const updateLevel = useCallback((totalClicks: number) => {
+    const newLevel = getLevelFromClicks(totalClicks);
     if (newLevel !== gameState.level) {
       updateGameState({ level: newLevel });
     }
@@ -108,15 +156,17 @@ export function useGameState() {
     const multiplier = gameState.boostActive ? BOOST_MULTIPLIER : 1;
     const coinsEarned = Math.floor(1 * multiplier);
     const newCoins = gameState.coins + coinsEarned;
+    const newTotalClicks = gameState.totalClicks + 1;
     
     updateGameState({
       coins: newCoins,
       energy: gameState.energy - 1,
+      totalClicks: newTotalClicks,
     });
 
-    updateLevel(newCoins);
+    updateLevel(newTotalClicks);
     return true;
-  }, [gameState.coins, gameState.energy, gameState.boostActive, updateGameState, updateLevel]);
+  }, [gameState.coins, gameState.energy, gameState.boostActive, gameState.totalClicks, updateGameState, updateLevel]);
 
   // Активировать буст
   const activateBoost = useCallback(() => {
@@ -141,6 +191,28 @@ export function useGameState() {
     updateGameState({ introShown: true });
   }, [updateGameState]);
 
+  // Проверка доступности награды
+  const canClaimReward = useCallback(() => {
+    const now = Date.now();
+    return now - gameState.lastRewardTime >= REWARD_INTERVAL;
+  }, [gameState.lastRewardTime]);
+
+  // Получить награду
+  const claimReward = useCallback(() => {
+    const canClaim = Date.now() - gameState.lastRewardTime >= REWARD_INTERVAL;
+    if (!canClaim) return false;
+
+    const rewardAmount = Math.floor(gameState.hourlyIncome * 10);
+    const newCoins = gameState.coins + rewardAmount;
+    
+    updateGameState({
+      coins: newCoins,
+      lastRewardTime: Date.now(),
+    });
+
+    return true;
+  }, [gameState.coins, gameState.hourlyIncome, gameState.lastRewardTime, updateGameState]);
+
   // Сброс ежедневных бустов (можно вызывать в начале нового дня)
   const resetDailyBoosts = useCallback(() => {
     updateGameState({ boostsUsedToday: 0 });
@@ -160,7 +232,7 @@ export function useGameState() {
   // Вычисляемые значения
   const canClick = gameState.energy > 0;
   const canBoost = gameState.boostsUsedToday < 2 && !gameState.boostActive;
-  const levelProgress = (gameState.coins % COINS_PER_LEVEL) / COINS_PER_LEVEL * 100;
+  const levelProgress = getLevelProgress(gameState.totalClicks, gameState.level);
   const boostTimeLeft = gameState.boostActive ? Math.max(0, gameState.boostEndTime - Date.now()) : 0;
 
   return {
@@ -170,6 +242,8 @@ export function useGameState() {
     completeIntro,
     updateGameState,
     resetDailyBoosts,
+    canClaimReward,
+    claimReward,
     canClick,
     canBoost,
     levelProgress,

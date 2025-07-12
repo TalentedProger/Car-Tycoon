@@ -18,6 +18,8 @@ interface HomeProps {
   canBoost: boolean;
   levelProgress: number;
   boostTimeLeft: number;
+  onOpenReward: () => void;
+  canClaimReward: boolean;
 }
 
 export default function Home({ 
@@ -27,7 +29,9 @@ export default function Home({
   canClick, 
   canBoost, 
   levelProgress, 
-  boostTimeLeft 
+  boostTimeLeft,
+  onOpenReward,
+  canClaimReward
 }: HomeProps) {
   const handleCarClick = () => {
     if (!canClick) return;
@@ -70,17 +74,21 @@ export default function Home({
       {/* Top Section - Level Progress and Hourly Income */}
       <div className="flex justify-between items-center mb-6">
         {/* Level Progress */}
-        <div className="glass-dark rounded-2xl p-3 min-w-[140px]">
-          <div className="text-xs text-muted-foreground mb-1">Уровень {gameState.level}</div>
+        <div className="glass-dark rounded-2xl p-3 min-w-[140px] relative">
+          <div className="flex justify-between items-center mb-1">
+            <div className="text-xs text-muted-foreground">Уровень {gameState.level}</div>
+            <div className="text-xs text-muted-foreground">{levelProgress.toFixed(0)}%</div>
+          </div>
           <Progress value={levelProgress} className="h-2 level-progress" />
-          <div className="text-xs text-muted-foreground mt-1">{levelProgress.toFixed(0)}%</div>
         </div>
 
         {/* Hourly Income & Shop */}
         <div className="flex items-center gap-3">
           <div className="glass-dark rounded-2xl p-3 flex items-center gap-2">
-            <span className="coin-display text-sm font-bold">
-              💰 {gameState.hourlyIncome}/час
+            <span className="coin-display text-sm font-bold flex items-center gap-1">
+              <span>{gameState.hourlyIncome}</span>
+              <span className="text-yellow-500">🪙</span>
+              <span>/час</span>
             </span>
           </div>
           <Button
@@ -103,21 +111,24 @@ export default function Home({
           <span className="text-xs">Автосалон</span>
         </Button>
         <Button className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1">
-          <Zap className="h-5 w-5" />
-          <span className="text-xs">Экх</span>
+          <div className="text-lg">🎁</div>
+          <span className="text-xs">ЕКХ</span>
         </Button>
-        <Button className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1">
-          <Gift className="h-5 w-5" />
+        <Button 
+          className={`glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1 ${canClaimReward ? 'animate-pulse bg-green-600/20' : ''}`}
+          onClick={onOpenReward}
+        >
+          <Gift className={`h-5 w-5 ${canClaimReward ? 'text-green-400' : ''}`} />
           <span className="text-xs">Награда</span>
         </Button>
       </div>
 
       {/* Coin Display */}
       <div className="text-center mb-8">
-        <div id="coin-counter" className="coin-display text-6xl font-bold mb-2">
-          {gameState.coins.toLocaleString()}
+        <div id="coin-counter" className="coin-display text-6xl font-bold mb-2 flex items-center justify-center gap-2">
+          <span>{gameState.coins.toLocaleString()}</span>
+          <span className="text-yellow-500">🪙</span>
         </div>
-        <div className="text-muted-foreground">монет</div>
       </div>
 
       {/* Main Car Circle */}
@@ -126,7 +137,7 @@ export default function Home({
           id="car-circle"
           onClick={handleCarClick}
           disabled={!canClick}
-          className={`car-circle w-48 h-48 rounded-full flex items-center justify-center text-6xl transition-all duration-200 ${
+          className={`car-circle w-56 h-56 rounded-full flex items-center justify-center text-8xl transition-all duration-200 ${
             canClick 
               ? 'hover:scale-105 active:scale-95 cursor-pointer animate-glow' 
               : 'opacity-50 cursor-not-allowed'
@@ -139,16 +150,16 @@ export default function Home({
       {/* Energy and Boost Controls */}
       <div className="flex items-center justify-center gap-8 mb-8">
         {/* Energy Display */}
-        <div className="glass-dark rounded-2xl p-4 min-w-[120px]">
+        <div className="glass-dark rounded-2xl p-3 min-w-[100px]">
           <div className="text-center">
-            <div className="text-xs text-muted-foreground mb-2">Энергия</div>
-            <div className="text-lg font-bold mb-2 flex items-center justify-center gap-1">
-              <Zap className="h-4 w-4 text-blue-400" />
+            <div className="text-xs text-muted-foreground mb-1">Энергия</div>
+            <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
+              <span className="text-yellow-500">⚡</span>
               {gameState.energy}/{gameState.maxEnergy}
             </div>
-            <div className="w-full bg-muted rounded-full h-2">
+            <div className="w-full bg-muted rounded-full h-1.5">
               <div 
-                className="energy-bar h-full rounded-full transition-all duration-300"
+                className="bg-yellow-500 h-full rounded-full transition-all duration-300"
                 style={{ width: `${(gameState.energy / gameState.maxEnergy) * 100}%` }}
               />
             </div>
@@ -159,11 +170,11 @@ export default function Home({
         <Button
           onClick={handleBoostClick}
           disabled={!canBoost}
-          className={`boost-button rounded-2xl p-4 min-w-[120px] h-auto flex flex-col items-center gap-2 ${
+          className={`boost-button rounded-2xl p-3 min-w-[100px] h-auto flex flex-col items-center gap-1 ${
             gameState.boostActive ? 'animate-glow' : ''
           }`}
         >
-          <Zap className="h-6 w-6" />
+          <span className="text-yellow-500 text-lg">⚡</span>
           <div className="text-center">
             {gameState.boostActive ? (
               <>
