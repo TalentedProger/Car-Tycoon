@@ -3,6 +3,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Zap, Settings, Store, Gift } from 'lucide-react';
 
+const BOOST_MULTIPLIER = 1.5;
+
 interface HomeProps {
   gameState: {
     coins: number;
@@ -53,7 +55,7 @@ export default function Home({
         counter.classList.add('animate-bounce-coin');
         setTimeout(() => {
           counter.classList.remove('animate-bounce-coin');
-        }, 300);
+        }, 400);
       }
     }
   };
@@ -87,7 +89,7 @@ export default function Home({
           <div className="glass-dark rounded-2xl p-3 flex items-center gap-2">
             <span className="coin-display text-sm font-bold flex items-center gap-1">
               <span>{gameState.hourlyIncome}</span>
-              <span className="text-yellow-500">🪙</span>
+              <span className="text-green-500">💵</span>
               <span>/час</span>
             </span>
           </div>
@@ -125,9 +127,9 @@ export default function Home({
 
       {/* Coin Display */}
       <div className="text-center mb-8">
-        <div id="coin-counter" className="coin-display text-6xl font-bold mb-2 flex items-center justify-center gap-2">
+        <div id="coin-counter" className="coin-display text-4xl font-bold mb-2 flex items-center justify-center gap-2">
           <span>{gameState.coins.toLocaleString()}</span>
-          <span className="text-yellow-500">🪙</span>
+          <span className="text-green-500">💵</span>
         </div>
       </div>
 
@@ -167,33 +169,37 @@ export default function Home({
         </div>
 
         {/* Boost Button */}
-        <Button
-          onClick={handleBoostClick}
-          disabled={!canBoost}
-          className={`boost-button rounded-2xl p-3 min-w-[100px] h-auto flex flex-col items-center gap-1 ${
-            gameState.boostActive ? 'animate-glow' : ''
-          }`}
-        >
-          <span className="text-yellow-500 text-lg">⚡</span>
-          <div className="text-center">
-            {gameState.boostActive ? (
-              <>
-                <div className="text-xs">Активен</div>
-                <div className="text-xs">{formatTime(boostTimeLeft)}</div>
-              </>
-            ) : canBoost ? (
-              <>
-                <div className="text-xs">BOOST</div>
-                <div className="text-xs">x1.5</div>
-              </>
-            ) : (
-              <>
-                <div className="text-xs">Исчерпано</div>
-                <div className="text-xs">сегодня</div>
-              </>
-            )}
-          </div>
-        </Button>
+        <div className="glass-dark rounded-2xl p-3 min-w-[100px]">
+          <Button
+            onClick={handleBoostClick}
+            disabled={!canBoost}
+            className={`w-full h-full bg-transparent border-0 p-0 hover:bg-transparent ${
+              gameState.boostActive ? 'animate-glow' : ''
+            }`}
+          >
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground mb-1">Буст</div>
+              <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
+                <span className="text-yellow-500">⚡</span>
+                {gameState.boostActive ? (
+                  <span>{formatTime(boostTimeLeft)}</span>
+                ) : canBoost ? (
+                  <span>x1.5</span>
+                ) : (
+                  <span>Лимит</span>
+                )}
+              </div>
+              <div className="w-full bg-muted rounded-full h-1.5">
+                <div 
+                  className={`h-full rounded-full transition-all duration-300 ${
+                    gameState.boostActive ? 'bg-purple-500' : canBoost ? 'bg-gray-500' : 'bg-red-500'
+                  }`}
+                  style={{ width: gameState.boostActive ? '100%' : canBoost ? '100%' : '0%' }}
+                />
+              </div>
+            </div>
+          </Button>
+        </div>
       </div>
     </div>
   );

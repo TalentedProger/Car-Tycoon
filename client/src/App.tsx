@@ -9,6 +9,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Factories from './pages/Factories';
 import Profile from './pages/Profile';
+import Detailing from './pages/Detailing';
 import { RewardModal } from './components/RewardModal';
 
 import { useGameState } from './hooks/useGameState';
@@ -25,11 +26,20 @@ function App() {
     levelProgress, 
     boostTimeLeft,
     canClaimReward,
-    claimReward
+    claimReward,
+    updateGameState
   } = useGameState();
   const { userId, userName, sendDataToBot } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
   const [showRewardModal, setShowRewardModal] = useState(false);
+
+  const handlePurchaseService = (serviceId: string, cost: number) => {
+    if (gameState.coins >= cost) {
+      updateGameState({
+        coins: gameState.coins - cost
+      });
+    }
+  };
 
   // Show intro screens if not shown before
   if (!gameState.introShown) {
@@ -61,6 +71,13 @@ function App() {
         );
       case 'factories':
         return <Factories />;
+      case 'detailing':
+        return (
+          <Detailing 
+            gameState={gameState} 
+            onPurchaseService={handlePurchaseService}
+          />
+        );
       case 'profile':
         return (
           <Profile

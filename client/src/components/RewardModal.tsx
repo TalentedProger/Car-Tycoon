@@ -64,8 +64,8 @@ export function RewardModal({
           <Card className="glass-dark">
             <CardContent className="p-6 text-center">
               <div className="flex items-center justify-center gap-2 mb-4">
-                <span className="text-4xl font-bold text-yellow-500">{rewardAmount}</span>
-                <span className="text-yellow-500 text-2xl">🪙</span>
+                <span className="text-4xl font-bold text-green-500">{rewardAmount}</span>
+                <span className="text-green-500 text-2xl">💵</span>
               </div>
               
               <div className="text-muted-foreground mb-4">

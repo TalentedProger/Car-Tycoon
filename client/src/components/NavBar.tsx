@@ -9,6 +9,7 @@ export default function NavBar({ activeTab, onTabChange }: NavBarProps) {
   const tabs = [
     { id: 'home', label: 'Главная', icon: '🏠' },
     { id: 'factories', label: 'Заводы', icon: '🏭' },
+    { id: 'detailing', label: 'Детейлинг', icon: '🚗' },
     { id: 'profile', label: 'Профиль', icon: '👤' },
   ];
 
