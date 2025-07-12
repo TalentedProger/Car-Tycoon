@@ -35,6 +35,9 @@ declare global {
     Telegram?: {
       WebApp: TelegramWebApp;
     };
+    TelegramGameProxy?: {
+      receiveEvent: (event: string, data?: any) => void;
+    };
   }
 }
 
@@ -44,20 +47,38 @@ export function useTelegram() {
   const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
 
   useEffect(() => {
+    // Initialize TelegramGameProxy if it doesn't exist
+    if (!window.TelegramGameProxy) {
+      window.TelegramGameProxy = {
+        receiveEvent: (event: string, data?: any) => {
+          console.log('TelegramGameProxy.receiveEvent:', event, data);
+        }
+      };
+    }
+
     if (window.Telegram?.WebApp) {
       const tgWebApp = window.Telegram.WebApp;
       setWebApp(tgWebApp);
       
       // Initialize Telegram WebApp
-      tgWebApp.ready();
-      tgWebApp.expand();
-      
-      // Get user data
-      const user = tgWebApp.initDataUnsafe?.user;
-      if (user) {
-        setUserId(String(user.id));
-        setUserName(user.first_name || user.username || 'Игрок');
+      try {
+        tgWebApp.ready();
+        tgWebApp.expand();
+        
+        // Get user data
+        const user = tgWebApp.initDataUnsafe?.user;
+        if (user) {
+          setUserId(String(user.id));
+          setUserName(user.first_name || user.username || 'Игрок');
+        }
+      } catch (error) {
+        console.error('Ошибка инициализации Telegram WebApp:', error);
       }
+    } else {
+      // Development mode - use mock data
+      console.log('Telegram WebApp не найден, используем тестовые данные');
+      setUserId('dev-user-123');
+      setUserName('Тестовый игрок');
     }
   }, []);
 
