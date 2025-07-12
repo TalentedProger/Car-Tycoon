@@ -56,6 +56,7 @@ Preferred communication style: Simple, everyday language.
 - **Users Table**: Basic user authentication with username/password
 - **Game Profiles Table**: Per-user game state including coins, clicks, and intro status
 - **Type Safety**: Drizzle-Zod integration for runtime validation
+- **Database Integration**: PostgreSQL with Drizzle ORM, using DatabaseStorage for persistent data
 
 ## Data Flow
 
@@ -67,9 +68,9 @@ Preferred communication style: Simple, everyday language.
 
 ### Server Integration
 - Storage interface designed for CRUD operations on users and game profiles
-- In-memory storage implementation for development/testing
+- PostgreSQL database with DatabaseStorage implementation for production
 - Database migrations managed through Drizzle Kit
-- API routes structured for future backend integration
+- API routes ready for game state synchronization
 
 ### Session Management
 - PostgreSQL-based session storage configured
