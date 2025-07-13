@@ -190,7 +190,7 @@ export default function Garage() {
         
         <div className="grid grid-cols-2 gap-4">
           {upgradeCategories.map((category) => (
-            <Card key={category.id} className="glass-dark overflow-hidden group hover:scale-105 transition-all duration-300 upgrade-card" data-gradient={category.gradient}>
+            <Card key={category.id} className={`glass-dark overflow-hidden group hover:scale-105 transition-all duration-300 upgrade-card-${category.id}`}>
               <CardContent className="p-4">
                 <div className="relative h-full">
                   {/* Gradient Background */}
