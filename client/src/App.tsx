@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Intro from './components/Intro';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
-import Factories from './pages/Factories';
+import Garage from './pages/Factories';
 import Profile from './pages/Profile';
 import Detailing from './pages/Detailing';
 import { RewardModal } from './components/RewardModal';
@@ -70,7 +70,7 @@ function App() {
           />
         );
       case 'factories':
-        return <Factories />;
+        return <Garage />;
       case 'detailing':
         return (
           <Detailing 

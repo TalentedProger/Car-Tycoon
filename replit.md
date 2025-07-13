@@ -2,7 +2,7 @@
 
 ## Overview
 
-Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScript architecture. The application features a React frontend with Shadcn/UI components, an Express.js backend, and PostgreSQL database with Drizzle ORM. The game allows users to earn coins through clicking mechanics and track their progress through a profile system.
+Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScript architecture. The application features a React frontend with Shadcn/UI components, an Express.js backend, and PostgreSQL database with Drizzle ORM. The game allows users to earn coins through clicking mechanics, manage their car collection in a garage system, purchase detailing services, and track their progress through a profile system.
 
 ## User Preferences
 
@@ -35,15 +35,20 @@ Preferred communication style: Simple, everyday language.
 ## Key Components
 
 ### Game Logic
-- **Game State Management**: Custom useGameState hook managing coins, clicks, and intro status
+- **Game State Management**: Custom useGameState hook managing coins, clicks, level progression, and intro status
 - **Local Persistence**: localStorage for offline game state preservation
 - **Telegram Integration**: useTelegram hook for WebApp API integration and user identification
+- **Reward System**: 12-hour cooldown rewards worth 10x hourly income
+- **Level Progression**: 1000 clicks for level 2, 3x multiplier for subsequent levels
+- **Boost System**: 1.5x multiplier with daily usage limits
 
 ### UI Components
-- **Navigation**: Bottom tab navigation with Home, Factories, and Profile screens
+- **Navigation**: Bottom tab navigation with Home, Garage, Detailing, and Profile screens
 - **Intro System**: Multi-screen onboarding with auto-advance and completion tracking
-- **Interactive Elements**: Animated coin earning buttons with visual feedback
+- **Interactive Elements**: Animated coin earning buttons with visual feedback and smooth animations
 - **Responsive Design**: Mobile-optimized layouts with safe area handling
+- **Garage System**: Car carousel with swipeable navigation and upgrade categories
+- **Detailing Services**: Service cards with purchase functionality and cost deduction
 
 ### Telegram Bot Integration
 - **Bot Commands**: /start, /help, /stats commands with inline WebApp buttons
@@ -101,6 +106,16 @@ Preferred communication style: Simple, everyday language.
 - **Node Telegram Bot API**: Full-featured Telegram Bot API client
 - **Telegram WebApp SDK**: Frontend integration with Telegram Mini Apps
 - **Environment Variables**: Secure bot token management
+
+## Recent Changes
+
+### January 2025
+- **Replaced Factories with Garage**: Removed factory system and implemented car management interface
+- **Car Carousel**: Added swipeable car navigation with dots indicator and smooth transitions
+- **Upgrade Categories**: Created 8 upgrade categories (Engine, Transmission, Suspension, Brakes, Exhaust, Electronics, Body, Interior) with gradient backgrounds
+- **Enhanced Animations**: Improved coin animations to be smoother without size changes
+- **Visual Updates**: Changed coin icons to 💵, improved boost button layout to match energy container
+- **Detailing Services**: Added comprehensive car detailing section with service cards and purchase functionality
 
 ## Deployment Strategy
 
