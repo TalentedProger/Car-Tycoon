@@ -190,34 +190,32 @@ export default function Garage() {
         
         <div className="grid grid-cols-2 gap-4">
           {upgradeCategories.map((category) => (
-            <Card key={category.id} className={`glass-dark overflow-hidden group hover:scale-105 transition-all duration-300 upgrade-card-${category.id}`}>
-              <CardContent className="p-4">
-                <div className="relative h-full">
-                  {/* Gradient Background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-15 rounded-lg`} />
-                  
-                  <div className="relative z-10 h-full flex flex-col">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${category.gradient} flex items-center justify-center text-white text-lg`}>
-                        {category.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-foreground text-sm">{category.name}</h4>
-                      </div>
+            <Card key={category.id} className={`overflow-hidden group hover:scale-105 transition-all duration-300 upgrade-card-${category.id} relative`}>
+              {/* Gradient Background - Full Card Coverage */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-15`} />
+              
+              <CardContent className="p-4 relative z-10">
+                <div className="h-full flex flex-col">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${category.gradient} flex items-center justify-center text-white text-lg`}>
+                      {category.icon}
                     </div>
-                    
-                    <p className="text-xs text-muted-foreground mb-3 leading-relaxed flex-1">
-                      {category.description}
-                    </p>
-                    
-                    <Button 
-                      className="w-full glass-button text-xs h-8 group-hover:bg-primary/20 transition-colors"
-                      size="sm"
-                    >
-                      Перейти
-                      <ArrowRight className="ml-1 h-3 w-3" />
-                    </Button>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-foreground text-sm">{category.name}</h4>
+                    </div>
                   </div>
+                  
+                  <p className="text-xs text-muted-foreground mb-3 leading-relaxed flex-1">
+                    {category.description}
+                  </p>
+                  
+                  <Button 
+                    className="w-full glass-button text-xs h-8 group-hover:bg-primary/20 transition-colors"
+                    size="sm"
+                  >
+                    Перейти
+                    <ArrowRight className="ml-1 h-3 w-3" />
+                  </Button>
                 </div>
               </CardContent>
             </Card>
