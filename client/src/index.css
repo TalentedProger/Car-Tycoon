@@ -160,6 +160,57 @@
     animation: boost-glow 2s ease-in-out infinite alternate;
   }
   
+  .upgrade-card {
+    position: relative;
+  }
+  
+  .upgrade-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    border-radius: inherit;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .upgrade-card[data-gradient="from-red-500 to-orange-500"]::before {
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-blue-500 to-cyan-500"]::before {
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-purple-500 to-pink-500"]::before {
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-gray-500 to-gray-700"]::before {
+    box-shadow: 0 4px 20px rgba(107, 114, 128, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-yellow-500 to-orange-600"]::before {
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-green-500 to-teal-500"]::before {
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-indigo-500 to-blue-600"]::before {
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  }
+  
+  .upgrade-card[data-gradient="from-amber-500 to-yellow-600"]::before {
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+  }
+  
+  .upgrade-card::before {
+    opacity: 1;
+  }
+  
   .level-progress [data-progress] {
     background: linear-gradient(90deg, 
       hsl(120, 60%, 35%) 0%, 
