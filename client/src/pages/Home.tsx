@@ -87,7 +87,7 @@ export default function Home({
         {/* Hourly Income & Shop */}
         <div className="flex items-center gap-3">
           <div className="glass-dark rounded-2xl p-3 flex items-center gap-2">
-            <span className="coin-display text-sm font-bold flex items-center gap-1">
+            <span className="hourly-income text-sm font-bold flex items-center gap-1">
               <span>{gameState.hourlyIncome}</span>
               <span className="text-green-500">💵</span>
               <span>/час</span>
@@ -139,13 +139,17 @@ export default function Home({
           id="car-circle"
           onClick={handleCarClick}
           disabled={!canClick}
-          className={`car-circle w-56 h-56 rounded-full flex items-center justify-center text-8xl transition-all duration-200 ${
+          className={`car-circle w-72 h-72 rounded-full flex items-center justify-center transition-all duration-200 ${
             canClick 
               ? 'hover:scale-105 active:scale-95 cursor-pointer animate-glow' 
               : 'opacity-50 cursor-not-allowed'
           }`}
         >
-          🚗
+          <img 
+            src="/car.svg" 
+            alt="Car" 
+            className="w-24 h-24 object-contain"
+          />
         </Button>
       </div>
 
