@@ -139,7 +139,7 @@ export default function Home({
           id="car-circle"
           onClick={handleCarClick}
           disabled={!canClick}
-          className={`car-circle w-72 h-72 rounded-full flex items-center justify-center transition-all duration-200 ${
+          className={`car-circle w-64 h-64 rounded-full flex items-center justify-center transition-all duration-200 ${
             canClick 
               ? 'hover:scale-105 active:scale-95 cursor-pointer animate-glow' 
               : 'opacity-50 cursor-not-allowed'
@@ -154,9 +154,9 @@ export default function Home({
       </div>
 
       {/* Energy and Boost Controls */}
-      <div className="flex items-center justify-center gap-8 mb-8">
+      <div className="flex items-center justify-center gap-6 mb-8">
         {/* Energy Display */}
-        <div className="glass-dark rounded-2xl p-3 min-w-[100px]">
+        <div className="glass-dark rounded-2xl p-2 px-4 min-w-[120px]">
           <div className="text-center">
             <div className="text-xs text-muted-foreground mb-1">Энергия</div>
             <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
@@ -173,13 +173,13 @@ export default function Home({
         </div>
 
         {/* Boost Button */}
-        <div className="glass-dark rounded-2xl p-3 min-w-[100px]">
+        <div className={`glass-dark rounded-2xl p-2 px-4 min-w-[120px] ${
+          gameState.boostActive ? 'boost-glow' : ''
+        }`}>
           <Button
             onClick={handleBoostClick}
             disabled={!canBoost}
-            className={`w-full h-full bg-transparent border-0 p-0 hover:bg-transparent ${
-              gameState.boostActive ? 'animate-glow' : ''
-            }`}
+            className="w-full h-full bg-transparent border-0 p-0 hover:bg-transparent"
           >
             <div className="text-center">
               <div className="text-xs text-muted-foreground mb-1">Буст</div>

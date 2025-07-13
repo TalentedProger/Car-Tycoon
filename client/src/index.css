@@ -155,6 +155,11 @@
     /* Убираем свечение для заработка в час */
   }
   
+  .boost-glow {
+    box-shadow: 0 0 20px hsla(120, 60%, 35%, 0.6);
+    animation: boost-glow 2s ease-in-out infinite alternate;
+  }
+  
   .level-progress [data-progress] {
     background: linear-gradient(90deg, 
       hsl(120, 60%, 35%) 0%, 
@@ -236,6 +241,15 @@
   }
   100% {
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes boost-glow {
+  0% {
+    box-shadow: 0 0 15px hsla(120, 60%, 35%, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 25px hsla(120, 60%, 35%, 0.8);
   }
 }
 
