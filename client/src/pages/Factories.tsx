@@ -41,7 +41,7 @@ export default function Garage() {
     {
       id: 'engine',
       name: 'Двигатель',
-      description: 'Увеличение мощности и крутящего момента для лучшей производительности',
+      description: 'Увеличение мощности и крутящего момента для скорости',
       icon: '⚙️',
       gradient: 'from-red-500 to-orange-500'
     },
@@ -196,21 +196,21 @@ export default function Garage() {
               
               <CardContent className="p-4 relative z-10">
                 <div className="h-full flex flex-col">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${category.gradient} flex items-center justify-center text-white text-lg`}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${category.gradient} flex items-center justify-center text-white text-sm flex-shrink-0`}>
                       {category.icon}
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-foreground text-sm">{category.name}</h4>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-foreground text-sm truncate">{category.name}</h4>
                     </div>
                   </div>
                   
-                  <p className="text-xs text-muted-foreground mb-3 leading-relaxed h-8 flex items-center">
+                  <p className="text-xs text-muted-foreground mb-4 leading-relaxed h-10 flex items-center">
                     {category.description}
                   </p>
                   
                   <Button 
-                    className="w-full glass-button text-xs h-8 group-hover:bg-primary/20 transition-colors"
+                    className="w-full glass-button text-xs h-8 group-hover:bg-primary/20 transition-colors mt-auto"
                     size="sm"
                   >
                     Перейти
