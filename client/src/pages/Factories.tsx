@@ -5,37 +5,29 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, ChevronRight as ArrowRight } from 'lucide-react';
 
 export default function Garage() {
-  const [currentCarIndex, setCurrentCarIndex] = useState(0);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
-  const cars = [
-    {
-      name: 'BMW M3 Competition',
-      image: '🏎️',
-      specs: {
-        power: '510 л.с.',
-        acceleration: '3.9 сек',
-        topSpeed: '280 км/ч'
-      }
-    },
-    {
-      name: 'Mercedes AMG GT',
-      image: '🚗',
-      specs: {
-        power: '469 л.с.',
-        acceleration: '4.0 сек',
-        topSpeed: '310 км/ч'
-      }
-    },
-    {
-      name: 'Audi RS6 Avant',
-      image: '🚙',
-      specs: {
-        power: '600 л.с.',
-        acceleration: '3.6 сек',
-        topSpeed: '305 км/ч'
-      }
-    }
+  const carPhotos = [
+    '/car.svg',
+    '/car.svg', 
+    '/car.svg',
+    '/car.svg'
   ];
+
+  const carData = {
+    name: 'BMW M3 Competition',
+    drivetrain: 'Полный привод',
+    weight: '1,730 кг',
+    mileage: '45,230 км'
+  };
+
+  const nextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev + 1) % carPhotos.length);
+  };
+
+  const prevPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev - 1 + carPhotos.length) % carPhotos.length);
+  };
 
   const upgradeCategories = [
     {
@@ -96,90 +88,77 @@ export default function Garage() {
     }
   ];
 
-  const nextCar = () => {
-    setCurrentCarIndex((prev) => (prev + 1) % cars.length);
-  };
-
-  const prevCar = () => {
-    setCurrentCarIndex((prev) => (prev - 1 + cars.length) % cars.length);
-  };
-
-  const currentCar = cars[currentCarIndex];
-
   return (
     <div className="min-h-screen bg-background p-4 pb-20">
-      {/* Header */}
+      {/* Car Name - Top */}
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Гараж</h1>
-        <p className="text-muted-foreground">Управляй своим автопарком</p>
+        <h1 className="text-3xl font-bold car-name-glow">{carData.name}</h1>
       </div>
 
-      {/* Car Display Section */}
-      <div className="mb-8">
-        <Card className="glass-dark overflow-hidden">
-          <CardContent className="p-6">
-            {/* Car Name */}
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-foreground">{currentCar.name}</h2>
-            </div>
+      {/* Car Photo Container - Full width square */}
+      <div className="mb-4">
+        <div className="aspect-square w-full bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/10 overflow-hidden">
+          <img 
+            src={carPhotos[currentPhotoIndex]} 
+            alt="Car" 
+            className="w-full h-full object-contain"
+          />
+        </div>
+      </div>
 
-            {/* Car Image with Navigation */}
-            <div className="relative mb-6">
-              <div className="flex items-center justify-center">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={prevCar}
-                  className="absolute left-0 z-10 glass-button"
-                >
-                  <ChevronLeft className="h-6 w-6" />
-                </Button>
+      {/* Navigation Buttons - Below photo */}
+      <div className="flex justify-center items-center gap-4 mb-6">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={prevPhoto}
+          className="glass-button"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </Button>
 
-                <div className="w-64 h-40 bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-2xl flex items-center justify-center text-7xl backdrop-blur-sm border border-white/10">
-                  {currentCar.image}
-                </div>
+        <div className="flex gap-2">
+          {carPhotos.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPhotoIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentPhotoIndex 
+                  ? 'bg-primary w-6' 
+                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+              }`}
+            />
+          ))}
+        </div>
 
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={nextCar}
-                  className="absolute right-0 z-10 glass-button"
-                >
-                  <ChevronRight className="h-6 w-6" />
-                </Button>
-              </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={nextPhoto}
+          className="glass-button"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </Button>
+      </div>
 
-              {/* Car Navigation Dots */}
-              <div className="flex justify-center mt-4 gap-2">
-                {cars.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentCarIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentCarIndex 
-                        ? 'bg-primary w-6' 
-                        : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Car Specs */}
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div className="glass-dark rounded-xl p-3">
-                <div className="text-xs text-muted-foreground mb-1">Мощность</div>
-                <div className="text-sm font-semibold text-red-400">{currentCar.specs.power}</div>
-              </div>
-              <div className="glass-dark rounded-xl p-3">
-                <div className="text-xs text-muted-foreground mb-1">0-100 км/ч</div>
-                <div className="text-sm font-semibold text-blue-400">{currentCar.specs.acceleration}</div>
-              </div>
-              <div className="glass-dark rounded-xl p-3">
-                <div className="text-xs text-muted-foreground mb-1">Макс. скорость</div>
-                <div className="text-sm font-semibold text-green-400">{currentCar.specs.topSpeed}</div>
-              </div>
-            </div>
+      {/* Car Characteristics - Bottom */}
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <Card className="car-info-card border-0 shadow-none">
+          <CardContent className="p-4 text-center">
+            <div className="text-xs text-muted-foreground mb-2">Привод</div>
+            <div className="text-sm font-semibold text-blue-400">{carData.drivetrain}</div>
+          </CardContent>
+        </Card>
+        <Card className="car-info-card border-0 shadow-none">
+          <CardContent className="p-4 text-center">
+            <div className="text-xs text-muted-foreground mb-2">Масса</div>
+            <div className="text-sm font-semibold text-red-400">{carData.weight}</div>
+          </CardContent>
+        </Card>
+        <Card className="car-info-card border-0 shadow-none">
+          <CardContent className="p-4 text-center">
+            <div className="text-xs text-muted-foreground mb-2">Пробег</div>
+            <div className="text-sm font-semibold text-green-400">{carData.mileage}</div>
           </CardContent>
         </Card>
       </div>

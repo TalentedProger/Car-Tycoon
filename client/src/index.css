@@ -223,6 +223,37 @@
       0 0 40px rgba(245, 158, 11, 0.3),
       inset 0 0 20px rgba(245, 158, 11, 0.1);
   }
+
+  /* Car Name Glow Effect */
+  .car-name-glow {
+    background: linear-gradient(45deg, 
+      hsl(270, 100%, 60%) 0%, 
+      hsl(270, 100%, 70%) 50%, 
+      hsl(270, 100%, 60%) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-weight: 800;
+    text-shadow: 0 0 30px hsla(270, 100%, 60%, 0.5);
+    animation: glow-pulse 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow-pulse {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.2); }
+  }
+
+  /* Car Info Cards */
+  .car-info-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(255, 255, 255, 0.05);
+  }
   
   .level-progress [data-progress] {
     background: linear-gradient(90deg, 
