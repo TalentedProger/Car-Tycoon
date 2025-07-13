@@ -161,35 +161,35 @@
   }
   
   .upgrade-card-engine {
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
   }
   
   .upgrade-card-transmission {
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
   }
   
   .upgrade-card-suspension {
-    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
   }
   
   .upgrade-card-brakes {
-    box-shadow: 0 4px 20px rgba(107, 114, 128, 0.3);
+    box-shadow: 0 4px 20px rgba(107, 114, 128, 0.4);
   }
   
   .upgrade-card-exhaust {
-    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
   }
   
   .upgrade-card-electronics {
-    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
   }
   
   .upgrade-card-body {
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
   }
   
   .upgrade-card-interior {
-    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
   }
   
   .level-progress [data-progress] {
