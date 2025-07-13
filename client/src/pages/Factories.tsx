@@ -55,7 +55,7 @@ export default function Garage() {
     {
       id: 'suspension',
       name: 'Подвеска',
-      description: 'Настройка управляемости и комфорта для идеальной езды',
+      description: 'Настройка управляемости и комфорта для комфорта',
       icon: '🛠️',
       gradient: 'from-purple-500 to-pink-500'
     },
@@ -205,7 +205,7 @@ export default function Garage() {
                     </div>
                   </div>
                   
-                  <p className="text-xs text-muted-foreground mb-4 leading-relaxed h-10 flex items-center">
+                  <p className="text-xs text-muted-foreground mb-6 leading-relaxed h-10 flex items-center">
                     {category.description}
                   </p>
                   
