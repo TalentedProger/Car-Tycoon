@@ -90,14 +90,20 @@ export default function Garage() {
 
   return (
     <div className="min-h-screen bg-background p-4 pb-20">
-      {/* Car Name - Top */}
+      {/* Header */}
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold car-name-glow">{carData.name}</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Гараж</h1>
+        <p className="text-muted-foreground">Управляй своим автопарком</p>
+      </div>
+
+      {/* Car Name */}
+      <div className="text-center mb-4">
+        <h2 className="text-xl font-semibold car-name-simple">{carData.name}</h2>
       </div>
 
       {/* Car Photo Container - Full width square */}
       <div className="mb-4">
-        <div className="aspect-square w-full bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/10 overflow-hidden">
+        <div className="aspect-square w-full bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-2xl flex items-center justify-center backdrop-blur-sm overflow-hidden car-photo-container">
           <img 
             src={carPhotos[currentPhotoIndex]} 
             alt="Car" 
@@ -107,7 +113,7 @@ export default function Garage() {
       </div>
 
       {/* Navigation Buttons - Below photo */}
-      <div className="flex justify-center items-center gap-4 mb-6">
+      <div className="flex justify-center items-center gap-8 mb-6">
         <Button
           variant="ghost"
           size="icon"
@@ -116,20 +122,6 @@ export default function Garage() {
         >
           <ChevronLeft className="h-6 w-6" />
         </Button>
-
-        <div className="flex gap-2">
-          {carPhotos.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPhotoIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentPhotoIndex 
-                  ? 'bg-primary w-6' 
-                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-              }`}
-            />
-          ))}
-        </div>
 
         <Button
           variant="ghost"
@@ -142,7 +134,7 @@ export default function Garage() {
       </div>
 
       {/* Car Characteristics - Bottom */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-4 mb-4">
         <Card className="car-info-card border-0 shadow-none">
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-2">Привод</div>
@@ -159,6 +151,28 @@ export default function Garage() {
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-2">Пробег</div>
             <div className="text-sm font-semibold text-green-400">{carData.mileage}</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Additional Car Characteristics */}
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <Card className="car-info-card border-0 shadow-none">
+          <CardContent className="p-4 text-center">
+            <div className="text-xs text-muted-foreground mb-2">Мощность</div>
+            <div className="text-sm font-semibold text-purple-400">510 л.с.</div>
+          </CardContent>
+        </Card>
+        <Card className="car-info-card border-0 shadow-none">
+          <CardContent className="p-4 text-center">
+            <div className="text-xs text-muted-foreground mb-2">0-100 км/ч</div>
+            <div className="text-sm font-semibold text-orange-400">3.9 сек</div>
+          </CardContent>
+        </Card>
+        <Card className="car-info-card border-0 shadow-none">
+          <CardContent className="p-4 text-center">
+            <div className="text-xs text-muted-foreground mb-2">Макс. скорость</div>
+            <div className="text-sm font-semibold text-cyan-400">280 км/ч</div>
           </CardContent>
         </Card>
       </div>
