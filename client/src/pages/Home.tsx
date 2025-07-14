@@ -184,7 +184,7 @@ export default function Home({
             <div className="text-center w-full">
               <div className="text-xs text-muted-foreground mb-1">Буст</div>
               <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
-                <span className="text-yellow-500">⚡</span>
+                <span className="text-yellow-500">🔋</span>
                 {gameState.boostActive ? (
                   <span>{formatTime(boostTimeLeft)}</span>
                 ) : canBoost ? (
