@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Star, Zap, Shield } from 'lucide-react';
+import { ShoppingCart, Star, Zap, Shield, Eye, Settings } from 'lucide-react';
 
 export default function AutoSalon() {
+  const [carTrims, setCarTrims] = useState<{ [key: number]: string }>({});
+  
+  const trimLevels = ['Base', 'Comfort', 'Elegance', 'Premium', 'Sport'];
+  const trimMultipliers = { 'Base': 1, 'Comfort': 1.3, 'Elegance': 1.6, 'Premium': 2.0, 'Sport': 2.5 };
+  
+  const getCarTrim = (carId: number) => carTrims[carId] || 'Base';
+  
+  const calculatePrice = (basePrice: number, trim: string) => {
+    const multiplier = trimMultipliers[trim as keyof typeof trimMultipliers] || 1;
+    return Math.round(basePrice * multiplier);
+  };
+  
+  const calculateHourlyIncome = (price: number) => {
+    // Base calculation: ВАЗ 2107 at 85,000 = 50 coins/hour
+    return Math.round((price / 85000) * 50);
+  };
+  
+  const handleTrimChange = (carId: number) => {
+    const currentTrim = getCarTrim(carId);
+    const currentIndex = trimLevels.indexOf(currentTrim);
+    const nextIndex = (currentIndex + 1) % trimLevels.length;
+    setCarTrims(prev => ({ ...prev, [carId]: trimLevels[nextIndex] }));
+  };
+
   const carCategories = [
     {
       name: 'Эконом',
@@ -14,8 +38,7 @@ export default function AutoSalon() {
           id: 1,
           name: 'ВАЗ 2107',
           year: '2012',
-          trim: 'Base',
-          price: '85,000 💵',
+          basePrice: 85000,
           image: '🚗',
           rating: 3.2,
           power: '75 л.с.',
@@ -28,8 +51,7 @@ export default function AutoSalon() {
           id: 2,
           name: 'ВАЗ 2110',
           year: '2009',
-          trim: 'Comfort',
-          price: '125,000 💵',
+          basePrice: 125000,
           image: '🚙',
           rating: 3.5,
           power: '82 л.с.',
@@ -42,8 +64,7 @@ export default function AutoSalon() {
           id: 3,
           name: 'Audi 100',
           year: '1994',
-          trim: 'Elegance',
-          price: '140,000 💵',
+          basePrice: 140000,
           image: '🚗',
           rating: 3.8,
           power: '115 л.с.',
@@ -56,8 +77,7 @@ export default function AutoSalon() {
           id: 4,
           name: 'Hyundai Sonata IV',
           year: '2004',
-          trim: 'Comfort',
-          price: '135,000 💵',
+          basePrice: 135000,
           image: '🚙',
           rating: 3.6,
           power: '136 л.с.',
@@ -76,8 +96,7 @@ export default function AutoSalon() {
           id: 5,
           name: 'LADA Granta',
           year: '2022',
-          trim: 'Comfort',
-          price: '850,000 💵',
+          basePrice: 850000,
           image: '🚗',
           rating: 3.8,
           power: '106 л.с.',
@@ -90,8 +109,7 @@ export default function AutoSalon() {
           id: 6,
           name: 'Renault Logan',
           year: '2021',
-          trim: 'Base',
-          price: '900,000 💵',
+          basePrice: 900000,
           image: '🚙',
           rating: 4.0,
           power: '113 л.с.',
@@ -104,8 +122,7 @@ export default function AutoSalon() {
           id: 7,
           name: 'Nissan Teana',
           year: '2018',
-          trim: 'Premium',
-          price: '1,200,000 💵',
+          basePrice: 1200000,
           image: '🚗',
           rating: 4.2,
           power: '182 л.с.',
@@ -118,8 +135,7 @@ export default function AutoSalon() {
           id: 8,
           name: 'Honda Accord 7',
           year: '2008',
-          trim: 'Elegance',
-          price: '750,000 💵',
+          basePrice: 750000,
           image: '🚙',
           rating: 4.1,
           power: '156 л.с.',
@@ -138,8 +154,7 @@ export default function AutoSalon() {
           id: 9,
           name: 'Toyota Corolla',
           year: '2019',
-          trim: 'Comfort',
-          price: '575,000 💵',
+          basePrice: 575000,
           image: '🚗',
           rating: 4.3,
           power: '132 л.с.',
@@ -152,8 +167,7 @@ export default function AutoSalon() {
           id: 10,
           name: 'Mazda 3',
           year: '2017',
-          trim: 'Premium',
-          price: '650,000 💵',
+          basePrice: 650000,
           image: '🚙',
           rating: 4.4,
           power: '150 л.с.',
@@ -166,8 +180,7 @@ export default function AutoSalon() {
           id: 11,
           name: 'Toyota Mark II',
           year: '2015',
-          trim: 'Sport',
-          price: '720,000 💵',
+          basePrice: 720000,
           image: '🏎️',
           rating: 4.5,
           power: '280 л.с.',
@@ -186,8 +199,7 @@ export default function AutoSalon() {
           id: 12,
           name: 'Toyota Camry',
           year: '2020',
-          trim: 'Premium',
-          price: '3,900,000 💵',
+          basePrice: 3900000,
           image: '🚗',
           rating: 4.6,
           power: '249 л.с.',
@@ -200,8 +212,7 @@ export default function AutoSalon() {
           id: 13,
           name: 'Skoda Octavia',
           year: '2019',
-          trim: 'Elegance',
-          price: '1,100,000 💵',
+          basePrice: 1100000,
           image: '🚙',
           rating: 4.5,
           power: '150 л.с.',
@@ -214,8 +225,7 @@ export default function AutoSalon() {
           id: 14,
           name: 'KIA K5',
           year: '2021',
-          trim: 'Sport',
-          price: '1,350,000 💵',
+          basePrice: 1350000,
           image: '🏎️',
           rating: 4.4,
           power: '180 л.с.',
@@ -234,8 +244,7 @@ export default function AutoSalon() {
           id: 15,
           name: 'BMW 5 серии',
           year: '2018',
-          trim: 'Premium',
-          price: '2,650,000 💵',
+          basePrice: 2650000,
           image: '🏎️',
           rating: 4.7,
           power: '252 л.с.',
@@ -248,8 +257,7 @@ export default function AutoSalon() {
           id: 16,
           name: 'Mercedes E-класс',
           year: '2019',
-          trim: 'Elegance',
-          price: '2,900,000 💵',
+          basePrice: 2900000,
           image: '🚗',
           rating: 4.8,
           power: '299 л.с.',
@@ -268,8 +276,7 @@ export default function AutoSalon() {
           id: 17,
           name: 'Mercedes S-класс',
           year: '2020',
-          trim: 'Premium',
-          price: '7,500,000 💵',
+          basePrice: 7500000,
           image: '🏁',
           rating: 4.9,
           power: '469 л.с.',
@@ -282,8 +289,7 @@ export default function AutoSalon() {
           id: 18,
           name: 'Porsche 911',
           year: '2021',
-          trim: 'Sport',
-          price: '12,000,000 💵',
+          basePrice: 12000000,
           image: '🏎️',
           rating: 5.0,
           power: '379 л.с.',
@@ -357,8 +363,13 @@ export default function AutoSalon() {
               </div>
 
               {/* Cars in Category */}
-              <div className="space-y-3">
-                {category.cars.map((car) => (
+              <div className="space-y-6">
+                {category.cars.map((car) => {
+                  const currentTrim = getCarTrim(car.id);
+                  const currentPrice = calculatePrice(car.basePrice, currentTrim);
+                  const hourlyIncome = calculateHourlyIncome(currentPrice);
+                  
+                  return (
                   <Card 
                     key={car.id} 
                     className="overflow-hidden group hover:scale-105 transition-all duration-300 relative border-0 shadow-none"
@@ -386,7 +397,7 @@ export default function AutoSalon() {
                               <div className="flex items-center gap-2 mt-1">
                                 <span className="text-xs text-muted-foreground">{car.year}</span>
                                 <span className="text-xs text-muted-foreground">•</span>
-                                <span className="text-xs text-muted-foreground">{car.trim}</span>
+                                <span className="text-xs text-muted-foreground">{currentTrim}</span>
                               </div>
                             </div>
                             <Badge className={`text-xs px-2 py-1 ${categoryColor.bg} ${categoryColor.text} ${categoryColor.border} flex-shrink-0 ml-2`}>
@@ -400,7 +411,8 @@ export default function AutoSalon() {
                               <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                               <span className="text-xs text-muted-foreground">{car.rating}</span>
                             </div>
-                            <span className="text-xs font-bold text-green-400">{car.price}</span>
+                            <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} 💵</span>
+                            <span className="text-xs text-blue-400">+{hourlyIncome}/час</span>
                           </div>
 
                           {/* Car Specifications */}
@@ -416,10 +428,27 @@ export default function AutoSalon() {
                             </span>
                           </div>
 
-                          {/* Bottom row with buy button */}
-                          <div className="flex justify-end">
+                          {/* Bottom row with buttons */}
+                          <div className="flex justify-end gap-2">
                             <Button 
-                              className={`text-xs h-8 px-4 ${
+                              className="text-xs h-8 px-3 glass-button"
+                              size="sm"
+                              variant="outline"
+                            >
+                              <Eye className="mr-1 h-3 w-3" />
+                              Осмотреть
+                            </Button>
+                            <Button 
+                              className="text-xs h-8 px-3 glass-button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleTrimChange(car.id)}
+                            >
+                              <Settings className="mr-1 h-3 w-3" />
+                              Комплектация
+                            </Button>
+                            <Button 
+                              className={`text-xs h-8 px-3 ${
                                 car.available 
                                   ? 'glass-button group-hover:bg-green-500/20' 
                                   : 'glass-button opacity-50 cursor-not-allowed'
@@ -444,7 +473,8 @@ export default function AutoSalon() {
                       </div>
                     </CardContent>
                   </Card>
-                ))}
+                  );
+                })}
               </div>
             </div>
           );
