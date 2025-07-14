@@ -135,7 +135,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
 
   return (
     <div className="fixed inset-0 bg-black z-50 overflow-y-auto">
-      <div className="min-h-screen p-4 pb-24">
+      <div className="min-h-screen p-4">
         {/* Header */}
         <div className="mb-6">
           <div className="flex justify-start mb-4">
@@ -195,7 +195,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         </div>
 
         {/* Car Specifications */}
-        <Card className="mb-6 bg-green-900 border border-green-700/30">
+        <Card className="mb-12 bg-green-900 border border-green-700/30">
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-4 text-center">Характеристики</h2>
             <div className="space-y-3">
@@ -255,7 +255,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         <Card className="mb-6 bg-gray-800 border border-white/20">
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-2">Выбери комплектацию:</h2>
-            <div className="text-2xl font-bold text-green-400 mb-4">
+            <div className="text-2xl font-bold text-green-400 mb-4 text-center">
               {finalPrice.toLocaleString()} 💵
             </div>
             
@@ -284,18 +284,16 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
                 );
               })}
             </RadioGroup>
+            
+            {/* Save Button inside card */}
+            <Button
+              onClick={() => onSave(car.id, selectedTrim, finalPrice)}
+              className="w-full h-12 text-lg font-bold bg-green-600 hover:bg-green-700 text-white mt-6"
+            >
+              Сохранить
+            </Button>
           </CardContent>
         </Card>
-
-        {/* Save Button */}
-        <div className="fixed bottom-4 left-4 right-4 z-10">
-          <Button
-            onClick={() => onSave(car.id, selectedTrim, finalPrice)}
-            className="w-full h-12 text-lg font-bold bg-green-600 hover:bg-green-700 text-white shadow-lg"
-          >
-            Сохранить
-          </Button>
-        </div>
       </div>
     </div>
   );
