@@ -252,7 +252,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         </Card>
 
         {/* Configuration Selection */}
-        <Card className="mb-6 bg-gray-800 border border-white/20">
+        <Card className="mb-6 bg-purple-900 border border-purple-700/30">
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-2">Выбери комплектацию:</h2>
             <div className="text-2xl font-bold text-green-400 mb-4 text-center">
@@ -288,7 +288,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
             {/* Save Button inside card */}
             <Button
               onClick={() => onSave(car.id, selectedTrim, finalPrice)}
-              className="w-full h-12 text-lg font-bold bg-green-600 hover:bg-green-700 text-white mt-6"
+              className="w-auto h-10 text-sm font-bold bg-green-600 hover:bg-green-700 text-white mt-12 px-8 mx-auto block"
             >
               Сохранить
             </Button>
