@@ -252,9 +252,9 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         </Card>
 
         {/* Configuration Selection */}
-        <Card className="mb-6 bg-purple-900 border border-purple-700/30">
+        <Card className="mb-6 bg-purple-950 border border-purple-700/30">
           <CardContent className="p-4">
-            <h2 className="text-lg font-bold text-white mb-2">Выбери комплектацию:</h2>
+            <h2 className="text-lg font-bold text-white mb-2 text-center">Выбери комплектацию:</h2>
             <div className="text-2xl font-bold text-green-400 mb-4 text-center">
               {finalPrice.toLocaleString()} 💵
             </div>
@@ -263,8 +263,8 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
               {trimLevels.map((trim) => {
                 const isSelected = selectedTrim === trim.name;
                 return (
-                  <div key={trim.name} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
-                    <RadioGroupItem value={trim.name} id={trim.name} />
+                  <div key={trim.name} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-white/5 transition-all duration-300">
+                    <RadioGroupItem value={trim.name} id={trim.name} className="w-5 h-5 border-2" />
                     <Label htmlFor={trim.name} className="flex-1 cursor-pointer">
                       <div className="flex justify-between items-center">
                         <div>
@@ -285,10 +285,10 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
               })}
             </RadioGroup>
             
-            {/* Save Button inside card */}
+            {/* Save Button inside card - raised up */}
             <Button
               onClick={() => onSave(car.id, selectedTrim, finalPrice)}
-              className="w-auto h-10 text-sm font-bold bg-green-600 hover:bg-green-700 text-white mt-12 px-8 mx-auto block"
+              className="w-auto h-10 text-sm font-bold bg-green-600 hover:bg-green-700 text-white mt-6 px-8 mx-auto block"
             >
               Сохранить
             </Button>
