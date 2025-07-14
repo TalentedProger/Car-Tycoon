@@ -86,8 +86,9 @@ export function RewardModal({
                     Получить награду
                   </Button>
                   <Button 
-                    className="w-full glass-button bg-blue-600 hover:bg-blue-700 flex items-center justify-center gap-2"
+                    className="w-full glass-button hover:bg-muted/50 flex items-center justify-center gap-2"
                     size="lg"
+                    variant="outline"
                   >
                     <Play className="h-4 w-4" />
                     Увеличить 2x
