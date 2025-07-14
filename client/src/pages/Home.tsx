@@ -181,7 +181,7 @@ export default function Home({
             disabled={!canBoost}
             className="w-full h-full bg-transparent border-0 p-0 hover:bg-transparent"
           >
-            <div className="text-center">
+            <div className="text-center w-full">
               <div className="text-xs text-muted-foreground mb-1">Буст</div>
               <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
                 <span className="text-yellow-500">⚡</span>
