@@ -159,7 +159,7 @@ export default function Home({
         <div className="glass-dark rounded-2xl p-2 px-4 min-w-[120px]">
           <div className="text-center">
             <div className="text-xs text-muted-foreground mb-1">Энергия</div>
-            <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
+            <div className="text-sm font-bold mb-2 flex items-center justify-center gap-1">
               <span className="text-yellow-500">⚡</span>
               {gameState.energy}/{gameState.maxEnergy}
             </div>
@@ -183,7 +183,7 @@ export default function Home({
           >
             <div className="text-center w-full">
               <div className="text-xs text-muted-foreground mb-1">Буст</div>
-              <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
+              <div className="text-sm font-bold mb-2 flex items-center justify-center gap-1">
                 <span className="text-yellow-500">🔋</span>
                 {gameState.boostActive ? (
                   <span>{formatTime(boostTimeLeft)}</span>
