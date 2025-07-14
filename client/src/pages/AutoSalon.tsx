@@ -447,7 +447,7 @@ export default function AutoSalon() {
                     className="overflow-hidden group hover:scale-105 transition-all duration-300 relative border-0 shadow-none"
                     style={{
                       border: `2px solid ${categoryColor.hex}40`,
-                      boxShadow: `0 0 8px ${categoryColor.hex}30, 0 0 16px ${categoryColor.hex}15, inset 0 0 8px ${categoryColor.hex}5`
+                      boxShadow: `0 0 8px ${categoryColor.hex}30, 0 0 16px ${categoryColor.hex}15, inset 0 0 8px ${categoryColor.hex}5, 0 4px 20px ${categoryColor.hex}25`
                     }}
                   >
                     {/* Gradient Background */}
@@ -467,7 +467,7 @@ export default function AutoSalon() {
                             {/* Top row with car name and category */}
                             <div className="flex items-start justify-between mb-2">
                               <div>
-                                <h3 className="font-semibold text-foreground text-sm leading-tight">{car.name}</h3>
+                                <h3 className="font-bold text-foreground text-sm leading-tight">{car.name}</h3>
                                 <div className="flex items-center gap-2 mt-1">
                                   <span className="text-xs text-muted-foreground">{car.year}</span>
                                   <span className="text-xs text-muted-foreground">•</span>
@@ -491,13 +491,13 @@ export default function AutoSalon() {
 
                             {/* Car Specifications */}
                             <div className="flex flex-wrap gap-1">
-                              <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
+                              <span className="text-xs bg-purple-500/20 text-muted-foreground px-2 py-1 rounded-md">
                                 {car.power}
                               </span>
-                              <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
+                              <span className="text-xs bg-cyan-500/20 text-muted-foreground px-2 py-1 rounded-md">
                                 {car.maxSpeed}
                               </span>
-                              <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
+                              <span className="text-xs bg-red-500/20 text-muted-foreground px-2 py-1 rounded-md">
                                 {car.weight}
                               </span>
                             </div>
