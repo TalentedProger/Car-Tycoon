@@ -134,116 +134,91 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
   const categoryColor = getCategoryColor(car.category);
 
   return (
-    <div className="fixed inset-0 bg-black/90 z-50 overflow-y-auto">
+    <div className="fixed inset-0 bg-black z-50 overflow-y-auto">
       <div className="min-h-screen p-4">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            className="text-white hover:bg-white/10"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Назад
-          </Button>
-          <h1 className="text-xl font-bold text-white">{car.name}</h1>
-          <div className="w-16" /> {/* Spacer */}
+        <div className="mb-6">
+          <div className="flex justify-start mb-4">
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              className="text-white hover:bg-white/10"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Назад
+            </Button>
+          </div>
+          <h1 className="text-xl font-bold text-white text-center">{car.name}</h1>
         </div>
 
-        {/* Car Images Slider */}
-        <div className="relative mb-6">
-          <div className="w-full h-48 bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-white/10 flex items-center justify-center relative overflow-hidden">
-            <div className="text-6xl">{car.images[currentImageIndex]}</div>
-            
-            {car.images.length > 1 && (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/10"
-                  onClick={prevImage}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/10"
-                  onClick={nextImage}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </>
-            )}
+        {/* Car Images Grid */}
+        <div className="mb-6">
+          <div className="grid grid-cols-3 gap-3">
+            {Array.from({ length: 6 }, (_, index) => (
+              <div
+                key={index}
+                className={`aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-white/20 flex items-center justify-center text-4xl cursor-pointer transition-all ${
+                  index === currentImageIndex ? 'ring-2 ring-white' : 'hover:ring-1 ring-white/50'
+                }`}
+                onClick={() => setCurrentImageIndex(index)}
+              >
+                {car.images[index % car.images.length]}
+              </div>
+            ))}
           </div>
-          
-          {/* Image Dots */}
-          {car.images.length > 1 && (
-            <div className="flex justify-center mt-3 gap-2">
-              {car.images.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === currentImageIndex ? 'bg-white' : 'bg-white/30'
-                  }`}
-                  onClick={() => setCurrentImageIndex(index)}
-                />
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Car Specifications */}
-        <Card className="mb-6 glass-dark border-0 shadow-none">
+        <Card className="mb-6 bg-gray-800 border border-white/20">
           <CardContent className="p-4">
-            <h2 className="text-lg font-bold text-white mb-4">Характеристики</h2>
+            <h2 className="text-lg font-bold text-white mb-4 text-center">Характеристики</h2>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Марка / модель</span>
+                <span className="text-muted-foreground flex items-center">• Марка / модель</span>
                 <span className="text-white">{car.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Год выпуска</span>
+                <span className="text-muted-foreground flex items-center">• Год выпуска</span>
                 <span className="text-white">{car.year}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Тип кузова</span>
+                <span className="text-muted-foreground flex items-center">• Тип кузова</span>
                 <span className="text-white">{car.bodyType}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Тип двигателя</span>
+                <span className="text-muted-foreground flex items-center">• Тип двигателя</span>
                 <span className="text-white">{car.engineType}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Объем двигателя</span>
+                <span className="text-muted-foreground flex items-center">• Объем двигателя</span>
                 <span className="text-white">{updatedSpecs.engineVolume}L</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Мощность (л.с.)</span>
+                <span className="text-muted-foreground flex items-center">• Мощность (л.с.)</span>
                 <span className="text-white">{updatedSpecs.power} л.с.</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Тип привода</span>
+                <span className="text-muted-foreground flex items-center">• Тип привода</span>
                 <span className="text-white">{car.driveType}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Коробка передач</span>
+                <span className="text-muted-foreground flex items-center">• Коробка передач</span>
                 <span className="text-white">{car.transmission}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Расход топлива</span>
+                <span className="text-muted-foreground flex items-center">• Расход топлива</span>
                 <span className="text-white">{car.fuelConsumption}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Разгон до 100 км/ч</span>
+                <span className="text-muted-foreground flex items-center">• Разгон до 100 км/ч</span>
                 <span className="text-white">{updatedSpecs.acceleration.toFixed(1)} сек</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Макс. скорость</span>
+                <span className="text-muted-foreground flex items-center">• Макс. скорость</span>
                 <span className="text-white">{updatedSpecs.maxSpeed} км/ч</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Тип топлива</span>
+                <span className="text-muted-foreground flex items-center">• Тип топлива</span>
                 <span className="text-white">{car.fuelType}</span>
               </div>
             </div>
@@ -251,7 +226,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         </Card>
 
         {/* Configuration Selection */}
-        <Card className="mb-6 glass-dark border-0 shadow-none">
+        <Card className="mb-6 bg-gray-800 border border-white/20">
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-2">Выбери комплектацию:</h2>
             <div className="text-2xl font-bold text-green-400 mb-4">
