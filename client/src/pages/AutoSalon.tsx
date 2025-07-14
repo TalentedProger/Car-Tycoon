@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Star, Zap, Shield, Eye, Settings } from 'lucide-react';
+import { Star, Shield, Eye, Settings } from 'lucide-react';
+import CarConfiguration from '@/components/CarConfiguration';
 
 export default function AutoSalon() {
   const [carTrims, setCarTrims] = useState<{ [key: number]: string }>({});
+  const [selectedCarForConfig, setSelectedCarForConfig] = useState<number | null>(null);
   
   const trimLevels = ['Base', 'Comfort', 'Elegance', 'Premium', 'Sport'];
   const trimMultipliers = { 'Base': 1, 'Comfort': 1.3, 'Elegance': 1.6, 'Premium': 2.0, 'Sport': 2.5 };
@@ -22,12 +24,27 @@ export default function AutoSalon() {
     return Math.round((price / 85000) * 50);
   };
   
-  const handleTrimChange = (carId: number) => {
-    const currentTrim = getCarTrim(carId);
-    const currentIndex = trimLevels.indexOf(currentTrim);
-    const nextIndex = (currentIndex + 1) % trimLevels.length;
-    setCarTrims(prev => ({ ...prev, [carId]: trimLevels[nextIndex] }));
+  const handleConfigurationSave = (carId: number, configuration: string, finalPrice: number) => {
+    setCarTrims(prev => ({ ...prev, [carId]: configuration }));
+    setSelectedCarForConfig(null);
+    // Here you could also save to game state or backend
   };
+
+  // Helper function to add default specs to cars that don't have them
+  const addDefaultSpecs = (car: any) => ({
+    ...car,
+    bodyType: car.bodyType || 'Седан',
+    engineType: car.engineType || 'Бензин',
+    engineVolume: car.engineVolume || '1.6',
+    basePower: car.basePower || parseInt(car.power) || 100,
+    driveType: car.driveType || 'Передний (FWD)',
+    transmission: car.transmission || 'Механика (МКПП)',
+    fuelConsumption: car.fuelConsumption || '8.0 л/100 км',
+    baseAcceleration: car.baseAcceleration || 12.0,
+    baseMaxSpeed: car.baseMaxSpeed || parseInt(car.maxSpeed) || 180,
+    fuelType: car.fuelType || 'АИ-95',
+    images: car.images || [car.image, '🚗', '🏎️']
+  });
 
   const carCategories = [
     {
@@ -45,7 +62,18 @@ export default function AutoSalon() {
           maxSpeed: '155 км/ч',
           weight: '1050 кг',
           category: 'Эконом',
-          available: true
+          available: true,
+          bodyType: 'Седан',
+          engineType: 'Бензин',
+          engineVolume: '1.6',
+          basePower: 75,
+          driveType: 'Задний (RWD)',
+          transmission: 'Механика (МКПП)',
+          fuelConsumption: '8.5 л/100 км',
+          baseAcceleration: 14.0,
+          baseMaxSpeed: 155,
+          fuelType: 'АИ-92',
+          images: ['🚗', '🏎️', '🚙']
         },
         {
           id: 2,
@@ -58,7 +86,18 @@ export default function AutoSalon() {
           maxSpeed: '170 км/ч',
           weight: '1080 кг',
           category: 'Эконом',
-          available: true
+          available: true,
+          bodyType: 'Седан',
+          engineType: 'Бензин',
+          engineVolume: '1.5',
+          basePower: 82,
+          driveType: 'Передний (FWD)',
+          transmission: 'Механика (МКПП)',
+          fuelConsumption: '7.8 л/100 км',
+          baseAcceleration: 13.2,
+          baseMaxSpeed: 170,
+          fuelType: 'АИ-95',
+          images: ['🚙', '🚗', '🏎️']
         },
         {
           id: 3,
@@ -71,7 +110,18 @@ export default function AutoSalon() {
           maxSpeed: '195 км/ч',
           weight: '1420 кг',
           category: 'Эконом',
-          available: true
+          available: true,
+          bodyType: 'Седан',
+          engineType: 'Бензин',
+          engineVolume: '2.0',
+          basePower: 115,
+          driveType: 'Передний (FWD)',
+          transmission: 'Автомат (АКПП)',
+          fuelConsumption: '9.2 л/100 км',
+          baseAcceleration: 11.5,
+          baseMaxSpeed: 195,
+          fuelType: 'АИ-95',
+          images: ['🚗', '🏎️']
         },
         {
           id: 4,
@@ -161,7 +211,18 @@ export default function AutoSalon() {
           maxSpeed: '195 км/ч',
           weight: '1315 кг',
           category: 'Стандарт',
-          available: true
+          available: true,
+          bodyType: 'Седан',
+          engineType: 'Бензин',
+          engineVolume: '1.8',
+          basePower: 132,
+          driveType: 'Передний (FWD)',
+          transmission: 'Вариатор (CVT)',
+          fuelConsumption: '6.8 л/100 км',
+          baseAcceleration: 10.2,
+          baseMaxSpeed: 195,
+          fuelType: 'АИ-95',
+          images: ['🚗', '🚙', '🏎️']
         },
         {
           id: 10,
@@ -206,7 +267,18 @@ export default function AutoSalon() {
           maxSpeed: '210 км/ч',
           weight: '1590 кг',
           category: 'Средний класс',
-          available: false
+          available: false,
+          bodyType: 'Седан',
+          engineType: 'Бензин',
+          engineVolume: '2.5',
+          basePower: 249,
+          driveType: 'Передний (FWD)',
+          transmission: 'Автомат (АКПП)',
+          fuelConsumption: '7.2 л/100 км',
+          baseAcceleration: 8.4,
+          baseMaxSpeed: 210,
+          fuelType: 'АИ-95',
+          images: ['🚗', '🏎️', '🚙', '🚘']
         },
         {
           id: 13,
@@ -442,32 +514,22 @@ export default function AutoSalon() {
                               className="text-xs h-8 px-3 glass-button"
                               size="sm"
                               variant="outline"
-                              onClick={() => handleTrimChange(car.id)}
+                              onClick={() => setSelectedCarForConfig(car.id)}
+                              disabled={!car.available}
                             >
                               <Settings className="mr-1 h-3 w-3" />
                               Комплектация
                             </Button>
-                            <Button 
-                              className={`text-xs h-8 px-3 ${
-                                car.available 
-                                  ? 'glass-button group-hover:bg-green-500/20' 
-                                  : 'glass-button opacity-50 cursor-not-allowed'
-                              }`}
-                              size="sm"
-                              disabled={!car.available}
-                            >
-                              {car.available ? (
-                                <>
-                                  <ShoppingCart className="mr-1 h-3 w-3" />
-                                  Купить
-                                </>
-                              ) : (
-                                <>
-                                  <Shield className="mr-1 h-3 w-3" />
-                                  Заблокировано
-                                </>
-                              )}
-                            </Button>
+                            {!car.available && (
+                              <Button 
+                                className="text-xs h-8 px-3 glass-button opacity-50 cursor-not-allowed"
+                                size="sm"
+                                disabled={true}
+                              >
+                                <Shield className="mr-1 h-3 w-3" />
+                                Заблокировано
+                              </Button>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -487,6 +549,15 @@ export default function AutoSalon() {
           Зарабатывай больше монет, чтобы разблокировать новые автомобили
         </p>
       </div>
+
+      {/* Configuration Modal */}
+      {selectedCarForConfig && (
+        <CarConfiguration
+          car={addDefaultSpecs(allCars.find(car => car.id === selectedCarForConfig)!)}
+          onClose={() => setSelectedCarForConfig(null)}
+          onSave={handleConfigurationSave}
+        />
+      )}
     </div>
   );
 }
