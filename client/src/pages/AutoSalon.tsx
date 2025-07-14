@@ -454,83 +454,86 @@ export default function AutoSalon() {
                     <div className={`absolute inset-0 ${categoryColor.bg}`} />
                     
                     <CardContent className="p-4 relative z-10">
-                      <div className="flex">
-                        {/* Car Image */}
-                        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-gray-800/30 to-gray-900/30 flex items-center justify-center text-3xl backdrop-blur-sm border border-white/10 flex-shrink-0">
-                          {car.image}
+                      <div className="flex flex-col">
+                        {/* Top section with car image and info */}
+                        <div className="flex mb-4">
+                          {/* Car Image */}
+                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-gray-800/30 to-gray-900/30 flex items-center justify-center text-3xl backdrop-blur-sm border border-white/10 flex-shrink-0">
+                            {car.image}
+                          </div>
+
+                          {/* Car Info - Main Content */}
+                          <div className="flex-1 min-w-0 ml-4">
+                            {/* Top row with car name and category */}
+                            <div className="flex items-start justify-between mb-2">
+                              <div>
+                                <h3 className="font-semibold text-foreground text-sm leading-tight">{car.name}</h3>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-xs text-muted-foreground">{car.year}</span>
+                                  <span className="text-xs text-muted-foreground">•</span>
+                                  <span className="text-xs text-muted-foreground">{currentTrim}</span>
+                                </div>
+                              </div>
+                              <Badge className={`text-xs px-2 py-1 ${categoryColor.bg} ${categoryColor.text} ${categoryColor.border} flex-shrink-0 ml-2`}>
+                                {car.category}
+                              </Badge>
+                            </div>
+                            
+                            {/* Rating and Price */}
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className="flex items-center gap-1">
+                                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                <span className="text-xs text-muted-foreground">{car.rating}</span>
+                              </div>
+                              <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} 💵</span>
+                              <span className="text-xs text-blue-400">+{hourlyIncome}/час</span>
+                            </div>
+
+                            {/* Car Specifications */}
+                            <div className="flex flex-wrap gap-1">
+                              <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
+                                {car.power}
+                              </span>
+                              <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
+                                {car.maxSpeed}
+                              </span>
+                              <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
+                                {car.weight}
+                              </span>
+                            </div>
+                          </div>
                         </div>
 
-                        {/* Car Info - Main Content */}
-                        <div className="flex-1 min-w-0 ml-4">
-                          {/* Top row with car name and category */}
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <h3 className="font-semibold text-foreground text-sm leading-tight">{car.name}</h3>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-xs text-muted-foreground">{car.year}</span>
-                                <span className="text-xs text-muted-foreground">•</span>
-                                <span className="text-xs text-muted-foreground">{currentTrim}</span>
-                              </div>
-                            </div>
-                            <Badge className={`text-xs px-2 py-1 ${categoryColor.bg} ${categoryColor.text} ${categoryColor.border} flex-shrink-0 ml-2`}>
-                              {car.category}
-                            </Badge>
-                          </div>
-                          
-                          {/* Rating and Price */}
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="flex items-center gap-1">
-                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                              <span className="text-xs text-muted-foreground">{car.rating}</span>
-                            </div>
-                            <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} 💵</span>
-                            <span className="text-xs text-blue-400">+{hourlyIncome}/час</span>
-                          </div>
-
-                          {/* Car Specifications */}
-                          <div className="flex flex-wrap gap-1 mb-3">
-                            <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
-                              {car.power}
-                            </span>
-                            <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
-                              {car.maxSpeed}
-                            </span>
-                            <span className="text-xs bg-white/5 text-muted-foreground px-2 py-1 rounded-md">
-                              {car.weight}
-                            </span>
-                          </div>
-
-                          {/* Bottom row with buttons */}
-                          <div className="flex justify-center gap-2">
+                        {/* Bottom row with buttons - centered relative to entire container */}
+                        <div className="flex justify-center gap-2">
+                          <Button 
+                            className="text-xs h-8 px-3 glass-button"
+                            size="sm"
+                            variant="outline"
+                          >
+                            <Eye className="mr-1 h-3 w-3" />
+                            Осмотреть
+                          </Button>
+                          <Button 
+                            className="text-xs h-8 px-3 glass-button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setSelectedCarForConfig(car.id)}
+                            disabled={!car.available}
+                          >
+                            <Settings className="mr-1 h-3 w-3" />
+                            Комплектация
+                          </Button>
+                          {!car.available && (
                             <Button 
-                              className="text-xs h-8 px-3 glass-button"
+                              className="text-xs h-8 px-3 glass-button opacity-50 cursor-not-allowed"
                               size="sm"
-                              variant="outline"
+                              disabled={true}
                             >
-                              <Eye className="mr-1 h-3 w-3" />
-                              Осмотреть
+                              <Shield className="mr-1 h-3 w-3" />
+                              Заблокировано
                             </Button>
-                            <Button 
-                              className="text-xs h-8 px-3 glass-button"
-                              size="sm"
-                              variant="outline"
-                              onClick={() => setSelectedCarForConfig(car.id)}
-                              disabled={!car.available}
-                            >
-                              <Settings className="mr-1 h-3 w-3" />
-                              Комплектация
-                            </Button>
-                            {!car.available && (
-                              <Button 
-                                className="text-xs h-8 px-3 glass-button opacity-50 cursor-not-allowed"
-                                size="sm"
-                                disabled={true}
-                              >
-                                <Shield className="mr-1 h-3 w-3" />
-                                Заблокировано
-                              </Button>
-                            )}
-                          </div>
+                          )}
                         </div>
                       </div>
                     </CardContent>
