@@ -154,7 +154,7 @@ export default function Home({
       </div>
 
       {/* Energy and Boost Controls */}
-      <div className="flex flex-col items-center gap-4 mb-8">
+      <div className="flex items-center justify-center gap-6 mb-8">
         {/* Energy Display */}
         <div className="glass-dark rounded-2xl p-2 px-4 min-w-[120px]">
           <div className="text-center">
@@ -173,7 +173,7 @@ export default function Home({
         </div>
 
         {/* Boost Button */}
-        <div className={`glass-dark rounded-2xl p-3 px-4 w-[90%] h-16 ${
+        <div className={`glass-dark rounded-2xl p-2 px-4 min-w-[120px] ${
           gameState.boostActive ? 'boost-glow' : ''
         }`}>
           <Button
@@ -181,7 +181,7 @@ export default function Home({
             disabled={!canBoost}
             className="w-full h-full bg-transparent border-0 p-0 hover:bg-transparent"
           >
-            <div className="text-center w-full">
+            <div className="text-center">
               <div className="text-xs text-muted-foreground mb-1">Буст</div>
               <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
                 <span className="text-yellow-500">⚡</span>
