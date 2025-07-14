@@ -4,7 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, ChevronRight as ArrowRight } from 'lucide-react';
 
-export default function Garage() {
+interface GarageProps {
+  onNavigate?: (tab: string) => void;
+}
+
+export default function Garage({ onNavigate }: GarageProps = {}) {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const carPhotos = [
@@ -173,6 +177,42 @@ export default function Garage() {
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-2">Макс. скорость</div>
             <div className="text-sm font-semibold text-cyan-400">280 км/ч</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Detailing Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-bold text-foreground text-center mb-6">Детейлинг</h3>
+        
+        <Card className="detailing-card group hover:scale-105 transition-all duration-300 relative border-0 shadow-none">
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-500 opacity-15" />
+          
+          <CardContent className="p-4 relative z-10">
+            <div className="h-full flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-sm flex-shrink-0">
+                  ✨
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-foreground text-sm truncate">Детейлинг автомобиля</h4>
+                </div>
+              </div>
+              
+              <p className="text-xs text-muted-foreground mb-6 leading-relaxed h-10 flex items-center">
+                Профессиональная чистка и уход за автомобилем
+              </p>
+              
+              <Button 
+                className="w-full glass-button text-xs h-8 group-hover:bg-primary/20 transition-colors mt-auto"
+                size="sm"
+                onClick={() => onNavigate?.('detailing')}
+              >
+                Перейти
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

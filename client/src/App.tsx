@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Garage from './pages/Factories';
 import Profile from './pages/Profile';
 import Detailing from './pages/Detailing';
+import AutoSalon from './pages/AutoSalon';
 import { RewardModal } from './components/RewardModal';
 
 import { useGameState } from './hooks/useGameState';
@@ -70,7 +71,9 @@ function App() {
           />
         );
       case 'factories':
-        return <Garage />;
+        return <Garage onNavigate={setActiveTab} />;
+      case 'autosalon':
+        return <AutoSalon />;
       case 'detailing':
         return (
           <Detailing 
