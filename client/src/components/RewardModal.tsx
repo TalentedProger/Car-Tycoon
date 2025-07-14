@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
-// import rewardIcon from '@assets/reward-icon.png';
+import { Play } from 'lucide-react';
 
 interface RewardModalProps {
   isOpen: boolean;
@@ -57,10 +57,6 @@ export function RewardModal({
         </DialogHeader>
         
         <div className="space-y-6">
-          <div className="flex justify-center">
-            <div className="w-16 h-16 flex items-center justify-center text-4xl">🎁</div>
-          </div>
-
           <Card className="glass-dark">
             <CardContent className="p-6 text-center">
               <div className="flex items-center justify-center gap-2 mb-4">
@@ -72,30 +68,39 @@ export function RewardModal({
                 Награда равна доходу за 10 часов
               </div>
 
+              <div className="text-sm text-muted-foreground mb-4">
+                {canClaimReward ? (
+                  <span className="text-green-400 font-medium">Награда доступна!</span>
+                ) : (
+                  <span>Будет доступна через: <span className="text-yellow-500 font-mono">{timeLeft}</span></span>
+                )}
+              </div>
+
               {canClaimReward ? (
-                <Button 
-                  onClick={handleClaimReward}
-                  className="w-full glass-button bg-green-600 hover:bg-green-700"
-                  size="lg"
-                >
-                  Получить награду
-                </Button>
-              ) : (
-                <div className="space-y-2">
-                  <div className="text-sm text-muted-foreground">
-                    Следующая награда через:
-                  </div>
-                  <div className="text-xl font-mono text-yellow-500">
-                    {timeLeft}
-                  </div>
+                <div className="space-y-3">
                   <Button 
-                    onClick={onClose}
-                    className="w-full glass-button"
-                    variant="outline"
+                    onClick={handleClaimReward}
+                    className="w-full glass-button bg-yellow-600 hover:bg-yellow-700 shadow-lg shadow-yellow-500/50 animate-pulse"
+                    size="lg"
                   >
-                    Закрыть
+                    Получить награду
+                  </Button>
+                  <Button 
+                    className="w-full glass-button bg-blue-600 hover:bg-blue-700 flex items-center justify-center gap-2"
+                    size="lg"
+                  >
+                    <Play className="h-4 w-4" />
+                    Увеличить 2x
                   </Button>
                 </div>
+              ) : (
+                <Button 
+                  onClick={onClose}
+                  className="w-full glass-button"
+                  variant="outline"
+                >
+                  Закрыть
+                </Button>
               )}
             </CardContent>
           </Card>
