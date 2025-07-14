@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getCarEmoji } from '@/utils/imageLoader';
 
 interface CarSpec {
   id: number;
@@ -154,7 +155,16 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         {/* Car Images Swiper */}
         <div className="relative mb-6">
           <div className="w-full aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-white/20 flex items-center justify-center relative overflow-hidden">
-            <div className="text-8xl">{car.images[currentImageIndex]}</div>
+            <img 
+              src={car.images[currentImageIndex]} 
+              alt={`${car.name} - view ${currentImageIndex + 1}`}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                target.parentElement!.innerHTML = `<div class="text-8xl">${getCarEmoji(car.id)}</div>`;
+              }}
+            />
             
             {car.images.length > 1 && (
               <>

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Shield, Eye, Settings } from 'lucide-react';
 import CarConfiguration from '@/components/CarConfiguration';
+import { getCarImages, getCarMainImage, getCarEmoji } from '@/utils/imageLoader';
 
 export default function AutoSalon() {
   const [carTrims, setCarTrims] = useState<{ [key: number]: string }>({});
@@ -43,7 +44,7 @@ export default function AutoSalon() {
     baseAcceleration: car.baseAcceleration || 12.0,
     baseMaxSpeed: car.baseMaxSpeed || parseInt(car.maxSpeed) || 180,
     fuelType: car.fuelType || 'АИ-95',
-    images: car.images || [car.image, '🚗', '🏎️']
+    images: getCarImages(car.id)
   });
 
   const carCategories = [
@@ -458,8 +459,17 @@ export default function AutoSalon() {
                         {/* Top section with car image and info */}
                         <div className="flex mb-4">
                           {/* Car Image */}
-                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-gray-800/30 to-gray-900/30 flex items-center justify-center text-3xl backdrop-blur-sm border border-white/10 flex-shrink-0">
-                            {car.image}
+                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-gray-800/30 to-gray-900/30 flex items-center justify-center backdrop-blur-sm border border-white/10 flex-shrink-0 overflow-hidden">
+                            <img 
+                              src={getCarMainImage(car.id)} 
+                              alt={car.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                target.parentElement!.innerHTML = `<span class="text-3xl">${getCarEmoji(car.id)}</span>`;
+                              }}
+                            />
                           </div>
 
                           {/* Car Info - Main Content */}
