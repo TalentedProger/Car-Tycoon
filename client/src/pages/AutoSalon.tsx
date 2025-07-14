@@ -446,8 +446,8 @@ export default function AutoSalon() {
                     key={car.id} 
                     className="overflow-hidden group hover:scale-105 transition-all duration-300 relative border-0 shadow-none"
                     style={{
-                      border: `2px solid ${categoryColor.hex}60`,
-                      boxShadow: `0 0 20px ${categoryColor.hex}60, 0 0 40px ${categoryColor.hex}30, inset 0 0 20px ${categoryColor.hex}10`
+                      border: `2px solid ${categoryColor.hex}40`,
+                      boxShadow: `0 0 8px ${categoryColor.hex}30, 0 0 16px ${categoryColor.hex}15, inset 0 0 8px ${categoryColor.hex}5`
                     }}
                   >
                     {/* Gradient Background */}
@@ -501,7 +501,7 @@ export default function AutoSalon() {
                           </div>
 
                           {/* Bottom row with buttons */}
-                          <div className="flex justify-end gap-2">
+                          <div className="flex justify-center gap-2">
                             <Button 
                               className="text-xs h-8 px-3 glass-button"
                               size="sm"
