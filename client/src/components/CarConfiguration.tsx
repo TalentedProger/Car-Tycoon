@@ -135,7 +135,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
 
   return (
     <div className="fixed inset-0 bg-black z-50 overflow-y-auto">
-      <div className="min-h-screen p-4">
+      <div className="min-h-screen p-4 pb-24">
         {/* Header */}
         <div className="mb-6">
           <div className="flex justify-start mb-4">
@@ -151,25 +151,51 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
           <h1 className="text-xl font-bold text-white text-center">{car.name}</h1>
         </div>
 
-        {/* Car Images Grid */}
-        <div className="mb-6">
-          <div className="grid grid-cols-3 gap-3">
-            {Array.from({ length: 6 }, (_, index) => (
-              <div
-                key={index}
-                className={`aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-white/20 flex items-center justify-center text-4xl cursor-pointer transition-all ${
-                  index === currentImageIndex ? 'ring-2 ring-white' : 'hover:ring-1 ring-white/50'
-                }`}
-                onClick={() => setCurrentImageIndex(index)}
-              >
-                {car.images[index % car.images.length]}
-              </div>
-            ))}
+        {/* Car Images Swiper */}
+        <div className="relative mb-6">
+          <div className="w-full aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-white/20 flex items-center justify-center relative overflow-hidden">
+            <div className="text-8xl">{car.images[currentImageIndex]}</div>
+            
+            {car.images.length > 1 && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/10 bg-black/30 backdrop-blur-sm"
+                  onClick={prevImage}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/10 bg-black/30 backdrop-blur-sm"
+                  onClick={nextImage}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </>
+            )}
           </div>
+          
+          {/* Image Dots */}
+          {car.images.length > 1 && (
+            <div className="flex justify-center mt-3 gap-2">
+              {car.images.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === currentImageIndex ? 'bg-white' : 'bg-white/30'
+                  }`}
+                  onClick={() => setCurrentImageIndex(index)}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Car Specifications */}
-        <Card className="mb-6 bg-gray-800 border border-white/20">
+        <Card className="mb-6 bg-green-900 border border-green-700/30">
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-4 text-center">Характеристики</h2>
             <div className="space-y-3">
@@ -262,12 +288,14 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         </Card>
 
         {/* Save Button */}
-        <Button
-          onClick={() => onSave(car.id, selectedTrim, finalPrice)}
-          className="w-full h-12 text-lg font-bold bg-green-600 hover:bg-green-700 text-white"
-        >
-          Сохранить
-        </Button>
+        <div className="fixed bottom-4 left-4 right-4 z-10">
+          <Button
+            onClick={() => onSave(car.id, selectedTrim, finalPrice)}
+            className="w-full h-12 text-lg font-bold bg-green-600 hover:bg-green-700 text-white shadow-lg"
+          >
+            Сохранить
+          </Button>
+        </div>
       </div>
     </div>
   );
