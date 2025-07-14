@@ -136,7 +136,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
 
   return (
     <div className="fixed inset-0 bg-black z-50 overflow-y-auto">
-      <div className="min-h-screen p-4">
+      <div className="min-h-screen p-4 pb-12">
         {/* Header */}
         <div className="mb-6">
           <div className="flex justify-start mb-4">
@@ -262,7 +262,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
         </Card>
 
         {/* Configuration Selection */}
-        <Card className="mb-6 bg-purple-950 border border-purple-700/30">
+        <Card className="mb-8 bg-purple-950 border border-purple-700/30">
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-2 text-center">Выбери комплектацию:</h2>
             <div className="text-2xl font-bold text-green-400 mb-4 text-center">
