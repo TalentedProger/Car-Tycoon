@@ -188,6 +188,28 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
             )}
           </div>
           
+          {/* Navigation buttons */}
+          {car.images.length > 1 && (
+            <div className="flex justify-center mt-4 space-x-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={prevImage}
+                className="bg-gray-800/50 border-gray-600 hover:bg-gray-700/50 text-white px-3 py-1"
+              >
+                <ChevronLeft size={16} />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={nextImage}
+                className="bg-gray-800/50 border-gray-600 hover:bg-gray-700/50 text-white px-3 py-1"
+              >
+                <ChevronRight size={16} />
+              </Button>
+            </div>
+          )}
+          
           {/* Image Dots */}
           {car.images.length > 1 && (
             <div className="flex justify-center mt-3 gap-2">
