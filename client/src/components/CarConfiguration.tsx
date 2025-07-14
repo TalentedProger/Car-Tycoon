@@ -273,8 +273,12 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
               {trimLevels.map((trim) => {
                 const isSelected = selectedTrim === trim.name;
                 return (
-                  <div key={trim.name} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-white/5 transition-all duration-300">
-                    <RadioGroupItem value={trim.name} id={trim.name} className="w-5 h-5 border-2" />
+                  <div key={trim.name} className="flex items-center space-x-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300">
+                    <RadioGroupItem 
+                      value={trim.name} 
+                      id={trim.name} 
+                      className={`w-5 h-5 border-2 ${isSelected ? 'bg-green-500 border-green-500' : 'border-gray-400'}`}
+                    />
                     <Label htmlFor={trim.name} className="flex-1 cursor-pointer">
                       <div className="flex justify-between items-center">
                         <div>
@@ -283,11 +287,6 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
                             <span className="text-green-400 ml-2">+{trim.priceIncrease.toLocaleString()} 💵</span>
                           )}
                         </div>
-                        {isSelected && (
-                          <Badge className={`${categoryColor.bg} ${categoryColor.text} ${categoryColor.border}`}>
-                            Выбрано
-                          </Badge>
-                        )}
                       </div>
                     </Label>
                   </div>
