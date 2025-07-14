@@ -154,7 +154,7 @@ export default function Home({
       </div>
 
       {/* Energy and Boost Controls */}
-      <div className="flex items-center justify-center gap-6 mb-8">
+      <div className="flex flex-col items-center gap-4 mb-8">
         {/* Energy Display */}
         <div className="glass-dark rounded-2xl p-2 px-4 min-w-[120px]">
           <div className="text-center">
@@ -173,7 +173,7 @@ export default function Home({
         </div>
 
         {/* Boost Button */}
-        <div className={`glass-dark rounded-2xl p-2 px-4 min-w-[120px] ${
+        <div className={`glass-dark rounded-2xl p-3 px-4 w-[90%] h-16 ${
           gameState.boostActive ? 'boost-glow' : ''
         }`}>
           <Button
@@ -181,7 +181,7 @@ export default function Home({
             disabled={!canBoost}
             className="w-full h-full bg-transparent border-0 p-0 hover:bg-transparent"
           >
-            <div className="text-center">
+            <div className="text-center w-full">
               <div className="text-xs text-muted-foreground mb-1">Буст</div>
               <div className="text-sm font-bold mb-1 flex items-center justify-center gap-1">
                 <span className="text-yellow-500">⚡</span>
@@ -196,7 +196,7 @@ export default function Home({
               <div className="w-full bg-muted rounded-full h-1.5">
                 <div 
                   className={`h-full rounded-full transition-all duration-300 ${
-                    gameState.boostActive ? 'bg-purple-500' : canBoost ? 'bg-gray-500' : 'bg-red-500'
+                    gameState.boostActive ? 'bg-green-500' : canBoost ? 'bg-green-500' : 'bg-red-500'
                   }`}
                   style={{ width: gameState.boostActive ? '100%' : canBoost ? '100%' : '0%' }}
                 />
