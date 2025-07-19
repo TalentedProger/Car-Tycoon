@@ -425,7 +425,7 @@ export default function AutoSalon({ gameState }: AutoSalonProps = {}) {
         <Card className="glass-dark border-0 shadow-none">
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-1">Бюджет</div>
-            <div className="text-lg font-bold text-yellow-400">{gameState?.coins ? gameState.coins.toLocaleString() : '0'} ₽</div>
+            <div className="text-lg font-bold text-yellow-400">{gameState?.coins ? gameState.coins.toLocaleString() : '0'} <span className="text-green-700 text-base">₽</span></div>
           </CardContent>
         </Card>
       </div>
@@ -506,7 +506,7 @@ export default function AutoSalon({ gameState }: AutoSalonProps = {}) {
                                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                                 <span className="text-xs text-muted-foreground">{car.rating}</span>
                               </div>
-                              <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} ₽</span>
+                              <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} <span className="text-green-700 text-xs">₽</span></span>
                               <span className="text-xs text-blue-400">+{hourlyIncome}/час</span>
                             </div>
 

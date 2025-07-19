@@ -13,6 +13,8 @@ interface GameState {
   introShown: boolean;
   totalClicks: number;
   lastRewardTime: number;
+  lastProfitClaim: number;
+  dailyStreak: number;
 }
 
 const INITIAL_STATE: GameState = {
@@ -28,6 +30,8 @@ const INITIAL_STATE: GameState = {
   introShown: false,
   totalClicks: 0,
   lastRewardTime: 0,
+  lastProfitClaim: 0,
+  dailyStreak: 0,
 };
 
 // Вспомогательные функции
@@ -197,7 +201,7 @@ export function useGameState() {
     return now - gameState.lastRewardTime >= REWARD_INTERVAL;
   }, [gameState.lastRewardTime]);
 
-  // Получить награду
+  // Получить награду (старая система)
   const claimReward = useCallback(() => {
     const canClaim = Date.now() - gameState.lastRewardTime >= REWARD_INTERVAL;
     if (!canClaim) return false;
@@ -212,6 +216,47 @@ export function useGameState() {
 
     return true;
   }, [gameState.coins, gameState.hourlyIncome, gameState.lastRewardTime, updateGameState]);
+
+  // Проверка доступности ежедневной прибыли
+  const canClaimDailyProfit = useCallback(() => {
+    const now = Date.now();
+    return now - gameState.lastProfitClaim >= REWARD_INTERVAL;
+  }, [gameState.lastProfitClaim]);
+
+  // Получить ежедневную прибыль
+  const claimDailyProfit = useCallback((amount: number, isDoubled: boolean) => {
+    const now = Date.now();
+    const canClaim = now - gameState.lastProfitClaim >= REWARD_INTERVAL;
+    if (!canClaim) return false;
+
+    const newCoins = gameState.coins + amount;
+    
+    // Update daily streak logic
+    const lastClaimDate = new Date(gameState.lastProfitClaim).toDateString();
+    const todayDate = new Date().toDateString();
+    const yesterdayDate = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString();
+    
+    let newStreak = gameState.dailyStreak;
+    
+    if (gameState.lastProfitClaim === 0) {
+      // First time claiming
+      newStreak = 1;
+    } else if (lastClaimDate === yesterdayDate) {
+      // Claimed yesterday, continue streak
+      newStreak = Math.min(gameState.dailyStreak + 1, 7);
+    } else if (lastClaimDate !== todayDate) {
+      // Missed days, reset streak
+      newStreak = 1;
+    }
+    
+    updateGameState({
+      coins: newCoins,
+      lastProfitClaim: now,
+      dailyStreak: newStreak,
+    });
+
+    return true;
+  }, [gameState.coins, gameState.lastProfitClaim, gameState.dailyStreak, updateGameState]);
 
   // Сброс ежедневных бустов (можно вызывать в начале нового дня)
   const resetDailyBoosts = useCallback(() => {
@@ -244,6 +289,8 @@ export function useGameState() {
     resetDailyBoosts,
     canClaimReward,
     claimReward,
+    canClaimDailyProfit,
+    claimDailyProfit,
     canClick,
     canBoost,
     levelProgress,

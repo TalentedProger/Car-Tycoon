@@ -11,7 +11,7 @@ import Garage from './pages/Factories';
 import Profile from './pages/Profile';
 import Detailing from './pages/Detailing';
 import AutoSalon from './pages/AutoSalon';
-import { RewardModal } from './components/RewardModal';
+import { DailyProfitModal } from './components/DailyProfitModal';
 
 import { useGameState } from './hooks/useGameState';
 import { useTelegram } from './hooks/useTelegram';
@@ -28,6 +28,8 @@ function App() {
     boostTimeLeft,
     canClaimReward,
     claimReward,
+    canClaimDailyProfit,
+    claimDailyProfit,
     updateGameState
   } = useGameState();
   const { userId, userName, sendDataToBot } = useTelegram();
@@ -67,7 +69,7 @@ function App() {
             levelProgress={levelProgress}
             boostTimeLeft={boostTimeLeft}
             onOpenReward={() => setShowRewardModal(true)}
-            canClaimReward={canClaimReward()}
+            canClaimReward={canClaimDailyProfit()}
           />
         );
       case 'factories':
@@ -99,7 +101,7 @@ function App() {
             levelProgress={levelProgress}
             boostTimeLeft={boostTimeLeft}
             onOpenReward={() => setShowRewardModal(true)}
-            canClaimReward={canClaimReward()}
+            canClaimReward={canClaimDailyProfit()}
           />
         );
     }
@@ -118,13 +120,11 @@ function App() {
           <NavBar activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
         
-        <RewardModal
+        <DailyProfitModal
           isOpen={showRewardModal}
           onClose={() => setShowRewardModal(false)}
-          onClaimReward={claimReward}
-          canClaimReward={canClaimReward()}
-          rewardAmount={Math.floor(gameState.hourlyIncome * 10)}
-          nextRewardTime={gameState.lastRewardTime + 12 * 60 * 60 * 1000}
+          onClaimProfit={claimDailyProfit}
+          gameState={gameState}
         />
         
         <Toaster />
