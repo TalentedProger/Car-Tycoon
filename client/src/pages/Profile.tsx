@@ -145,7 +145,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
           </Card>
         </TabsContent>
 
-        <TabsContent value="achievements" className="space-y-8">
+        <TabsContent value="achievements" className="space-y-3">
           {/* Available to Claim */}
           {stats.availableToClaim > 0 && (
             <Card className="border-green-500/50 bg-green-950/20">
@@ -196,7 +196,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
             </Card>
 
             {/* Achievement Cards Content */}
-            <div className="mt-16">
+            <div className="mt-3">
               {Object.entries(achievementCategories).map(([categoryKey, categoryName]) => (
                 <TabsContent key={categoryKey} value={categoryKey} className="space-y-3">
                   <h3 className="text-lg font-bold mb-3">{categoryName}</h3>
