@@ -107,9 +107,9 @@ export function DailyProfitModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[400px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold flex items-center justify-center gap-2 text-green-800 drop-shadow-sm">
+          <DialogTitle className="text-center text-xl font-bold flex items-center justify-center gap-2 text-purple-800 drop-shadow-lg shadow-purple-800">
             💸 Твой доход на сегодня
           </DialogTitle>
         </DialogHeader>
@@ -187,8 +187,7 @@ export function DailyProfitModal({
                       className="w-full glass-button bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/30 flex items-center justify-center gap-2 text-white font-bold"
                       size="lg"
                     >
-                      <Play className="h-4 w-4" />
-                      📺 Увеличить x2 за просмотр рекламы
+                      📺 Увеличить x2
                     </Button>
                   )}
                 </div>

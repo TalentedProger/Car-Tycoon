@@ -127,7 +127,7 @@ export default function Home({
 
       {/* Coin Display */}
       <div className="text-center mb-8">
-        <div id="coin-counter" className="coin-display text-4xl font-bold mb-2 flex items-center justify-center gap-2">
+        <div id="coin-counter" className="coin-display text-4xl font-bold mb-2 flex items-baseline justify-center gap-2">
           <span>{gameState.coins.toLocaleString()}</span>
           <span className="text-green-700 text-3xl">₽</span>
         </div>
