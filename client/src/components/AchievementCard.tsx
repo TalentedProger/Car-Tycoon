@@ -71,6 +71,11 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
       } ${achievement.claimed ? 'opacity-60' : ''}`}
       style={{ backgroundColor: config.color }}
     >
+      {/* Progress indicator in top-right corner */}
+      <div className={`absolute top-3 right-3 text-sm ${config.textColor} opacity-90 font-mono`}>
+        🔢 {achievement.progress.toLocaleString()} / {achievement.maxProgress.toLocaleString()}
+      </div>
+
       {/* Completed indicator */}
       {achievement.claimed && (
         <div className="absolute top-3 left-3 text-green-400 text-lg">
@@ -95,9 +100,9 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
 
           {/* Progress Section */}
           <div className="space-y-2 py-2">
-            <div className={`text-xs ${config.textColor} flex items-center justify-between`}>
+            <div className={`text-sm ${config.textColor} flex items-center justify-between`}>
               <span className="font-light">📊 Прогресс:</span>
-              <span className="font-mono font-medium">
+              <span className="font-mono font-medium text-base">
                 {progressPercentage.toFixed(0)}%
               </span>
             </div>
@@ -107,21 +112,16 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
               className="h-1.5 bg-black/40"
             />
             
-            <div className={`text-xs ${config.textColor} opacity-90 font-mono text-center`}>
-              🔢 {achievement.progress.toLocaleString()} / {achievement.maxProgress.toLocaleString()}
-            </div>
-          </div>
-
-          {/* Reward */}
-          <div className={`text-xs ${config.textColor} text-center space-y-1`}>
-            <div className="font-light opacity-80">🎁 Награда</div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="font-semibold">
-                {achievement.coinReward.toLocaleString()} <span className="text-green-400 text-xs">₽</span>
-              </span>
-              <span className="text-blue-400 font-semibold">
-                +{achievement.xpReward} XP
-              </span>
+            {/* Reward values in place of progress numbers */}
+            <div className={`text-sm ${config.textColor} text-center`}>
+              <div className="flex items-center justify-center gap-2">
+                <span className="font-semibold text-base">
+                  {achievement.coinReward.toLocaleString()} <span className="text-green-400 text-sm">₽</span>
+                </span>
+                <span className="text-blue-400 font-semibold text-base">
+                  +{achievement.xpReward} XP
+                </span>
+              </div>
             </div>
           </div>
 
