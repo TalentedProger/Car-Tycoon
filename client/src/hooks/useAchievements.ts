@@ -106,9 +106,12 @@ export function useAchievements() {
     });
   }, [saveAchievements]);
 
-  // Get achievements by category
+  // Get achievements by category, sorted by rarity (ascending)
   const getAchievementsByCategory = useCallback((category: string) => {
-    return achievementData.achievements.filter(a => a.category === category);
+    const rarityOrder = { basic: 1, rare: 2, epic: 3, legendary: 4 };
+    return achievementData.achievements
+      .filter(a => a.category === category)
+      .sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity]);
   }, [achievementData.achievements]);
 
   // Get achievement stats

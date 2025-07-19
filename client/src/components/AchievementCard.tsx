@@ -28,29 +28,33 @@ const rarityConfig = {
     color: '#2F2F2F',
     textColor: 'text-gray-100',
     borderColor: 'border-gray-600',
-    icon: '🟫',
-    name: 'Базовая'
+    shadowColor: 'shadow-gray-500/20',
+    name: 'Базовая',
+    order: 1
   },
   rare: {
     color: '#3446C7',
     textColor: 'text-blue-100',
     borderColor: 'border-blue-500',
-    icon: '🟦',
-    name: 'Редкая'
+    shadowColor: 'shadow-blue-500/20',
+    name: 'Редкая',
+    order: 2
   },
   epic: {
     color: '#6D2EBF',
     textColor: 'text-purple-100',
     borderColor: 'border-purple-500',
-    icon: '🟪',
-    name: 'Эпическая'
+    shadowColor: 'shadow-purple-500/20',
+    name: 'Эпическая',
+    order: 3
   },
   legendary: {
     color: '#FFD700',
     textColor: 'text-yellow-900',
     borderColor: 'border-yellow-400',
-    icon: '🟨',
-    name: 'Легендарная'
+    shadowColor: 'shadow-yellow-500/20',
+    name: 'Легендарная',
+    order: 4
   }
 };
 
@@ -62,74 +66,71 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
 
   return (
     <Card 
-      className={`relative overflow-hidden transition-all duration-300 ${config.borderColor} ${
-        isCompleted ? 'shadow-lg' : 'opacity-80'
+      className={`relative overflow-hidden transition-all duration-300 ${config.borderColor} ${config.shadowColor} ${
+        isCompleted ? 'shadow-xl' : 'opacity-85'
       } ${achievement.claimed ? 'opacity-60' : ''}`}
       style={{ backgroundColor: config.color }}
     >
-      {/* Rarity indicator */}
-      <div className="absolute top-2 right-2 text-lg">
-        {config.icon}
-      </div>
-
       {/* Completed indicator */}
       {achievement.claimed && (
-        <div className="absolute top-2 left-2 text-green-400 text-lg">
+        <div className="absolute top-3 left-3 text-green-400 text-lg">
           ✅
         </div>
       )}
 
-      <CardContent className="p-4">
-        <div className="space-y-3">
-          {/* Title and Icon */}
-          <div className="flex items-center gap-2">
-            <span className="text-lg">{achievement.icon}</span>
-            <h3 className={`font-bold text-lg ${config.textColor}`}>
+      <CardContent className="p-6">
+        <div className="space-y-4">
+          {/* Title and Icon - Centered */}
+          <div className="text-center space-y-2">
+            <div className="text-2xl">{achievement.icon}</div>
+            <h3 className={`font-bold text-xl ${config.textColor} tracking-wide`}>
               {achievement.title}
             </h3>
           </div>
 
           {/* Description */}
-          <p className={`text-sm ${config.textColor} opacity-90`}>
-            📌 {achievement.description}
+          <p className={`text-center text-sm ${config.textColor} opacity-90 font-light leading-relaxed`}>
+            {achievement.description}
           </p>
 
-          {/* Progress Bar */}
-          <div className="space-y-2">
-            <div className={`text-sm ${config.textColor} flex items-center gap-2`}>
-              📊 Прогресс: 
-              <span className="font-mono">
+          {/* Progress Section */}
+          <div className="space-y-3 py-4">
+            <div className={`text-sm ${config.textColor} flex items-center justify-between`}>
+              <span className="font-light">📊 Прогресс:</span>
+              <span className="font-mono font-medium">
                 {progressPercentage.toFixed(0)}%
               </span>
             </div>
             
             <Progress 
               value={progressPercentage} 
-              className="h-2 bg-black/30"
+              className="h-2 bg-black/40"
             />
             
-            <div className={`text-xs ${config.textColor} opacity-80 font-mono`}>
+            <div className={`text-sm ${config.textColor} opacity-90 font-mono text-center`}>
               🔢 {achievement.progress.toLocaleString()} / {achievement.maxProgress.toLocaleString()}
             </div>
           </div>
 
           {/* Reward */}
-          <div className={`text-sm ${config.textColor} flex items-center gap-1`}>
-            🎁 Награда: 
-            <span className="font-semibold">
-              {achievement.coinReward.toLocaleString()} <span className="text-green-400 text-xs">₽</span>
-            </span>
-            <span className="text-blue-400 font-semibold">
-              +{achievement.xpReward} XP
-            </span>
+          <div className={`text-sm ${config.textColor} text-center space-y-1`}>
+            <div className="font-light opacity-80">🎁 Награда</div>
+            <div className="flex items-center justify-center gap-3">
+              <span className="font-semibold">
+                {achievement.coinReward.toLocaleString()} <span className="text-green-400 text-xs">₽</span>
+              </span>
+              <span className="text-blue-400 font-semibold">
+                +{achievement.xpReward} XP
+              </span>
+            </div>
           </div>
 
           {/* Action Button */}
-          <div className="pt-2">
+          <div className="pt-3">
             {achievement.claimed ? (
               <Button 
                 disabled
-                className="w-full bg-green-600 text-white opacity-50 cursor-not-allowed"
+                className="w-full bg-green-600/20 text-green-300 opacity-60 cursor-not-allowed border border-green-600/30"
                 size="sm"
               >
                 ✅ Получено
@@ -137,7 +138,7 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
             ) : canClaim ? (
               <Button 
                 onClick={() => onClaim(achievement.id)}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold shadow-lg shadow-green-500/30 animate-pulse"
+                className="w-full bg-green-600/80 hover:bg-green-600 text-white font-bold shadow-lg shadow-green-500/40 animate-pulse border border-green-500/50"
                 size="sm"
               >
                 Получить награду ▶
@@ -145,7 +146,7 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
             ) : (
               <Button 
                 disabled
-                className="w-full bg-gray-600 text-gray-300 opacity-50 cursor-not-allowed"
+                className="w-full bg-gray-700/50 text-gray-400 opacity-70 cursor-not-allowed border border-gray-600/30"
                 size="sm"
               >
                 В процессе...

@@ -153,9 +153,13 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
                 <h3 className="text-lg font-bold text-green-400 mb-2 flex items-center gap-2">
                   🎁 Готово к получению ({stats.availableToClaim})
                 </h3>
-                <div className="grid gap-3">
+                <div className="grid gap-4">
                   {achievements
                     .filter(a => a.completed && !a.claimed)
+                    .sort((a, b) => {
+                      const rarityOrder = { basic: 1, rare: 2, epic: 3, legendary: 4 };
+                      return rarityOrder[a.rarity] - rarityOrder[b.rarity];
+                    })
                     .map(achievement => (
                       <AchievementCard
                         key={achievement.id}
