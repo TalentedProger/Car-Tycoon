@@ -145,7 +145,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
           </Card>
         </TabsContent>
 
-        <TabsContent value="achievements" className="space-y-6">
+        <TabsContent value="achievements" className="space-y-8">
           {/* Available to Claim */}
           {stats.availableToClaim > 0 && (
             <Card className="border-green-500/50 bg-green-950/20">
@@ -153,7 +153,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
                 <h3 className="text-lg font-bold text-green-400 mb-2 flex items-center gap-2">
                   🎁 Готово к получению ({stats.availableToClaim})
                 </h3>
-                <div className="grid gap-4">
+                <div className="grid gap-3">
                   {achievements
                     .filter(a => a.completed && !a.claimed)
                     .sort((a, b) => {
@@ -172,34 +172,43 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
             </Card>
           )}
 
-          {/* Achievements by Category */}
-          <Tabs defaultValue="tuning" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="tuning">🔧 Тюнинг</TabsTrigger>
-              <TabsTrigger value="earnings">💰 Доход</TabsTrigger>
-              <TabsTrigger value="trading">🚗 Торговля</TabsTrigger>
-            </TabsList>
-            <TabsList className="grid w-full grid-cols-3 mt-2">
-              <TabsTrigger value="racing">🏁 Гонки</TabsTrigger>
-              <TabsTrigger value="numbers">🔠 Номера</TabsTrigger>
-              <TabsTrigger value="detailing">🧽 Детейлинг</TabsTrigger>
-            </TabsList>
-
-            {Object.entries(achievementCategories).map(([categoryKey, categoryName]) => (
-              <TabsContent key={categoryKey} value={categoryKey} className="space-y-4 mt-4">
-                <h3 className="text-lg font-bold mb-4">{categoryName}</h3>
-                <div className="grid gap-4">
-                  {getAchievementsByCategory(categoryKey).map(achievement => (
-                    <AchievementCard
-                      key={achievement.id}
-                      achievement={achievement}
-                      onClaim={handleClaimAchievement}
-                    />
-                  ))}
+          {/* Category Selection Card */}
+          <Card className="bg-muted/30 border-muted">
+            <CardContent className="p-4">
+              <h3 className="text-lg font-bold mb-4 text-center">Категории достижений</h3>
+              
+              {/* Achievements by Category */}
+              <Tabs defaultValue="tuning" className="w-full">
+                <div className="space-y-3">
+                  <TabsList className="grid w-full grid-cols-3 bg-background/50">
+                    <TabsTrigger value="tuning" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white">🔧 Тюнинг</TabsTrigger>
+                    <TabsTrigger value="earnings" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">💰 Доход</TabsTrigger>
+                    <TabsTrigger value="trading" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">🚗 Торговля</TabsTrigger>
+                  </TabsList>
+                  <TabsList className="grid w-full grid-cols-3 bg-background/50">
+                    <TabsTrigger value="racing" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">🏁 Гонки</TabsTrigger>
+                    <TabsTrigger value="numbers" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">🔠 Номера</TabsTrigger>
+                    <TabsTrigger value="detailing" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">🧽 Детейлинг</TabsTrigger>
+                  </TabsList>
                 </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+
+                {Object.entries(achievementCategories).map(([categoryKey, categoryName]) => (
+                  <TabsContent key={categoryKey} value={categoryKey} className="space-y-3 mt-6">
+                    <h3 className="text-lg font-bold mb-3">{categoryName}</h3>
+                    <div className="grid gap-3">
+                      {getAchievementsByCategory(categoryKey).map(achievement => (
+                        <AchievementCard
+                          key={achievement.id}
+                          achievement={achievement}
+                          onClaim={handleClaimAchievement}
+                        />
+                      ))}
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
