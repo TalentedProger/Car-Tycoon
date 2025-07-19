@@ -179,19 +179,21 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
               <CardContent className="p-8 pt-[32px] pb-[32px] pl-[0px] pr-[0px]">
                 <h3 className="text-lg font-bold mb-4 text-center">Категории достижений</h3>
                 
-                {/* Category Tabs */}
-                <div className="space-y-3">
-                  <TabsList className="grid w-full grid-cols-3 bg-background/50">
-                    <TabsTrigger value="tuning" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white">🔧 Тюнинг</TabsTrigger>
-                    <TabsTrigger value="earnings" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">💰 Доход</TabsTrigger>
-                    <TabsTrigger value="trading" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">🚗 Торговля</TabsTrigger>
-                  </TabsList>
-                  <TabsList className="grid w-full grid-cols-3 bg-background/50">
-                    <TabsTrigger value="racing" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">🏁 Гонки</TabsTrigger>
-                    <TabsTrigger value="numbers" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">🔠 Номера</TabsTrigger>
-                    <TabsTrigger value="detailing" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">🧽 Детейлинг</TabsTrigger>
-                  </TabsList>
-                </div>
+                {/* Category Tabs - 3 columns with 2 buttons each */}
+                <TabsList className="grid grid-cols-3 gap-3 bg-transparent h-auto p-0">
+                  <div className="space-y-2">
+                    <TabsTrigger value="tuning" className="w-full data-[state=active]:bg-orange-600 data-[state=active]:text-white bg-background/50">🔧 Тюнинг</TabsTrigger>
+                    <TabsTrigger value="earnings" className="w-full data-[state=active]:bg-green-600 data-[state=active]:text-white bg-background/50">💰 Доход</TabsTrigger>
+                  </div>
+                  <div className="space-y-2">
+                    <TabsTrigger value="trading" className="w-full data-[state=active]:bg-blue-600 data-[state=active]:text-white bg-background/50">🚗 Торговля</TabsTrigger>
+                    <TabsTrigger value="racing" className="w-full data-[state=active]:bg-red-600 data-[state=active]:text-white bg-background/50">🏁 Гонки</TabsTrigger>
+                  </div>
+                  <div className="space-y-2">
+                    <TabsTrigger value="numbers" className="w-full data-[state=active]:bg-purple-600 data-[state=active]:text-white bg-background/50">🔠 Номера</TabsTrigger>
+                    <TabsTrigger value="detailing" className="w-full data-[state=active]:bg-cyan-600 data-[state=active]:text-white bg-background/50">🧽 Детейлинг</TabsTrigger>
+                  </div>
+                </TabsList>
               </CardContent>
             </Card>
 

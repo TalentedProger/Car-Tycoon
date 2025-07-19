@@ -72,7 +72,7 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
       style={{ backgroundColor: config.color }}
     >
       {/* Progress indicator in top-right corner */}
-      <div className="absolute top-3 right-3 bg-green-800 text-black font-medium text-sm px-2 py-1 rounded-md">
+      <div className="absolute top-3 right-3 bg-green-800 text-yellow-300 font-medium text-sm px-2 py-1 rounded-md shadow-lg shadow-green-500/50 border border-green-400/50">
         {achievement.progress.toLocaleString()}/{achievement.maxProgress.toLocaleString()}
       </div>
 
