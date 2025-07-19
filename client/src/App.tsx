@@ -73,7 +73,7 @@ function App() {
       case 'factories':
         return <Garage onNavigate={setActiveTab} />;
       case 'autosalon':
-        return <AutoSalon />;
+        return <AutoSalon gameState={gameState} />;
       case 'detailing':
         return (
           <Detailing 

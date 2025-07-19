@@ -6,7 +6,18 @@ import { Star, Shield, Eye, Settings } from 'lucide-react';
 import CarConfiguration from '@/components/CarConfiguration';
 import { getCarImages, getCarMainImage, getCarEmoji } from '@/utils/imageLoader';
 
-export default function AutoSalon() {
+interface AutoSalonProps {
+  gameState?: {
+    coins: number;
+    level: number;
+    energy: number;
+    maxEnergy: number;
+    hourlyIncome: number;
+    boostsUsedToday: number;
+  };
+}
+
+export default function AutoSalon({ gameState }: AutoSalonProps = {}) {
   const [carTrims, setCarTrims] = useState<{ [key: number]: string }>({});
   const [selectedCarForConfig, setSelectedCarForConfig] = useState<number | null>(null);
   
@@ -414,7 +425,7 @@ export default function AutoSalon() {
         <Card className="glass-dark border-0 shadow-none">
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-1">Бюджет</div>
-            <div className="text-lg font-bold text-yellow-400">5M 💵</div>
+            <div className="text-lg font-bold text-yellow-400">{gameState?.coins ? gameState.coins.toLocaleString() : '0'} ₽</div>
           </CardContent>
         </Card>
       </div>
@@ -495,7 +506,7 @@ export default function AutoSalon() {
                                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                                 <span className="text-xs text-muted-foreground">{car.rating}</span>
                               </div>
-                              <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} 💵</span>
+                              <span className="text-xs font-bold text-green-400">{currentPrice.toLocaleString()} ₽</span>
                               <span className="text-xs text-blue-400">+{hourlyIncome}/час</span>
                             </div>
 
@@ -515,7 +526,7 @@ export default function AutoSalon() {
                         </div>
 
                         {/* Bottom row with buttons - centered relative to entire container */}
-                        <div className="flex justify-center gap-2">
+                        <div className="flex justify-center gap-2 items-center">
                           <Button 
                             className="text-xs h-8 px-3 glass-button"
                             size="sm"
@@ -535,14 +546,9 @@ export default function AutoSalon() {
                             Комплектация
                           </Button>
                           {!car.available && (
-                            <Button 
-                              className="text-xs h-8 px-3 glass-button opacity-50 cursor-not-allowed"
-                              size="sm"
-                              disabled={true}
-                            >
-                              <Shield className="mr-1 h-3 w-3" />
-                              Заблокировано
-                            </Button>
+                            <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                              <Shield className="h-4 w-4 text-white" />
+                            </div>
                           )}
                         </div>
                       </div>

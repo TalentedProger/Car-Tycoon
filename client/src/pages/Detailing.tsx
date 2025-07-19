@@ -134,7 +134,7 @@ export default function Detailing({ gameState, onPurchaseService }: DetailingPro
                   <div className="text-right">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-lg font-bold text-foreground">{service.cost}</span>
-                      <span className="text-green-500">💵</span>
+                      <span className="text-green-500">₽</span>
                     </div>
                     <Button
                       onClick={() => handlePurchase(service.id, service.cost)}
@@ -142,7 +142,7 @@ export default function Detailing({ gameState, onPurchaseService }: DetailingPro
                       className={`glass-button ${canAfford ? 'hover:bg-green-600/20' : ''}`}
                       size="sm"
                     >
-                      {canAfford ? 'Купить' : 'Не хватает 💵'}
+                      {canAfford ? 'Купить' : 'Не хватает ₽'}
                     </Button>
                   </div>
                 </div>
@@ -159,7 +159,7 @@ export default function Detailing({ gameState, onPurchaseService }: DetailingPro
             <div className="flex items-center justify-center gap-2">
               <span className="text-sm text-muted-foreground">Баланс:</span>
               <span className="text-lg font-bold text-foreground">{gameState.coins.toLocaleString()}</span>
-              <span className="text-green-500">💵</span>
+              <span className="text-green-500">₽</span>
             </div>
           </CardContent>
         </Card>

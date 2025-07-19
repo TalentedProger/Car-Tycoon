@@ -187,7 +187,7 @@ export default function Garage({ onNavigate }: GarageProps = {}) {
         
         <Card className="detailing-card group hover:scale-105 transition-all duration-300 relative border-0 shadow-none">
           {/* Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-500 opacity-15" />
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-500 opacity-5" />
           
           <CardContent className="p-4 relative z-10">
             <div className="h-full flex flex-col">

@@ -109,7 +109,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### January 2025
+### January 2025 - Migration & UI Improvements
+- **Project Migration**: Successfully migrated from Replit Agent to standard Replit environment with clean deployment
+- **UI Improvements**: Replaced wide blocked car buttons with small round red containers with shield icons for better layout
+- **Currency Update**: Replaced all dollar symbols (💵) with ruble symbols (₽) across all components
+- **Budget Display**: Updated AutoSalon budget container to show actual user balance instead of static value
+- **Detailing Cards**: Reduced green shadow opacity from 15% to 5% for subtle visual enhancement
+- **Type Safety**: Added proper TypeScript interfaces for AutoSalon component props
+
+### January 2025 - Previous Updates
 - **Replaced Factories with Garage**: Removed factory system and implemented car management interface
 - **Car Carousel**: Added swipeable car navigation with dots indicator and smooth transitions
 - **Upgrade Categories**: Created 8 upgrade categories (Engine, Transmission, Suspension, Brakes, Exhaust, Electronics, Body, Interior) with gradient backgrounds

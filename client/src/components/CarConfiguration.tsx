@@ -288,7 +288,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
           <CardContent className="p-4">
             <h2 className="text-lg font-bold text-white mb-2 text-center">Выбери комплектацию:</h2>
             <div className="text-2xl font-bold text-green-400 mb-4 text-center">
-              {finalPrice.toLocaleString()} 💵
+              {finalPrice.toLocaleString()} ₽
             </div>
             
             <RadioGroup value={selectedTrim} onValueChange={setSelectedTrim}>
@@ -306,7 +306,7 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
                         <div>
                           <span className="text-white font-medium">{trim.name}</span>
                           {trim.priceIncrease > 0 && (
-                            <span className="text-green-400 ml-2">+{trim.priceIncrease.toLocaleString()} 💵</span>
+                            <span className="text-green-400 ml-2">+{trim.priceIncrease.toLocaleString()} ₽</span>
                           )}
                         </div>
                       </div>

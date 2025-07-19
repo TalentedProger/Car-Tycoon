@@ -89,7 +89,7 @@ export default function Home({
           <div className="glass-dark rounded-2xl p-3 flex items-center gap-2">
             <span className="hourly-income text-sm font-bold flex items-center gap-1">
               <span>{gameState.hourlyIncome}</span>
-              <span className="text-green-500">💵</span>
+              <span className="text-green-500">₽</span>
               <span>/час</span>
             </span>
           </div>
@@ -129,7 +129,7 @@ export default function Home({
       <div className="text-center mb-8">
         <div id="coin-counter" className="coin-display text-4xl font-bold mb-2 flex items-center justify-center gap-2">
           <span>{gameState.coins.toLocaleString()}</span>
-          <span className="text-green-500">💵</span>
+          <span className="text-green-500">₽</span>
         </div>
       </div>
 
