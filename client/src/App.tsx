@@ -88,6 +88,7 @@ function App() {
           <Profile
             userId={userId}
             gameState={gameState}
+            updateGameState={updateGameState}
           />
         );
       default:

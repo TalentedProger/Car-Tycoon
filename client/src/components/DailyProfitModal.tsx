@@ -109,8 +109,8 @@ export function DailyProfitModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold flex items-center justify-center gap-2">
-            💸 ТВОЙ ДОХОД НА СЕГОДНЯ
+          <DialogTitle className="text-center text-xl font-bold flex items-center justify-center gap-2 text-green-800 drop-shadow-sm">
+            💸 Твой доход на сегодня
           </DialogTitle>
         </DialogHeader>
         

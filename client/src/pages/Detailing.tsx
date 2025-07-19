@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, Droplets, Shield, Zap } from 'lucide-react';
+import { useAchievements } from '@/hooks/useAchievements';
 
 interface DetailingProps {
   gameState: {
@@ -51,6 +52,8 @@ const services = [
 ];
 
 export default function Detailing({ gameState, onPurchaseService }: DetailingProps) {
+  const { trackDetailingService } = useAchievements();
+  
   const currentCar = {
     name: 'BMW M3 Competition',
     image: '🏎️',
@@ -62,6 +65,9 @@ export default function Detailing({ gameState, onPurchaseService }: DetailingPro
   const handlePurchase = (serviceId: string, cost: number) => {
     if (gameState.coins >= cost) {
       onPurchaseService(serviceId, cost);
+      
+      // Track achievements based on service type
+      trackDetailingService(serviceId);
     }
   };
 
