@@ -176,7 +176,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
           <Tabs defaultValue="tuning" className="w-full">
             {/* Category Selection Card */}
             <Card className="bg-muted/30 border-muted">
-              <CardContent className="p-4">
+              <CardContent className="p-8">
                 <h3 className="text-lg font-bold mb-4 text-center">Категории достижений</h3>
                 
                 {/* Category Tabs */}
