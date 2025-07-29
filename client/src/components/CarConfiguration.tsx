@@ -161,8 +161,11 @@ export default function CarConfiguration({ car, onClose, onSave }: Configuration
               className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                target.parentElement!.innerHTML = `<div class="text-8xl">${getCarEmoji(car.id)}</div>`;
+                const parent = target.parentElement;
+                if (parent) {
+                  target.style.display = 'none';
+                  parent.innerHTML = `<div class="text-8xl">${getCarEmoji(car.id)}</div>`;
+                }
               }}
             />
             

@@ -477,8 +477,11 @@ export default function AutoSalon({ gameState }: AutoSalonProps = {}) {
                               className="w-full h-full object-cover"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                                target.parentElement!.innerHTML = `<span class="text-3xl">${getCarEmoji(car.id)}</span>`;
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  target.style.display = 'none';
+                                  parent.innerHTML = `<span class="text-3xl">${getCarEmoji(car.id)}</span>`;
+                                }
                               }}
                             />
                           </div>
