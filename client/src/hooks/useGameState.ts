@@ -15,6 +15,7 @@ interface GameState {
   lastRewardTime: number;
   lastProfitClaim: number;
   dailyStreak: number;
+  selectedStarterCar?: any;
 }
 
 const INITIAL_STATE: GameState = {
@@ -32,6 +33,7 @@ const INITIAL_STATE: GameState = {
   lastRewardTime: 0,
   lastProfitClaim: 0,
   dailyStreak: 0,
+  selectedStarterCar: undefined,
 };
 
 // Вспомогательные функции
@@ -191,8 +193,17 @@ export function useGameState() {
   }, [gameState.boostsUsedToday, gameState.boostActive, gameState.maxEnergy, gameState.energy, updateGameState]);
 
   // Complete intro
-  const completeIntro = useCallback(() => {
-    updateGameState({ introShown: true });
+  const completeIntro = useCallback((selectedCar?: any) => {
+    const updates: Partial<GameState> = { introShown: true };
+    
+    // If a car was selected, store it and adjust initial coins
+    if (selectedCar) {
+      updates.selectedStarterCar = selectedCar;
+      // Give some starting coins based on car value
+      updates.coins = Math.floor(selectedCar.price * 0.1);
+    }
+    
+    updateGameState(updates);
   }, [updateGameState]);
 
   // Проверка доступности награды
