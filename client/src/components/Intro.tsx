@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import carIntroImage from '@/assets/car-intro-image.png';
 
 interface IntroProps {
   onComplete: (selectedCar?: any) => void;
@@ -205,27 +206,41 @@ export default function Intro({ onComplete }: IntroProps) {
   // Welcome Screen
   if (state === 'welcome') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
-        <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
-          <h1 className="text-5xl font-bold mb-8 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent animate-glow">
-            Добро пожаловать в игру
-          </h1>
-          
-          <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300">
-            Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
-            Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
-            Всё начинается прямо сейчас — с твоей первой машины.
-          </p>
-          
-          <Button
-            onClick={handleNext}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-neon"
-          >
-            Далее
-          </Button>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
+            <h1 
+              className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600"
+              style={{
+                color: '#FFD700',
+                textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
+              }}
+            >
+              Добро пожаловать в игру
+            </h1>
+            
+            <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300">
+              Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
+              Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
+              Всё начинается прямо сейчас — с твоей первой машины.
+            </p>
+            
+            <Button
+              onClick={handleNext}
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white"
+            >
+              Далее
+            </Button>
+          </div>
+        </div>
+        
+        {/* Pagination circles at bottom */}
+        <div className="flex justify-center space-x-2 pb-4">
+          <div className="w-3 h-3 rounded-full bg-cyan-400" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
         </div>
         
         <audio ref={introMusicRef} preload="none" />
@@ -239,52 +254,60 @@ export default function Intro({ onComplete }: IntroProps) {
     const mechanic = gameMechanics[currentMechanic];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
-        <div className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
-          <div className="text-8xl mb-6 animate-float">
-            {mechanic.icon}
-          </div>
-          
-          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {mechanic.title}
-          </h2>
-          
-          <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300">
-            {mechanic.description}
-          </p>
-          
-          <div className="flex justify-between items-center w-full max-w-md mx-auto">
-            {currentMechanic > 0 && (
-              <Button
-                onClick={handlePrevious}
-                variant="ghost"
-                className="text-cyan-400 hover:text-cyan-300 text-lg px-6 py-3"
-              >
-                ← Назад
-              </Button>
-            )}
-            
-            <div className="flex space-x-2">
-              {gameMechanics.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentMechanic ? 'bg-cyan-400' : 'bg-white/20'
-                  }`}
-                />
-              ))}
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
+            <div className="text-8xl mb-6 animate-float">
+              {mechanic.icon}
             </div>
             
-            <Button
-              onClick={handleNext}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white"
-            >
-              {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
-            </Button>
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              {mechanic.title}
+            </h2>
+            
+            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300">
+              {mechanic.description}
+            </p>
           </div>
+        </div>
+        
+        {/* Navigation at bottom */}
+        <div className="flex justify-between items-center w-full max-w-md mx-auto mb-4">
+          {currentMechanic > 0 && (
+            <Button
+              onClick={handlePrevious}
+              className="text-lg px-6 py-3 rounded-full"
+              style={{ 
+                backgroundColor: '#FFD700',
+                color: '#0C011C'
+              }}
+            >
+              ← Назад
+            </Button>
+          )}
+          
+          <Button
+            onClick={handleNext}
+            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white ml-auto"
+          >
+            {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
+          </Button>
+        </div>
+        
+        {/* Pagination circles at bottom */}
+        <div className="flex justify-center space-x-2 pb-4">
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          {gameMechanics.map((_, index) => (
+            <div
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentMechanic ? 'bg-cyan-400' : 'bg-white/20'
+              }`}
+            />
+          ))}
         </div>
       </div>
     );
@@ -293,22 +316,52 @@ export default function Intro({ onComplete }: IntroProps) {
   // Car Selection Introduction Screen
   if (state === 'carIntro') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
-        {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
-        
-        <div className={`text-center z-10 transition-all duration-500 max-w-3xl mx-auto ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
-          <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent animate-focus">
-            А теперь давайте узнаем, на какой машине вам предстоит начать свой путь
+      <div 
+        className="min-h-screen flex flex-col items-center justify-between text-white p-6 relative overflow-hidden"
+        style={{ backgroundColor: '#0C011C' }}
+      >
+        <div className={`text-center z-10 transition-all duration-500 pt-16 ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
+          <h1 
+            className="text-4xl font-bold mb-8"
+            style={{
+              color: '#F5F5F5',
+              textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
+            }}
+          >
+            Твоя первая машина уже ждёт тебя !
           </h1>
-          
+        </div>
+        
+        {/* Central image */}
+        <div className="flex-1 flex items-center justify-center">
+          <img 
+            src={carIntroImage} 
+            alt="Car with neon effects" 
+            className="max-w-sm max-h-80 object-contain"
+            style={{ filter: 'drop-shadow(0 0 20px rgba(0, 255, 255, 0.5))' }}
+          />
+        </div>
+        
+        {/* Forward button at bottom */}
+        <div className="mb-8">
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white"
-            style={{ color: '#00FFFF' }}
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0"
+            style={{ 
+              backgroundColor: '#00FFFF',
+              color: '#0C011C',
+              boxShadow: '0px 0px 16px rgba(0,255,255,0.6)'
+            }}
           >
             Вперёд
           </Button>
+        </div>
+        
+        {/* Pagination circles at bottom */}
+        <div className="flex justify-center space-x-2 pb-4">
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
@@ -317,11 +370,11 @@ export default function Intro({ onComplete }: IntroProps) {
   // Wheel Spin Screen
   if (state === 'wheelSpin') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
-        <div className="text-center z-10">
+        <div className="flex-1 flex flex-col items-center justify-center text-center z-10">
           <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Колесо фортуны
           </h1>
@@ -388,6 +441,14 @@ export default function Intro({ onComplete }: IntroProps) {
             {isSpinning ? 'Крутится...' : 'Запустить'}
           </Button>
         </div>
+        
+        {/* Pagination circles at bottom */}
+        <div className="flex justify-center space-x-2 pb-4">
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-cyan-400" />
+        </div>
       </div>
     );
   }
@@ -397,38 +458,49 @@ export default function Intro({ onComplete }: IntroProps) {
     const availableColors = carColors[selectedCar.id as keyof typeof carColors] || ['#FFFFFF', '#000000'];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
-        <div className="text-center z-10 max-w-md mx-auto animate-fade-in">
-          <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Выберите цвет своего автомобиля
-          </h1>
-          
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-cyan-400/30">
-            <h2 className="text-xl font-bold mb-2 text-cyan-400">{selectedCar.name}</h2>
-            <p className="text-sm text-gray-300">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center z-10 max-w-md mx-auto animate-fade-in">
+            <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              Выберите цвет своего автомобиля
+            </h1>
+            
+            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-cyan-400/30">
+              <h2 className="text-xl font-bold mb-2 text-cyan-400">{selectedCar.name}</h2>
+              <p className="text-sm text-gray-300">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
+            </div>
+            
+            {/* Car preview with selected color */}
+            <div className="mb-6 text-6xl transition-all duration-300" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+              🚗
+            </div>
+            
+            {/* Color palette */}
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              {availableColors.map((color, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleColorSelection(color)}
+                  className={`w-16 h-16 rounded-full border-4 transition-all duration-300 transform hover:scale-110 ${
+                    selectedColor === color ? 'border-cyan-400 scale-110' : 'border-white/30'
+                  }`}
+                  style={{ backgroundColor: color, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
+                />
+              ))}
+            </div>
           </div>
-          
-          {/* Car preview with selected color */}
-          <div className="mb-6 text-6xl transition-all duration-300" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
-            🚗
-          </div>
-          
-          {/* Color palette */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {availableColors.map((color, index) => (
-              <button
-                key={index}
-                onClick={() => handleColorSelection(color)}
-                className={`w-16 h-16 rounded-full border-4 transition-all duration-300 transform hover:scale-110 ${
-                  selectedColor === color ? 'border-cyan-400 scale-110' : 'border-white/30'
-                }`}
-                style={{ backgroundColor: color, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
-              />
-            ))}
-          </div>
+        </div>
+        
+        {/* Pagination circles at bottom */}
+        <div className="flex justify-center space-x-2 pb-4">
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
@@ -437,7 +509,7 @@ export default function Intro({ onComplete }: IntroProps) {
   // Celebration Screen
   if (state === 'celebration' && selectedCar) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon fireworks */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
@@ -453,30 +525,42 @@ export default function Intro({ onComplete }: IntroProps) {
           ))}
         </div>
         
-        <div className="text-center z-10 max-w-md mx-auto animate-celebration">
-          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
-            Поздравляем! 🎆
-          </h1>
-          
-          {/* Car driving out animation */}
-          <div className="mb-6">
-            <div className="text-8xl animate-drive-in" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
-              🚗
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center z-10 max-w-md mx-auto animate-celebration">
+            <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+              Поздравляем! 🎆
+            </h1>
+            
+            {/* Car driving out animation */}
+            <div className="mb-6">
+              <div className="text-8xl animate-drive-in" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+                🚗
+              </div>
             </div>
+            
+            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
+              <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
+              <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
+              <p className="text-sm text-gray-400">Цвет: {selectedColor === '#FFFFFF' ? 'Белый' : selectedColor === '#000000' ? 'Чёрный' : selectedColor === '#FF0000' ? 'Красный' : selectedColor === '#0000FF' ? 'Синий' : 'Особый'}</p>
+            </div>
+            
+            <Button
+              onClick={handleStartGame}
+              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green"
+            >
+              В путь!
+            </Button>
           </div>
-          
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
-            <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
-            <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-            <p className="text-sm text-gray-400">Цвет: {selectedColor === '#FFFFFF' ? 'Белый' : selectedColor === '#000000' ? 'Чёрный' : selectedColor === '#FF0000' ? 'Красный' : selectedColor === '#0000FF' ? 'Синий' : 'Особый'}</p>
-          </div>
-          
-          <Button
-            onClick={handleStartGame}
-            className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green"
-          >
-            В путь!
-          </Button>
+        </div>
+        
+        {/* Pagination circles at bottom */}
+        <div className="flex justify-center space-x-2 pb-4">
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-3 h-3 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
