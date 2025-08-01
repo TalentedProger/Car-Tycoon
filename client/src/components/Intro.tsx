@@ -396,11 +396,10 @@ export default function Intro({ onComplete }: IntroProps) {
               {/* Wheel */}
               <div 
                 ref={wheelRef}
-                className={`w-full h-full rounded-full border-4 border-yellow-400 relative transition-transform ${isSpinning ? '' : 'duration-300'}`}
+                className={`w-full h-full rounded-full border-4 border-yellow-400 relative transition-transform ${isSpinning ? '' : 'duration-300'} bg-black/20 backdrop-blur-sm`}
                 style={{ 
                   transitionDuration: isSpinning ? '10s' : '300ms',
                   transform: `rotate(${wheelRotation}deg)`,
-                  background: 'conic-gradient(from 0deg, #ef4444 0deg 60deg, #f97316 60deg 120deg, #eab308 120deg 180deg, #22c55e 180deg 240deg, #3b82f6 240deg 300deg, #8b5cf6 300deg 360deg)',
                   boxShadow: '0 0 30px rgba(251, 191, 36, 0.6)'
                 }}
               >
