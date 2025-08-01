@@ -396,10 +396,11 @@ export default function Intro({ onComplete }: IntroProps) {
               {/* Wheel */}
               <div 
                 ref={wheelRef}
-                className={`w-full h-full rounded-full border-4 border-yellow-400 relative transition-transform ${isSpinning ? '' : 'duration-300'} bg-black/20 backdrop-blur-sm`}
+                className={`w-full h-full rounded-full border-4 border-yellow-400 relative transition-transform ${isSpinning ? '' : 'duration-300'}`}
                 style={{ 
                   transitionDuration: isSpinning ? '10s' : '300ms',
                   transform: `rotate(${wheelRotation}deg)`,
+                  background: 'conic-gradient(from 0deg, #ef4444 0deg 60deg, #f97316 60deg 120deg, #eab308 120deg 180deg, #22c55e 180deg 240deg, #3b82f6 240deg 300deg, #8b5cf6 300deg 360deg)',
                   boxShadow: '0 0 30px rgba(251, 191, 36, 0.6)'
                 }}
               >
@@ -413,24 +414,12 @@ export default function Intro({ onComplete }: IntroProps) {
                       className="absolute w-full h-full"
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
-                      <div 
-                        className="absolute top-0 left-1/2 transform -translate-x-1/2"
-                        style={{ 
-                          width: `${100 / wheelCars.length}%`,
-                          height: '50%',
-                          transformOrigin: 'bottom center',
-                          clipPath: `polygon(${50 - (segmentAngle / 7.2)}% 0%, ${50 + (segmentAngle / 7.2)}% 0%, 50% 100%)`,
-                          backgroundColor: 'rgba(139, 92, 246, 0.8)',
-                          backdropFilter: 'blur(4px)'
-                        }}
-                      >
-                        <div className="text-white text-center pt-4 px-1 relative z-10" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)' }}>
-                          <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
-                          <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
-                          <div className="text-lg">
-                            {/* Brand logo placeholder */}
-                            🚗
-                          </div>
+                      <div className="text-white text-center absolute top-8 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10 }}>
+                        <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
+                        <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
+                        <div className="text-lg">
+                          {/* Brand logo placeholder */}
+                          🚗
                         </div>
                       </div>
                     </div>
