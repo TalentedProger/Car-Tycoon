@@ -414,15 +414,17 @@ export default function Intro({ onComplete }: IntroProps) {
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
                       <div 
-                        className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-black/30 backdrop-blur-sm"
+                        className="absolute top-0 left-1/2 transform -translate-x-1/2"
                         style={{ 
                           width: `${100 / wheelCars.length}%`,
                           height: '50%',
                           transformOrigin: 'bottom center',
-                          clipPath: `polygon(${50 - (segmentAngle / 7.2)}% 0%, ${50 + (segmentAngle / 7.2)}% 0%, 50% 100%)`
+                          clipPath: `polygon(${50 - (segmentAngle / 7.2)}% 0%, ${50 + (segmentAngle / 7.2)}% 0%, 50% 100%)`,
+                          backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                          backdropFilter: 'blur(4px)'
                         }}
                       >
-                        <div className="text-white text-center pt-4 px-1" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        <div className="text-white text-center pt-4 px-1 relative z-10" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)' }}>
                           <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
                           <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
                           <div className="text-lg">
