@@ -20,12 +20,12 @@ const wheelCars = [
 
 // Available colors for each car
 const carColors = {
-  'car-5': ['#FFFFFF', '#000000', '#FF0000', '#0000FF'],
-  'car-6': ['#FFFFFF', '#808080', '#FF0000', '#000000'],
-  'car-9': ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'],
-  'car-11': ['#FF0000', '#FFFFFF', '#000000', '#FFA500'],
-  'car-13': ['#000000', '#FFFFFF', '#0000FF', '#808080'],
-  'car-8': ['#000000', '#FFFFFF', '#C0C0C0', '#8B4513', '#FF0000', '#000080'],
+  'car-5': ['#FFFFFF', '#000000', '#FF0000', '#0000FF', '#FFFF00', '#00BFFF'],
+  'car-6': ['#FFFFFF', '#808080', '#FF0000', '#000000', '#FFFF00', '#00BFFF'],
+  'car-9': ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000', '#FFFF00', '#00BFFF'],
+  'car-11': ['#FF0000', '#FFFFFF', '#000000', '#FFA500', '#FFFF00', '#00BFFF'],
+  'car-13': ['#000000', '#FFFFFF', '#0000FF', '#808080', '#FFFF00', '#00BFFF'],
+  'car-8': ['#000000', '#FFFFFF', '#C0C0C0', '#8B4513', '#FF0000', '#000080', '#FFFF00', '#00BFFF'],
 };
 
 // Game mechanics data
@@ -268,15 +268,15 @@ export default function Intro({ onComplete }: IntroProps) {
         
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
-            <div className="text-8xl mb-6 animate-float">
+            <div className="text-8xl mb-6 animate-float animate-slide-in-right">
               {mechanic.icon}
             </div>
             
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent animate-slide-in-right" style={{ animationDelay: '0.2s' }}>
               {mechanic.title}
             </h2>
             
-            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300">
+            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300 animate-slide-in-right" style={{ animationDelay: '0.4s' }}>
               {mechanic.description}
             </p>
           </div>
@@ -480,12 +480,12 @@ export default function Intro({ onComplete }: IntroProps) {
             </div>
             
             {/* Car preview with selected color */}
-            <div className="mb-6 text-6xl transition-all duration-300" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+            <div className="mb-6 text-6xl transition-all duration-300" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#FFFF00' ? '60deg' : selectedColor === '#00BFFF' ? '200deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
               🚗
             </div>
             
             {/* Color palette */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-4 gap-3 mb-6">
               {availableColors.map((color, index) => (
                 <button
                   key={index}
@@ -539,7 +539,7 @@ export default function Intro({ onComplete }: IntroProps) {
             
             {/* Car driving out animation */}
             <div className="mb-6">
-              <div className="text-8xl animate-drive-in" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+              <div className="text-8xl animate-drive-in" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#FFFF00' ? '60deg' : selectedColor === '#00BFFF' ? '200deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
                 🚗
               </div>
             </div>
@@ -547,7 +547,7 @@ export default function Intro({ onComplete }: IntroProps) {
             <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
               <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
               <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-              <p className="text-sm text-gray-400">Цвет: {selectedColor === '#FFFFFF' ? 'Белый' : selectedColor === '#000000' ? 'Чёрный' : selectedColor === '#FF0000' ? 'Красный' : selectedColor === '#0000FF' ? 'Синий' : 'Особый'}</p>
+              <p className="text-sm text-gray-400">Цвет: {selectedColor === '#FFFFFF' ? 'Белый' : selectedColor === '#000000' ? 'Чёрный' : selectedColor === '#FF0000' ? 'Красный' : selectedColor === '#0000FF' ? 'Синий' : selectedColor === '#FFFF00' ? 'Жёлтый' : selectedColor === '#00BFFF' ? 'Голубой' : 'Особый'}</p>
             </div>
             
             <Button
