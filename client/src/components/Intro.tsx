@@ -348,22 +348,11 @@ export default function Intro({ onComplete }: IntroProps) {
           />
         </div>
         
-        {/* Navigation buttons at bottom */}
-        <div className="flex justify-center items-center space-x-4 mb-8 z-20 relative">
-          <Button
-            onClick={handlePrevious}
-            className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0"
-            style={{ 
-              backgroundColor: '#FFD700',
-              color: '#0C011C'
-            }}
-          >
-            ← Назад
-          </Button>
-          
+        {/* Forward button at bottom - centered */}
+        <div className="flex justify-center items-center mb-8 z-20 relative">
           <Button
             onClick={handleNext}
-            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90"
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90 animate-pulse-subtle"
             style={{ 
               backgroundColor: '#00FFFF',
               color: '#0C011C',
