@@ -5,35 +5,101 @@ interface IntroProps {
   onComplete: (selectedCar?: any) => void;
 }
 
-// Car data for the wheel
+// Car data for the wheel - 5 economy + 1 budget (Honda Accord 7)
 const wheelCars = [
-  // Economy cars (5 cars, 70% total chance)
-  { id: 'car-5', name: 'LADA Granta', price: 850000, brand: 'LADA', category: 'economy', chance: 0.20 },
-  { id: 'car-6', name: 'Renault Logan', price: 950000, brand: 'Renault', category: 'economy', chance: 0.15 },
-  { id: 'car-9', name: 'Toyota Corolla', price: 1400000, brand: 'Toyota', category: 'economy', chance: 0.15 },
-  { id: 'car-11', name: 'Kia Rio', price: 1100000, brand: 'Kia', category: 'economy', chance: 0.12 },
-  { id: 'car-13', name: 'Ford Focus', price: 1300000, brand: 'Ford', category: 'economy', chance: 0.08 },
-  // Budget car (1 car, 30% chance)
-  { id: 'car-8', name: 'Honda Accord 7', price: 1800000, brand: 'Honda', category: 'budget', chance: 0.30 },
+  // Economy cars (5 cars, 19% each = 95% total)
+  { id: 'car-5', name: 'LADA Granta', price: 850000, brand: 'LADA', category: 'economy', chance: 0.19 },
+  { id: 'car-6', name: 'Renault Logan', price: 950000, brand: 'Renault', category: 'economy', chance: 0.19 },
+  { id: 'car-9', name: 'Toyota Corolla', price: 1400000, brand: 'Toyota', category: 'economy', chance: 0.19 },
+  { id: 'car-11', name: 'Kia Rio', price: 1100000, brand: 'Kia', category: 'economy', chance: 0.19 },
+  { id: 'car-13', name: 'Ford Focus', price: 1300000, brand: 'Ford', category: 'economy', chance: 0.19 },
+  // Budget car (1 car, 5% chance)
+  { id: 'car-8', name: 'Honda Accord 7', price: 1800000, brand: 'Honda', category: 'budget', chance: 0.05 },
 ];
 
-type IntroState = 'screen1' | 'screen2' | 'screen3' | 'carSelection' | 'wheelSpin' | 'celebration';
+// Available colors for each car
+const carColors = {
+  'car-5': ['#FFFFFF', '#000000', '#FF0000', '#0000FF'],
+  'car-6': ['#FFFFFF', '#808080', '#FF0000', '#000000'],
+  'car-9': ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'],
+  'car-11': ['#FF0000', '#FFFFFF', '#000000', '#FFA500'],
+  'car-13': ['#000000', '#FFFFFF', '#0000FF', '#808080'],
+  'car-8': ['#000000', '#FFFFFF', '#C0C0C0', '#8B4513', '#FF0000', '#000080'],
+};
+
+// Game mechanics data
+const gameMechanics = [
+  {
+    icon: '🛠',
+    title: 'Улучшай детали',
+    description: 'Прокачивай свой автомобиль по-настоящему: от замены тормозов и подвески до полной смены двигателя и установки турбины. Собери технику, которая будет не просто ехать, а летать.'
+  },
+  {
+    icon: '🏁',
+    title: 'Соревнуйся в гонках 1 на 1',
+    description: 'Твой навык — твоя победа. Вступай в дуэли с другими игроками и докажи, что именно ты достоин быть первым. Выигрывай, зарабатывай, получай респект.'
+  },
+  {
+    icon: '💸',
+    title: 'Зарабатывай пассивно',
+    description: 'Твоя машина может приносить прибыль даже когда ты не в игре. Улучшай автопарк, строй пассивный доход и получай стабильный заработок каждый день.'
+  },
+  {
+    icon: '🚗',
+    title: 'Продавай и покупай авто и номера',
+    description: 'Торгуй на виртуальном рынке: ищи выгодные авто, продавай редкие номера, скупай редкие модели и собирай свою коллекцию. Каждый ход может стать инвестицией.'
+  },
+  {
+    icon: '✨',
+    title: 'Делай детейлинг',
+    description: 'Не забывай о внешности: полировка, химчистка, пленка, уход за деталями — всё это влияет на статус и цену твоей машины. Пусть твой авто сияет даже в темноте.'
+  }
+];
+
+type IntroState = 'welcome' | 'mechanics' | 'carIntro' | 'wheelSpin' | 'colorSelection' | 'celebration';
 
 export default function Intro({ onComplete }: IntroProps) {
-  const [state, setState] = useState<IntroState>('screen1');
+  const [state, setState] = useState<IntroState>('welcome');
+  const [currentMechanic, setCurrentMechanic] = useState(0);
   const [selectedCar, setSelectedCar] = useState<any>(null);
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [wheelRotation, setWheelRotation] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
+  const [showColorSelection, setShowColorSelection] = useState(false);
+  
   const wheelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const introMusicRef = useRef<HTMLAudioElement>(null);
 
-  // Remove auto-advance - only manual navigation
+  // Start intro music on component mount
+  useEffect(() => {
+    const startIntroMusic = () => {
+      try {
+        if (introMusicRef.current) {
+          introMusicRef.current.src = '/assets/sounds/intro_loop.mp3';
+          introMusicRef.current.loop = true;
+          introMusicRef.current.volume = 0.3;
+          introMusicRef.current.play().catch(console.warn);
+        }
+      } catch (error) {
+        console.warn('Intro music playback failed:', error);
+      }
+    };
+    
+    startIntroMusic();
+    
+    return () => {
+      if (introMusicRef.current) {
+        introMusicRef.current.pause();
+      }
+    };
+  }, []);
 
   const playSound = (soundName: string) => {
     try {
       if (audioRef.current) {
-        audioRef.current.src = `/sounds/${soundName}.mp3`;
+        audioRef.current.src = `/assets/sounds/${soundName}`;
         audioRef.current.play().catch(console.warn);
       }
     } catch (error) {
@@ -42,19 +108,31 @@ export default function Intro({ onComplete }: IntroProps) {
   };
 
   const handleNext = () => {
-    if (state === 'screen1') setState('screen2');
-    else if (state === 'screen2') setState('screen3');
-    else if (state === 'screen3') {
-      setState('carSelection');
+    if (state === 'welcome') {
+      setState('mechanics');
+    } else if (state === 'mechanics') {
+      if (currentMechanic < gameMechanics.length - 1) {
+        setCurrentMechanic(currentMechanic + 1);
+      } else {
+        setState('carIntro');
+      }
+    } else if (state === 'carIntro') {
+      setTextVisible(false);
+      setTimeout(() => {
+        setState('wheelSpin');
+        playSound('start.mp3');
+      }, 500);
     }
   };
 
-  const handleForward = () => {
-    setTextVisible(false);
-    setTimeout(() => {
-      setState('wheelSpin');
-      playSound('engine-ignition');
-    }, 500);
+  const handlePrevious = () => {
+    if (state === 'mechanics') {
+      if (currentMechanic > 0) {
+        setCurrentMechanic(currentMechanic - 1);
+      } else {
+        setState('welcome');
+      }
+    }
   };
 
   const spinWheel = () => {
@@ -85,162 +163,187 @@ export default function Intro({ onComplete }: IntroProps) {
     setWheelRotation(finalRotation);
     setSelectedCar(winner);
     
-    // After 10 seconds, show celebration
+    // Play tick sound during spinning
+    const tickInterval = setInterval(() => {
+      playSound('tick.wav');
+    }, 100);
+    
+    // After 10 seconds, show color selection
     setTimeout(() => {
+      clearInterval(tickInterval);
       setIsSpinning(false);
-      setState('celebration');
-      playSound('celebration');
+      setShowColorSelection(true);
+      setTimeout(() => {
+        setState('colorSelection');
+      }, 1000);
     }, 10000);
   };
 
+  const handleColorSelection = (color: string) => {
+    setSelectedColor(color);
+    setState('celebration');
+    playSound('win.mp3');
+    
+    // Stop intro music
+    if (introMusicRef.current) {
+      introMusicRef.current.pause();
+    }
+  };
+
   const handleStartGame = () => {
-    // Store selected car in localStorage for the game to use
-    if (selectedCar) {
-      localStorage.setItem('selectedStarterCar', JSON.stringify(selectedCar));
+    // Store selected car and color in localStorage
+    if (selectedCar && selectedColor) {
+      const carData = {
+        ...selectedCar,
+        color: selectedColor
+      };
+      localStorage.setItem('selectedStarterCar', JSON.stringify(carData));
     }
     onComplete(selectedCar);
   };
 
-  const screens = [
-    {
-      title: 'Auto Arena',
-      subtitle: 'Добро пожаловать в мир автомобильного бизнеса! Здесь вы сможете построить свою автомобильную империю, начиная с простого кликера и развиваясь до владельца роскошного автопарка. Покупайте машины, улучшайте их, зарабатывайте деньги и становитесь настоящим автомобильным магнатом. Исследуйте различные категории автомобилей от бюджетных до премиальных, каждая из которых откроет новые возможности для роста вашего бизнеса.',
-      icon: '🚗',
-    },
-    {
-      title: 'Развивайте бизнес',
-      subtitle: 'В Auto Arena вас ждет увлекательный процесс развития. Кликайте, чтобы зарабатывать монеты, покупайте новые автомобили из разных категорий - от эконом-класса до люксовых суперкаров. Каждая машина приносит пассивный доход, а улучшения увеличивают прибыль в разы. Используйте систему бустов для ускорения прогресса, собирайте ежедневные награды и прокачивайте свой уровень для разблокировки новых возможностей.',
-      icon: '💰',
-    },
-    {
-      title: 'Станьте магнатом',
-      subtitle: 'Управляйте своим гаражом, улучшайте автомобили в автосалоне, заказывайте детейлинг услуги и следите за достижениями. Откройте для себя мир возможностей и постройте автомобильную империю своей мечты! Участвуйте в специальных событиях, достигайте новых рекордов и станьте настоящим автомобильным магнатом в этой захватывающей игре.',
-      icon: '🏆',
-    },
-  ];
-
-  if (state === 'screen1' || state === 'screen2' || state === 'screen3') {
-    const screenIndex = state === 'screen1' ? 0 : state === 'screen2' ? 1 : 2;
-    const screen = screens[screenIndex];
-    
+  // Welcome Screen
+  if (state === 'welcome') {
     return (
-      <div className="min-h-screen intro-gradient-bg flex flex-col items-center justify-between text-white p-4 relative overflow-hidden">
-        {/* Main content */}
-        <div className="flex-1 flex flex-col justify-center items-center max-w-3xl mx-auto">
-          {/* Compact icon */}
-          <div className="text-4xl mb-4 animate-bounce-gentle">
-            {screen.icon}
-          </div>
-          
-          {/* Compact title */}
-          <h1 className="text-3xl font-bold mb-4 intro-title text-center">
-            {screen.title}
-          </h1>
-          
-          {/* Extended description with proper spacing */}
-          <p className="text-sm opacity-90 mb-6 leading-relaxed text-center text-gray-200 px-2">
-            {screen.subtitle}
-          </p>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+        {/* Neon glow effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
         
-        {/* Bottom navigation */}
-        <div className="w-full flex flex-col items-center space-y-4">
-          {/* Continue button for last screen */}
-          {state === 'screen3' && (
-            <Button
-              onClick={handleNext}
-              className="intro-compact-button font-semibold text-lg px-8 py-3 rounded-full shadow-lg transform transition-all duration-300 border-0 text-white"
-            >
-              Продолжить
-            </Button>
-          )}
-          
-          {/* Manual navigation */}
-          <div className="flex items-center space-x-6">
-            {/* Previous button */}
-            {screenIndex > 0 && (
-              <Button
-                onClick={() => {
-                  if (state === 'screen2') setState('screen1');
-                  else if (state === 'screen3') setState('screen2');
-                }}
-                variant="ghost"
-                className="text-white/70 hover:text-white text-sm px-4 py-2"
-              >
-                ← Назад
-              </Button>
-            )}
-            
-            {/* Page indicators */}
-            <div className="flex space-x-2">
-              {[1, 2, 3].map((num) => (
-                <div
-                  key={num}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    num === screenIndex + 1 ? 'bg-white' : 'bg-white/30'
-                  }`}
-                />
-              ))}
-            </div>
-            
-            {/* Next button */}
-            {screenIndex < 2 && (
-              <Button
-                onClick={handleNext}
-                variant="ghost"
-                className="text-white/70 hover:text-white text-sm px-4 py-2"
-              >
-                Далее →
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (state === 'carSelection') {
-    return (
-      <div className="min-h-screen intro-gradient-bg flex flex-col items-center justify-center text-white p-4 relative overflow-hidden">
-        <div className={`text-center z-10 transition-all duration-500 max-w-3xl mx-auto ${textVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <h1 className="text-2xl font-bold mb-6 intro-title animate-fade-in text-center px-2">
-            А теперь давайте узнаем на какой машине вам предстоит начать свой путь
+        <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
+          <h1 className="text-5xl font-bold mb-8 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent animate-glow">
+            Добро пожаловать в игру
           </h1>
+          
+          <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300">
+            Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
+            Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
+            Всё начинается прямо сейчас — с твоей первой машины.
+          </p>
           
           <Button
-            onClick={handleForward}
-            className="intro-compact-button font-semibold text-lg px-8 py-3 rounded-full shadow-lg transform transition-all duration-300 border-0 text-white"
+            onClick={handleNext}
+            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-neon"
           >
-            Вперед
+            Далее
           </Button>
         </div>
         
+        <audio ref={introMusicRef} preload="none" />
         <audio ref={audioRef} preload="none" />
       </div>
     );
   }
 
+  // Mechanics Presentation Screen
+  if (state === 'mechanics') {
+    const mechanic = gameMechanics[currentMechanic];
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+        {/* Neon glow effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        
+        <div className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
+          <div className="text-8xl mb-6 animate-float">
+            {mechanic.icon}
+          </div>
+          
+          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            {mechanic.title}
+          </h2>
+          
+          <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300">
+            {mechanic.description}
+          </p>
+          
+          <div className="flex justify-between items-center w-full max-w-md mx-auto">
+            {currentMechanic > 0 && (
+              <Button
+                onClick={handlePrevious}
+                variant="ghost"
+                className="text-cyan-400 hover:text-cyan-300 text-lg px-6 py-3"
+              >
+                ← Назад
+              </Button>
+            )}
+            
+            <div className="flex space-x-2">
+              {gameMechanics.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentMechanic ? 'bg-cyan-400' : 'bg-white/20'
+                  }`}
+                />
+              ))}
+            </div>
+            
+            <Button
+              onClick={handleNext}
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white"
+            >
+              {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Car Selection Introduction Screen
+  if (state === 'carIntro') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+        {/* Neon glow effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        
+        <div className={`text-center z-10 transition-all duration-500 max-w-3xl mx-auto ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
+          <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent animate-focus">
+            А теперь давайте узнаем, на какой машине вам предстоит начать свой путь
+          </h1>
+          
+          <Button
+            onClick={handleNext}
+            className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white"
+            style={{ color: '#00FFFF' }}
+          >
+            Вперёд
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Wheel Spin Screen
   if (state === 'wheelSpin') {
     return (
-      <div className="min-h-screen intro-gradient-bg flex flex-col items-center justify-center text-white p-4 relative overflow-hidden">
-        <div className="text-center z-10 max-w-sm mx-auto">
-          <h1 className="text-2xl font-bold mb-6 intro-title">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+        {/* Neon glow effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        
+        <div className="text-center z-10">
+          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Колесо фортуны
           </h1>
           
-          {/* Compact Wheel */}
-          <div className="relative mb-6">
-            <div className="w-64 h-64 mx-auto relative">
+          {/* Wheel */}
+          <div className="relative mb-8">
+            <div className="w-80 h-80 mx-auto relative">
               {/* Pointer */}
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1 z-20">
-                <div className="w-0 h-0 border-l-3 border-r-3 border-b-6 border-l-transparent border-r-transparent border-b-yellow-400" />
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 z-20">
+                <div className="w-0 h-0 border-l-4 border-r-4 border-b-8 border-l-transparent border-r-transparent border-b-yellow-400" />
               </div>
               
-              {/* Wheel - fully filled circle */}
+              {/* Wheel */}
               <div 
                 ref={wheelRef}
-                className={`wheel-container w-full h-full relative transition-transform ${isSpinning ? 'duration-[10s] ease-out' : 'duration-300'}`}
-                style={{ transform: `rotate(${wheelRotation}deg)` }}
+                className={`w-full h-full rounded-full border-4 border-yellow-400 relative transition-transform ${isSpinning ? '' : 'duration-300'}`}
+                style={{ 
+                  transitionDuration: isSpinning ? '10s' : '300ms',
+                  transform: `rotate(${wheelRotation}deg)`,
+                  background: 'conic-gradient(from 0deg, #ef4444 0deg 60deg, #f97316 60deg 120deg, #eab308 120deg 180deg, #22c55e 180deg 240deg, #3b82f6 240deg 300deg, #8b5cf6 300deg 360deg)',
+                  boxShadow: '0 0 30px rgba(251, 191, 36, 0.6)'
+                }}
               >
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
@@ -253,7 +356,7 @@ export default function Intro({ onComplete }: IntroProps) {
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
                       <div 
-                        className="absolute top-0 left-1/2 transform -translate-x-1/2 wheel-segment"
+                        className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-black/30 backdrop-blur-sm"
                         style={{ 
                           width: `${100 / wheelCars.length}%`,
                           height: '50%',
@@ -261,11 +364,11 @@ export default function Intro({ onComplete }: IntroProps) {
                           clipPath: `polygon(${50 - (segmentAngle / 7.2)}% 0%, ${50 + (segmentAngle / 7.2)}% 0%, 50% 100%)`
                         }}
                       >
-                        <div className="text-white text-center pt-2 px-1 z-10" style={{ transform: `rotate(-${angle}deg)`, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                          <div className="text-xs font-bold mb-1 leading-tight drop-shadow-lg">{car.name}</div>
-                          <div className="text-xs mb-1 drop-shadow-lg">{(car.price / 1000000).toFixed(1)}M ₽</div>
-                          <div className="text-sm drop-shadow-lg">
-                            {/* Placeholder for brand logo - will use logotype.png from assets */}
+                        <div className="text-white text-center pt-4 px-1" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                          <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
+                          <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
+                          <div className="text-lg">
+                            {/* Brand logo placeholder */}
                             🚗
                           </div>
                         </div>
@@ -280,7 +383,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <Button
             onClick={spinWheel}
             disabled={isSpinning}
-            className={`launch-button-pulsing font-semibold text-lg px-8 py-3 rounded-full shadow-lg transform transition-all duration-300 border-0 text-white disabled:opacity-50 disabled:cursor-not-allowed ${!isSpinning ? 'hover:scale-105' : ''}`}
+            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white disabled:opacity-50 disabled:cursor-not-allowed animate-neon-orange"
           >
             {isSpinning ? 'Крутится...' : 'Запустить'}
           </Button>
@@ -289,15 +392,58 @@ export default function Intro({ onComplete }: IntroProps) {
     );
   }
 
+  // Color Selection Screen
+  if (state === 'colorSelection' && selectedCar) {
+    const availableColors = carColors[selectedCar.id as keyof typeof carColors] || ['#FFFFFF', '#000000'];
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+        {/* Neon glow effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
+        
+        <div className="text-center z-10 max-w-md mx-auto animate-fade-in">
+          <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            Выберите цвет своего автомобиля
+          </h1>
+          
+          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-cyan-400/30">
+            <h2 className="text-xl font-bold mb-2 text-cyan-400">{selectedCar.name}</h2>
+            <p className="text-sm text-gray-300">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
+          </div>
+          
+          {/* Car preview with selected color */}
+          <div className="mb-6 text-6xl transition-all duration-300" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+            🚗
+          </div>
+          
+          {/* Color palette */}
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            {availableColors.map((color, index) => (
+              <button
+                key={index}
+                onClick={() => handleColorSelection(color)}
+                className={`w-16 h-16 rounded-full border-4 transition-all duration-300 transform hover:scale-110 ${
+                  selectedColor === color ? 'border-cyan-400 scale-110' : 'border-white/30'
+                }`}
+                style={{ backgroundColor: color, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Celebration Screen
   if (state === 'celebration' && selectedCar) {
     return (
-      <div className="min-h-screen intro-gradient-bg flex flex-col items-center justify-center text-white p-4 relative overflow-hidden">
-        {/* Compact Fireworks animation */}
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-center text-white p-6 relative overflow-hidden">
+        {/* Neon fireworks */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(30)].map((_, i) => (
+          {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-yellow-400 rounded-full animate-fireworks"
+              className="absolute w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-firework"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -307,27 +453,29 @@ export default function Intro({ onComplete }: IntroProps) {
           ))}
         </div>
         
-        <div className="text-center z-10 animate-fade-in max-w-sm mx-auto">
-          <h1 className="text-3xl font-bold mb-4 intro-title flex items-center justify-center gap-2">
-            Поздравляем! <span className="animate-bounce-gentle">🎉</span>
+        <div className="text-center z-10 max-w-md mx-auto animate-celebration">
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+            Поздравляем! 🎆
           </h1>
           
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/20">
-            <h2 className="text-lg font-bold mb-2 text-white">{selectedCar.name}</h2>
-            <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-            <p className="text-sm text-gray-400">Категория: {selectedCar.category === 'economy' ? 'Эконом' : 'Бюджет'}</p>
+          {/* Car driving out animation */}
+          <div className="mb-6">
+            <div className="text-8xl animate-drive-in" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+              🚗
+            </div>
           </div>
           
-          {/* Car animation placeholder */}
-          <div className="mb-6">
-            <div className="text-4xl animate-slide-in-right">🚗</div>
+          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
+            <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
+            <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
+            <p className="text-sm text-gray-400">Цвет: {selectedColor === '#FFFFFF' ? 'Белый' : selectedColor === '#000000' ? 'Чёрный' : selectedColor === '#FF0000' ? 'Красный' : selectedColor === '#0000FF' ? 'Синий' : 'Особый'}</p>
           </div>
           
           <Button
             onClick={handleStartGame}
-            className="launch-button-pulsing font-semibold text-lg px-8 py-3 rounded-full shadow-lg transform transition-all duration-300 border-0 text-white hover:scale-105"
+            className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green"
           >
-            В путь
+            В путь!
           </Button>
         </div>
       </div>
