@@ -9,13 +9,13 @@ interface IntroProps {
 // Car data for the wheel - 5 economy + 1 budget (Honda Accord 7)
 const wheelCars = [
   // Economy cars (5 cars, 19% each = 95% total)
-  { id: 'car-5', name: 'LADA Granta', price: 850000, brand: 'LADA', category: 'economy', chance: 0.19 },
-  { id: 'car-6', name: 'Renault Logan', price: 950000, brand: 'Renault', category: 'economy', chance: 0.19 },
-  { id: 'car-9', name: 'Toyota Corolla', price: 1400000, brand: 'Toyota', category: 'economy', chance: 0.19 },
-  { id: 'car-11', name: 'Kia Rio', price: 1100000, brand: 'Kia', category: 'economy', chance: 0.19 },
-  { id: 'car-13', name: 'Ford Focus', price: 1300000, brand: 'Ford', category: 'economy', chance: 0.19 },
+  { id: 'car-5', name: 'LADA GRANTA', price: 850000, brand: 'LADA', category: 'economy', chance: 0.19, horsepower: 87, acceleration: 11.2, maxSpeed: 167 },
+  { id: 'car-6', name: 'RENAULT LOGAN', price: 950000, brand: 'Renault', category: 'economy', chance: 0.19, horsepower: 102, acceleration: 10.5, maxSpeed: 180 },
+  { id: 'car-9', name: 'TOYOTA COROLLA', price: 1400000, brand: 'Toyota', category: 'economy', chance: 0.19, horsepower: 122, acceleration: 10.9, maxSpeed: 190 },
+  { id: 'car-11', name: 'KIA RIO', price: 1100000, brand: 'Kia', category: 'economy', chance: 0.19, horsepower: 100, acceleration: 12.1, maxSpeed: 173 },
+  { id: 'car-13', name: 'FORD FOCUS', price: 1300000, brand: 'Ford', category: 'economy', chance: 0.19, horsepower: 125, acceleration: 9.4, maxSpeed: 195 },
   // Budget car (1 car, 5% chance)
-  { id: 'car-8', name: 'Honda Accord 7', price: 1800000, brand: 'Honda', category: 'budget', chance: 0.05 },
+  { id: 'car-8', name: 'HONDA ACCORD 7', price: 1800000, brand: 'Honda', category: 'budget', chance: 0.05, horsepower: 156, acceleration: 8.7, maxSpeed: 210 },
 ];
 
 // Available colors for each car
@@ -454,44 +454,116 @@ export default function Intro({ onComplete }: IntroProps) {
     const availableColors = carColors[selectedCar.id as keyof typeof carColors] || ['#FFFFFF', '#000000'];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
-        {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
-        
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center z-10 max-w-md mx-auto animate-fade-in">
-            <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Выберите цвет своего автомобиля
-            </h1>
-            
-            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-cyan-400/30">
-              <h2 className="text-xl font-bold mb-2 text-cyan-400">{selectedCar.name}</h2>
-              <p className="text-sm text-gray-300">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-            </div>
-            
-            {/* Car preview with selected color */}
-            <div className="mb-6 text-6xl transition-all duration-300" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+      <div 
+        className="min-h-screen flex flex-col text-white p-6 relative overflow-hidden"
+        style={{ backgroundColor: '#0C011C' }}
+      >
+        {/* Top section - Car name and price */}
+        <div className="text-center pt-8 pb-6">
+          <h1 className="text-2xl font-bold mb-2" style={{ color: '#F5F5F5', fontSize: '24px' }}>
+            {selectedCar.name}
+          </h1>
+          <p className="text-base font-medium" style={{ color: '#C0C0C0', fontSize: '16px' }}>
+            {selectedCar.price.toLocaleString()} ₽
+          </p>
+        </div>
+
+        {/* Car image block */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4">
+          {/* Car preview with selected color and shadow */}
+          <div className="relative mb-8">
+            <div 
+              className="text-8xl transition-all duration-300 relative z-10"
+              style={{ 
+                filter: selectedColor ? `hue-rotate(${
+                  selectedColor === '#FF0000' ? '0deg' : 
+                  selectedColor === '#0000FF' ? '240deg' : 
+                  selectedColor === '#000000' ? '0deg' : 
+                  selectedColor === '#FFFFFF' ? '0deg' :
+                  selectedColor === '#808080' ? '0deg' :
+                  selectedColor === '#C0C0C0' ? '0deg' :
+                  selectedColor === '#FFA500' ? '30deg' :
+                  selectedColor === '#8B4513' ? '20deg' :
+                  selectedColor === '#000080' ? '240deg' :
+                  '120deg'
+                })` : 'none' 
+              }}
+            >
               🚗
             </div>
-            
-            {/* Color palette */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
+            {/* Soft shadow/ellipse under the car */}
+            <div 
+              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-4 w-32 h-8 rounded-full opacity-30"
+              style={{ backgroundColor: '#000000', filter: 'blur(8px)' }}
+            />
+          </div>
+
+          {/* Car characteristics */}
+          <div className="w-full max-w-sm mb-8">
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white mb-1">Мощность</div>
+                <div className="text-lg font-bold text-white">{selectedCar.horsepower}</div>
+                <div className="text-xs text-gray-400">л.с.</div>
+              </div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white mb-1">0-100 км/ч</div>
+                <div className="text-lg font-bold text-white">{selectedCar.acceleration}</div>
+                <div className="text-xs text-gray-400">сек</div>
+              </div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white mb-1">Макс. скорость</div>
+                <div className="text-lg font-bold text-white">{selectedCar.maxSpeed}</div>
+                <div className="text-xs text-gray-400">км/ч</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Color selection block */}
+          <div className="w-full max-w-sm mb-8">
+            <div className="flex flex-wrap justify-center gap-3 overflow-x-auto pb-2">
               {availableColors.map((color, index) => (
                 <button
                   key={index}
                   onClick={() => handleColorSelection(color)}
-                  className={`w-16 h-16 rounded-full border-4 transition-all duration-300 transform hover:scale-110 ${
-                    selectedColor === color ? 'border-cyan-400 scale-110' : 'border-white/30'
+                  className={`w-10 h-10 rounded-sm border-2 transition-all duration-300 transform hover:scale-110 flex-shrink-0 ${
+                    selectedColor === color ? 'scale-110' : ''
                   }`}
-                  style={{ backgroundColor: color, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
+                  style={{ 
+                    backgroundColor: color, 
+                    borderColor: selectedColor === color ? '#00FFFF' : 'rgba(255,255,255,0.3)',
+                    boxShadow: selectedColor === color ? '0 0 10px rgba(0,255,255,0.6)' : '0 2px 8px rgba(0,0,0,0.3)'
+                  }}
                 />
               ))}
             </div>
           </div>
+
+          {/* Confirm button */}
+          <Button
+            onClick={() => {
+              if (selectedColor) {
+                // Save selected color to the car object
+                setSelectedCar({ ...selectedCar, color: selectedColor });
+                setState('celebration');
+              }
+            }}
+            disabled={!selectedColor}
+            className="font-bold text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ 
+              backgroundColor: selectedColor ? '#00FFFF' : '#666666',
+              color: '#0C011C',
+              minWidth: '220px',
+              height: '48px',
+              boxShadow: selectedColor ? '0px 0px 14px rgba(0,255,255,0.5)' : 'none'
+            }}
+          >
+            Подтвердить выбор
+          </Button>
         </div>
-        
+
         {/* Pagination circles at bottom */}
-        <div className="flex justify-center space-x-2 pb-4">
+        <div className="flex justify-center space-x-2 pb-4 z-10 relative pointer-events-none">
           <div className="w-3 h-3 rounded-full bg-white/20" />
           <div className="w-3 h-3 rounded-full bg-white/20" />
           <div className="w-3 h-3 rounded-full bg-white/20" />
@@ -529,7 +601,20 @@ export default function Intro({ onComplete }: IntroProps) {
             
             {/* Car driving out animation */}
             <div className="mb-6">
-              <div className="text-8xl animate-drive-in" style={{ filter: selectedColor ? `hue-rotate(${selectedColor === '#FF0000' ? '0deg' : selectedColor === '#0000FF' ? '240deg' : selectedColor === '#000000' ? '0deg' : '120deg'})` : 'none' }}>
+              <div className="text-8xl animate-drive-in" style={{ 
+                filter: selectedCar.color ? `hue-rotate(${
+                  selectedCar.color === '#FF0000' ? '0deg' : 
+                  selectedCar.color === '#0000FF' ? '240deg' : 
+                  selectedCar.color === '#000000' ? '0deg' : 
+                  selectedCar.color === '#FFFFFF' ? '0deg' :
+                  selectedCar.color === '#808080' ? '0deg' :
+                  selectedCar.color === '#C0C0C0' ? '0deg' :
+                  selectedCar.color === '#FFA500' ? '30deg' :
+                  selectedCar.color === '#8B4513' ? '20deg' :
+                  selectedCar.color === '#000080' ? '240deg' :
+                  '120deg'
+                })` : 'none' 
+              }}>
                 🚗
               </div>
             </div>
@@ -537,7 +622,18 @@ export default function Intro({ onComplete }: IntroProps) {
             <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
               <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
               <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-              <p className="text-sm text-gray-400">Цвет: {selectedColor === '#FFFFFF' ? 'Белый' : selectedColor === '#000000' ? 'Чёрный' : selectedColor === '#FF0000' ? 'Красный' : selectedColor === '#0000FF' ? 'Синий' : 'Особый'}</p>
+              <p className="text-sm text-gray-400">Цвет: {
+                selectedCar.color === '#FFFFFF' ? 'Белый' : 
+                selectedCar.color === '#000000' ? 'Чёрный' : 
+                selectedCar.color === '#FF0000' ? 'Красный' : 
+                selectedCar.color === '#0000FF' ? 'Синий' : 
+                selectedCar.color === '#808080' ? 'Серый' :
+                selectedCar.color === '#C0C0C0' ? 'Серебристый' :
+                selectedCar.color === '#FFA500' ? 'Оранжевый' :
+                selectedCar.color === '#8B4513' ? 'Коричневый' :
+                selectedCar.color === '#000080' ? 'Тёмно-синий' :
+                'Особый'
+              }</p>
             </div>
             
             <Button
