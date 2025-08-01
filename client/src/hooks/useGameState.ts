@@ -206,6 +206,14 @@ export function useGameState() {
     updateGameState(updates);
   }, [updateGameState]);
 
+  // Reset intro for all users (admin function)
+  const resetIntroForAllUsers = useCallback(() => {
+    // Clear localStorage intro flag
+    localStorage.removeItem('carTycoonIntro');
+    // Reset intro state
+    updateGameState({ introShown: false });
+  }, [updateGameState]);
+
   // Проверка доступности награды
   const canClaimReward = useCallback(() => {
     const now = Date.now();
@@ -298,6 +306,7 @@ export function useGameState() {
     completeIntro,
     updateGameState,
     resetDailyBoosts,
+    resetIntroForAllUsers,
     canClaimReward,
     claimReward,
     canClaimDailyProfit,

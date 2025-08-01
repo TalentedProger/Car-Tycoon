@@ -30,8 +30,34 @@ function App() {
     claimReward,
     canClaimDailyProfit,
     claimDailyProfit,
-    updateGameState
+    updateGameState,
+    resetIntroForAllUsers
   } = useGameState();
+
+  // Reset intro data immediately for all users
+  React.useEffect(() => {
+    // Force reset intro data on app load to show new intro system
+    const shouldReset = localStorage.getItem('forceIntroReset') !== 'done';
+    if (shouldReset) {
+      localStorage.removeItem('carTycoonIntro');
+      localStorage.removeItem('selectedStarterCar');
+      
+      const gameState = localStorage.getItem('carTycoonGame');
+      if (gameState) {
+        try {
+          const parsed = JSON.parse(gameState);
+          parsed.introShown = false;
+          parsed.selectedStarterCar = undefined;
+          localStorage.setItem('carTycoonGame', JSON.stringify(parsed));
+        } catch (error) {
+          console.error('Error resetting intro:', error);
+        }
+      }
+      
+      localStorage.setItem('forceIntroReset', 'done');
+      window.location.reload(); // Reload to apply changes
+    }
+  }, []);
   const { userId, userName, sendDataToBot } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
   const [showRewardModal, setShowRewardModal] = useState(false);
