@@ -480,8 +480,8 @@
 }
 
 .wheel-segment {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  border: none;
 }
 
 .launch-button-pulsing {

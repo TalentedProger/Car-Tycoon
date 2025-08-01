@@ -261,10 +261,10 @@ export default function Intro({ onComplete }: IntroProps) {
                           clipPath: `polygon(${50 - (segmentAngle / 7.2)}% 0%, ${50 + (segmentAngle / 7.2)}% 0%, 50% 100%)`
                         }}
                       >
-                        <div className="text-slate-800 text-center pt-2 px-1" style={{ transform: `rotate(-${angle}deg)` }}>
-                          <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
-                          <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
-                          <div className="text-sm">
+                        <div className="text-white text-center pt-2 px-1 z-10" style={{ transform: `rotate(-${angle}deg)`, textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                          <div className="text-xs font-bold mb-1 leading-tight drop-shadow-lg">{car.name}</div>
+                          <div className="text-xs mb-1 drop-shadow-lg">{(car.price / 1000000).toFixed(1)}M ₽</div>
+                          <div className="text-sm drop-shadow-lg">
                             {/* Placeholder for brand logo - will use logotype.png from assets */}
                             🚗
                           </div>
@@ -308,13 +308,9 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         <div className="text-center z-10 animate-fade-in max-w-sm mx-auto">
-          <h1 className="text-3xl font-bold mb-4 intro-title">
-            Поздравляем!
+          <h1 className="text-3xl font-bold mb-4 intro-title flex items-center justify-center gap-2">
+            Поздравляем! <span className="animate-bounce-gentle">🎉</span>
           </h1>
-          
-          <div className="mb-4">
-            <div className="text-4xl mb-2 animate-bounce-gentle">🎉</div>
-          </div>
           
           <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/20">
             <h2 className="text-lg font-bold mb-2 text-white">{selectedCar.name}</h2>
