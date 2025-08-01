@@ -237,11 +237,7 @@ export default function Intro({ onComplete }: IntroProps) {
           </div>
         </div>
         
-        {/* Pagination circles at bottom */}
-        <div className="flex justify-center space-x-2 pb-4">
-          <div className="w-3 h-3 rounded-full bg-cyan-400" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-        </div>
+
         
         <audio ref={introMusicRef} preload="none" />
         <audio ref={audioRef} preload="none" />
@@ -275,23 +271,21 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Navigation at bottom */}
-        <div className="flex justify-between items-center w-full max-w-md mx-auto mb-4">
-          {currentMechanic > 0 && (
-            <Button
-              onClick={handlePrevious}
-              className="text-lg px-6 py-3 rounded-full"
-              style={{ 
-                backgroundColor: '#FFD700',
-                color: '#0C011C'
-              }}
-            >
-              ← Назад
-            </Button>
-          )}
+        <div className="flex justify-center items-center space-x-4 mb-4">
+          <Button
+            onClick={handlePrevious}
+            className="text-lg px-6 py-3 rounded-full"
+            style={{ 
+              backgroundColor: '#FFD700',
+              color: '#0C011C'
+            }}
+          >
+            ← Назад
+          </Button>
           
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white ml-auto"
+            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white"
           >
             {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
           </Button>
