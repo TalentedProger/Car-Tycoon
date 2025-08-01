@@ -1,28 +1,27 @@
-# Game Sounds
+# Звуки для игры Auto Arena
 
-This directory contains sound files for the Auto Arena game.
+Эта папка предназначена для хранения звуковых файлов игры.
 
-## Required Sound Files:
+## Необходимые звуки:
 
-- `engine-ignition.mp3` - Car engine ignition sound for the car selection screen
-- `celebration.mp3` - Celebration sound when a car is selected from the wheel
+1. **engine-ignition.mp3** - Звук зажигания автомобиля (воспроизводится при нажатии кнопки "Вперед" на экране выбора автомобиля)
+2. **celebration.mp3** - Звук празднования (воспроизводится при выпадении автомобиля в колесе фортуны)
 
-## File Requirements:
+## Требования к файлам:
 
-- Format: MP3
-- Maximum file size: 1MB per file
-- Recommended duration: 1-3 seconds
-- Sample rate: 44.1 kHz or 48 kHz
+- Формат: MP3
+- Размер: до 1MB каждый файл
+- Длительность: 2-5 секунд для лучшего пользовательского опыта
+- Качество: 128-192 kbps
 
-## Usage:
+## Добавление звуков:
 
-Sounds are automatically loaded and played during the intro sequence:
-1. Engine ignition sound plays when transitioning to the wheel of fortune
-2. Celebration sound plays when a car is selected and the celebration screen appears
+1. Поместите файлы MP3 в эту папку
+2. Убедитесь, что имена файлов точно соответствуют указанным выше
+3. Звуки будут автоматически воспроизводиться в соответствующих моментах игры
 
-## Adding New Sounds:
+## Примечания:
 
-To add new sound files:
-1. Place MP3 files in this directory
-2. Reference them in the intro component using the `playSound()` function
-3. Ensure files are optimized for web playback
+- Если звуковые файлы отсутствуют, игра будет работать без звука
+- Убедитесь, что у вас есть права на использование звуков
+- Звуки должны быть оптимизированы для веб-использования
