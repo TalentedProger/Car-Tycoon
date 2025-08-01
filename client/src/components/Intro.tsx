@@ -109,8 +109,11 @@ export default function Intro({ onComplete }: IntroProps) {
   };
 
   const handleNext = () => {
+    console.log('handleNext called, current state:', state, 'currentMechanic:', currentMechanic);
+    
     if (state === 'welcome') {
       setState('mechanics');
+      setCurrentMechanic(0);
     } else if (state === 'mechanics') {
       if (currentMechanic < gameMechanics.length - 1) {
         setCurrentMechanic(currentMechanic + 1);
@@ -127,12 +130,17 @@ export default function Intro({ onComplete }: IntroProps) {
   };
 
   const handlePrevious = () => {
+    console.log('handlePrevious called, current state:', state, 'currentMechanic:', currentMechanic);
+    
     if (state === 'mechanics') {
       if (currentMechanic > 0) {
         setCurrentMechanic(currentMechanic - 1);
       } else {
         setState('welcome');
       }
+    } else if (state === 'carIntro') {
+      setState('mechanics');
+      setCurrentMechanic(gameMechanics.length - 1);
     }
   };
 
@@ -336,8 +344,19 @@ export default function Intro({ onComplete }: IntroProps) {
           />
         </div>
         
-        {/* Forward button at bottom */}
-        <div className="mb-8">
+        {/* Navigation buttons at bottom */}
+        <div className="flex justify-center items-center space-x-4 mb-8">
+          <Button
+            onClick={handlePrevious}
+            className="text-lg px-6 py-3 rounded-full"
+            style={{ 
+              backgroundColor: '#FFD700',
+              color: '#0C011C'
+            }}
+          >
+            ← Назад
+          </Button>
+          
           <Button
             onClick={handleNext}
             className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0"
