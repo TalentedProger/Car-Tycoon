@@ -108,7 +108,9 @@ export default function Intro({ onComplete }: IntroProps) {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     console.log('handleNext called, current state:', state, 'currentMechanic:', currentMechanic);
     
     if (state === 'welcome') {
@@ -129,7 +131,9 @@ export default function Intro({ onComplete }: IntroProps) {
     }
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     console.log('handlePrevious called, current state:', state, 'currentMechanic:', currentMechanic);
     
     if (state === 'mechanics') {
@@ -279,10 +283,10 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Navigation at bottom */}
-        <div className="flex justify-center items-center space-x-4 mb-4">
+        <div className="flex justify-center items-center space-x-4 mb-4 z-20 relative">
           <Button
             onClick={handlePrevious}
-            className="text-lg px-6 py-3 rounded-full"
+            className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0"
             style={{ 
               backgroundColor: '#FFD700',
               color: '#0C011C'
@@ -293,14 +297,14 @@ export default function Intro({ onComplete }: IntroProps) {
           
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white"
+            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white cursor-pointer transform hover:scale-105 transition-all duration-300"
           >
             {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
           </Button>
         </div>
         
         {/* Pagination circles at bottom */}
-        <div className="flex justify-center space-x-2 pb-4">
+        <div className="flex justify-center space-x-2 pb-4 z-10 relative pointer-events-none">
           <div className="w-3 h-3 rounded-full bg-white/20" />
           {gameMechanics.map((_, index) => (
             <div
@@ -345,10 +349,10 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Navigation buttons at bottom */}
-        <div className="flex justify-center items-center space-x-4 mb-8">
+        <div className="flex justify-center items-center space-x-4 mb-8 z-20 relative">
           <Button
             onClick={handlePrevious}
-            className="text-lg px-6 py-3 rounded-full"
+            className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0"
             style={{ 
               backgroundColor: '#FFD700',
               color: '#0C011C'
@@ -359,7 +363,7 @@ export default function Intro({ onComplete }: IntroProps) {
           
           <Button
             onClick={handleNext}
-            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0"
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90"
             style={{ 
               backgroundColor: '#00FFFF',
               color: '#0C011C',
@@ -371,7 +375,7 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Pagination circles at bottom */}
-        <div className="flex justify-center space-x-2 pb-4">
+        <div className="flex justify-center space-x-2 pb-4 z-10 relative pointer-events-none">
           <div className="w-3 h-3 rounded-full bg-white/20" />
           <div className="w-3 h-3 rounded-full bg-white/20" />
           <div className="w-3 h-3 rounded-full bg-cyan-400" />
