@@ -428,11 +428,12 @@ export default function Intro({ onComplete }: IntroProps) {
               {/* Wheel */}
               <div 
                 ref={wheelRef}
-                className={`w-full h-full rounded-full border-4 border-gray-300 relative transition-transform ${isSpinning ? '' : 'duration-300'} overflow-hidden`}
+                className={`w-full h-full rounded-full border-4 relative transition-transform ${isSpinning ? '' : 'duration-300'} overflow-hidden`}
                 style={{ 
                   transitionDuration: isSpinning ? '10s' : '300ms',
                   transform: `rotate(${wheelRotation}deg)`,
-                  boxShadow: '0 0 20px rgba(0,0,0,0.3)'
+                  borderColor: '#FFD700',
+                  boxShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4)'
                 }}
               >
                 {/* Background segments */}
@@ -440,8 +441,8 @@ export default function Intro({ onComplete }: IntroProps) {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
                   
-                  // Define segment colors
-                  const segmentColors = ['#FF4444', '#4444FF', '#44FF44', '#FFFF44', '#FF44FF', '#44FFFF'];
+                  // Неоновая палитра для сегментов
+                  const segmentColors = ['#00F5FF', '#FF2EC4', '#39FF14', '#FF6F00', '#FFFF33', '#FF073A'];
                   const bgColor = segmentColors[index % segmentColors.length];
                   
                   return (
@@ -459,7 +460,6 @@ export default function Intro({ onComplete }: IntroProps) {
                 {/* Segment borders */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
-                  const radians = (angle * Math.PI) / 180;
                   
                   return (
                     <div
@@ -481,9 +481,9 @@ export default function Intro({ onComplete }: IntroProps) {
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
-                  // Calculate center position of each segment - moved closer to center
-                  const radius = 85; // Distance from center to content
-                  const centerAngle = angle + (segmentAngle / 2);
+                  // Правильное позиционирование в центре сегмента
+                  const radius = 100; // Увеличенное расстояние от центра
+                  const centerAngle = angle + (segmentAngle / 2); // Центр сегмента
                   const radians = (centerAngle * Math.PI) / 180;
                   const x = Math.cos(radians) * radius;
                   const y = Math.sin(radians) * radius;
@@ -497,26 +497,28 @@ export default function Intro({ onComplete }: IntroProps) {
                         top: `calc(50% + ${y}px)`,
                         transform: `translate(-50%, -50%)`,
                         zIndex: 10, 
-                        width: '70px',
-                        height: '60px'
+                        width: '60px',
+                        height: '50px'
                       }}
                     >
                       <div className="font-bold mb-1 leading-tight intro-text" style={{ 
-                        fontSize: '9px',
-                        lineHeight: '10px',
-                        textAlign: 'center',
-                        color: '#FFFFFF',
-                        textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
-                      }}>{car.name}</div>
-                      <div className="font-bold mb-1 intro-text" style={{ 
                         fontSize: '8px',
                         lineHeight: '9px',
                         textAlign: 'center',
+                        color: '#FFFFFF',
+                        textShadow: '1px 1px 2px rgba(0,0,0,0.9)',
+                        wordWrap: 'break-word',
+                        overflow: 'hidden'
+                      }}>{car.name}</div>
+                      <div className="font-bold mb-1 intro-text" style={{ 
+                        fontSize: '7px',
+                        lineHeight: '8px',
+                        textAlign: 'center',
                         color: '#000000',
-                        textShadow: '1px 1px 1px rgba(255,255,255,0.8)'
+                        textShadow: '1px 1px 1px rgba(255,255,255,0.9)'
                       }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
                       <div className="text-lg" style={{ 
-                        fontSize: '14px'
+                        fontSize: '12px'
                       }}>
                         🚗
                       </div>
@@ -531,10 +533,11 @@ export default function Intro({ onComplete }: IntroProps) {
             onClick={spinWheel}
             disabled={isSpinning}
             className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button"
-            style={{
-              backgroundColor: '#4A90E2',
-              color: '#FFFFFF',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+            style={{ 
+              backgroundColor: '#FFD700',
+              color: '#0C011C',
+              boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)',
+              textShadow: '0 1px 2px rgba(12, 1, 28, 0.8)'
             }}
           >
             {isSpinning ? 'Крутится...' : 'Запустить'}
