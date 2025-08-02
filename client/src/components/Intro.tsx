@@ -6,26 +6,27 @@ interface IntroProps {
   onComplete: (selectedCar?: any) => void;
 }
 
-// Car data for the wheel - 5 economy + 1 budget (Honda Accord 7)
+// Car data for the wheel - Real cars from AutoSalon
 const wheelCars = [
-  // Economy cars (5 cars, 19% each = 95% total)
-  { id: 'car-5', name: 'LADA GRANTA', price: 850000, brand: 'LADA', category: 'economy', chance: 0.19, horsepower: 87, acceleration: 11.2, maxSpeed: 167 },
-  { id: 'car-6', name: 'RENAULT LOGAN', price: 950000, brand: 'Renault', category: 'economy', chance: 0.19, horsepower: 102, acceleration: 10.5, maxSpeed: 180 },
-  { id: 'car-9', name: 'TOYOTA COROLLA', price: 1400000, brand: 'Toyota', category: 'economy', chance: 0.19, horsepower: 122, acceleration: 10.9, maxSpeed: 190 },
-  { id: 'car-11', name: 'KIA RIO', price: 1100000, brand: 'Kia', category: 'economy', chance: 0.19, horsepower: 100, acceleration: 12.1, maxSpeed: 173 },
-  { id: 'car-13', name: 'FORD FOCUS', price: 1300000, brand: 'Ford', category: 'economy', chance: 0.19, horsepower: 125, acceleration: 9.4, maxSpeed: 195 },
-  // Budget car (1 car, 5% chance)
-  { id: 'car-8', name: 'HONDA ACCORD 7', price: 1800000, brand: 'Honda', category: 'budget', chance: 0.05, horsepower: 156, acceleration: 8.7, maxSpeed: 210 },
+  // Economy cars (4 cars, ~20% each)
+  { id: 'car-1', name: 'ВАЗ 2107', price: 85000, brand: 'ВАЗ', category: 'economy', chance: 0.2, horsepower: 75, acceleration: 14.0, maxSpeed: 155 },
+  { id: 'car-2', name: 'ВАЗ 2110', price: 125000, brand: 'ВАЗ', category: 'economy', chance: 0.2, horsepower: 82, acceleration: 13.2, maxSpeed: 170 },
+  { id: 'car-3', name: 'Audi 100', price: 140000, brand: 'Audi', category: 'economy', chance: 0.2, horsepower: 115, acceleration: 11.5, maxSpeed: 195 },
+  { id: 'car-4', name: 'Hyundai Sonata IV', price: 135000, brand: 'Hyundai', category: 'economy', chance: 0.2, horsepower: 136, acceleration: 12.0, maxSpeed: 185 },
+  // Budget car (1 car, 15% chance)
+  { id: 'car-8', name: 'Honda Accord 7', price: 750000, brand: 'Honda', category: 'budget', chance: 0.15, horsepower: 156, acceleration: 9.5, maxSpeed: 205 },
+  // Standard car (1 car, 5% chance)
+  { id: 'car-9', name: 'Toyota Corolla', price: 575000, brand: 'Toyota', category: 'standard', chance: 0.05, horsepower: 132, acceleration: 10.2, maxSpeed: 195 },
 ];
 
 // Available colors for each car
 const carColors = {
-  'car-5': ['#FFFFFF', '#000000', '#FF0000', '#0000FF'],
-  'car-6': ['#FFFFFF', '#808080', '#FF0000', '#000000'],
-  'car-9': ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'],
-  'car-11': ['#FF0000', '#FFFFFF', '#000000', '#FFA500'],
-  'car-13': ['#000000', '#FFFFFF', '#0000FF', '#808080'],
-  'car-8': ['#000000', '#FFFFFF', '#C0C0C0', '#8B4513', '#FF0000', '#000080'],
+  'car-1': ['#FFFFFF', '#000000', '#FF0000', '#0000FF'], // ВАЗ 2107
+  'car-2': ['#FFFFFF', '#808080', '#FF0000', '#000000'], // ВАЗ 2110
+  'car-3': ['#000000', '#FFFFFF', '#C0C0C0', '#FF0000'], // Audi 100
+  'car-4': ['#FFFFFF', '#000000', '#0000FF', '#808080'], // Hyundai Sonata IV
+  'car-8': ['#000000', '#FFFFFF', '#C0C0C0', '#8B4513', '#FF0000', '#000080'], // Honda Accord 7
+  'car-9': ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'], // Toyota Corolla
 };
 
 // Game mechanics data
