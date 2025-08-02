@@ -375,14 +375,10 @@ export default function Intro({ onComplete }: IntroProps) {
       >
         <div className={`text-center z-10 transition-all duration-500 pt-16 ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
           <h1 
-            className="text-4xl font-bold mb-8 hero-title-montserrat intro-title animate-neon-flow"
+            className="text-4xl font-bold mb-8 hero-title-montserrat intro-title"
             style={{
-              background: 'linear-gradient(45deg, #FF2EC4, #00F5FF, #FF2EC4)',
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              textShadow: '0 0 20px rgba(255, 46, 196, 0.5), 0 0 40px rgba(0, 245, 255, 0.3)',
+              color: '#8B00FF',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px rgba(139, 0, 255, 0.6)',
             }}
           >
             Твоя первая машина уже ждёт тебя !
