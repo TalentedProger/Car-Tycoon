@@ -109,16 +109,6 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 2, 2025 - Database Reset & Development Tools Implementation
-- **Database Reset Completed**: Сброшены все пользовательские данные через localStorage
-- **Created Reset Guide**: Добавлен подробный файл RESET_DATABASE_GUIDE.md на русском языке с инструкциями
-- **Developer Tools Panel**: Создан DevTools компонент с возможностями:
-  - Просмотр текущих данных игры
-  - Сброс только intro экранов  
-  - Полный сброс всех данных
-  - Подтверждение перед критическими операциями
-- **Enhanced Wheel of Fortune**: Исправлен дизайн колеса с темными неоновыми цветами и правильной логикой выбора машин
-
 ### February 2, 2025 - Complete Project Migration & Navigation Improvements
 - **Successful Migration**: Completed migration from Replit Agent to standard Replit environment with all packages properly installed
 - **Navigation Button Improvements**: Updated intro system navigation with consistent sizing:

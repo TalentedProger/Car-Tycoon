@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import Intro from './components/Intro';
-import DevTools from './components/DevTools';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Garage from './pages/Factories';
@@ -157,7 +156,6 @@ function App() {
         />
         
         <Toaster />
-        <DevTools />
       </TooltipProvider>
     </QueryClientProvider>
   );
