@@ -109,6 +109,20 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### February 2, 2025 - Project Migration & Visual Optimizations
+- **Successful Migration**: Completed migration from Replit Agent to standard Replit environment
+- **Package Installation**: Fixed missing tsx package for TypeScript execution
+- **Text Shadow Optimization**: Reduced text shadow intensity and size for better readability:
+  - Reduced glow radius from 15px/25px to 8px/15px
+  - Lowered opacity from 0.5/0.3 to 0.3/0.2
+  - Minimized black shadow from 4px to 2px with reduced opacity
+- **Image Loading Optimization**: Enhanced main car image loading to prevent content jumping:
+  - Added fixed height container (h-80) to reserve space during loading
+  - Implemented eager loading with sync decoding for immediate display
+  - Added minimum height to prevent layout shifts
+  - Reduced transition duration from 500ms to 300ms for faster loading feel
+- **Application Status**: Server running successfully on port 5000 with all dependencies properly configured
+
 ### February 2, 2025 - Hero Section Design Updates & Complete Project Migration
 - **Hero Section Typography**: Updated main h1 titles to use Montserrat font for enhanced visual impact:
   - "Добро пожаловать в игру" title now uses Montserrat 800 weight

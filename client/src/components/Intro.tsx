@@ -243,26 +243,30 @@ export default function Intro({ onComplete }: IntroProps) {
               className="text-2xl font-bold mb-6 leading-tight intro-text"
               style={{
                 color: '#FFD700',
-                textShadow: '0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
+                textShadow: '0 0 8px rgba(255, 215, 0, 0.3), 0 0 15px rgba(255, 215, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15)',
               }}
             >
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху
             </p>
             
             {/* Фото машины в центре */}
-            <div className="mb-6">
+            <div className="mb-6 h-80 flex items-center justify-center">
               <img 
                 src="/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png"
                 alt="Futuristic Sports Car"
-                className="max-w-lg max-h-80 mx-auto object-contain transition-opacity duration-500"
+                className="max-w-lg max-h-80 mx-auto object-contain transition-opacity duration-300"
                 style={{ 
                   filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 60px rgba(138, 43, 226, 0.4))',
+                  opacity: 1,
+                  minHeight: '200px',
                 }}
                 onError={(e) => {
                   console.error('Image failed to load:', (e.target as HTMLImageElement).src);
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
                 onLoad={() => console.log('Image loaded successfully')}
+                loading="eager"
+                decoding="sync"
               />
             </div>
             
