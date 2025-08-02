@@ -848,7 +848,7 @@ export default function Intro({ onComplete }: IntroProps) {
           </div>
 
           {/* Car characteristics */}
-          <div className="w-full max-w-sm mb-6">
+          <div className="w-full max-w-sm mb-8">
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
                 <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">Мощность авто</div>
@@ -866,26 +866,11 @@ export default function Intro({ onComplete }: IntroProps) {
                 <div className="text-xs text-gray-400 intro-text">км/ч</div>
               </div>
             </div>
-            
-            {/* Selected color display */}
-            {selectedColor && (
-              <div className="mt-4 bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text">Выбранный цвет</div>
-                <div className="text-sm text-gray-300 intro-text">
-                  {selectedColor === '#FFFFFF' ? 'Белый' : 
-                   selectedColor === '#000000' ? 'Чёрный' : 
-                   selectedColor === '#FF0000' ? 'Красный' : 
-                   selectedColor === '#0000FF' ? 'Синий' : 
-                   selectedColor === '#808080' ? 'Серый' :
-                   'Особый'}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Color selection block */}
           <div className="w-full max-w-sm mb-8">
-            <div className="flex flex-wrap justify-center gap-3 overflow-x-auto px-2" style={{ minHeight: '60px', paddingBottom: '10px' }}>
+            <div className="flex flex-wrap justify-center items-center gap-3 px-2 py-3" style={{ minHeight: '60px' }}>
               {availableColors.map((color, index) => (
                 <button
                   key={index}
