@@ -824,7 +824,7 @@ export default function Intro({ onComplete }: IntroProps) {
         {/* Car image block */}
         <div className="flex-1 flex flex-col items-center justify-center px-4">
           {/* Car preview with selected color and shadow */}
-          <div className="relative mb-8">
+          <div className="relative mb-4">
             <div 
               className="text-8xl transition-all duration-300 relative z-10"
               style={{ 
@@ -835,7 +835,8 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedColor === '#FFFFFF' ? '0deg' :
                   selectedColor === '#808080' ? '0deg' :
                   '120deg'
-                })` : 'none' 
+                })` : 'none',
+                opacity: 0.9
               }}
             >
               🚗
@@ -847,6 +848,9 @@ export default function Intro({ onComplete }: IntroProps) {
             />
           </div>
 
+          {/* Spacer to push content down */}
+          <div className="flex-1"></div>
+          
           {/* Car characteristics */}
           <div className="w-full max-w-sm mb-8">
             <div className="grid grid-cols-3 gap-3">
