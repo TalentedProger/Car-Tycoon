@@ -253,10 +253,15 @@ export default function Intro({ onComplete }: IntroProps) {
               <img 
                 src="/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png"
                 alt="Futuristic Sports Car"
-                className="max-w-md max-h-72 mx-auto object-contain"
+                className="max-w-md max-h-72 mx-auto object-contain transition-opacity duration-500"
                 style={{ 
                   filter: 'drop-shadow(0 0 30px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 60px rgba(138, 43, 226, 0.4))',
                 }}
+                onError={(e) => {
+                  console.error('Image failed to load:', (e.target as HTMLImageElement).src);
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+                onLoad={() => console.log('Image loaded successfully')}
               />
             </div>
             

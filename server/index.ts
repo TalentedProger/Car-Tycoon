@@ -7,6 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Статические файлы attached_assets
+app.use('/attached_assets', express.static('attached_assets'));
+
 // Инициализация Telegram бота
 let telegramBot: CarTycoonBot | null = null;
 
