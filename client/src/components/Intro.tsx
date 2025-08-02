@@ -552,14 +552,14 @@ export default function Intro({ onComplete }: IntroProps) {
         {casePhase === 'closed' && (
           <div className="flex-1 flex flex-col items-center justify-center z-10 px-6">
             {/* 3D Case */}
-            <div className="relative mb-12 animate-float">
+            <div className="relative mb-12">
               <img 
-                src="/attached_assets/car_box-Photoroom_1754148813853.jpg"
+                src="/attached_assets/Leonardo_Phoenix_10_A_vibrant_cartoonstyle_3D_render_of_a_clos_3-Photoroom (1)_1754150180830.png"
                 alt="AUTO ARENA Case"
-                className="w-80 h-80 object-contain animate-spin-slow"
+                className="w-80 h-80 object-contain"
                 style={{ 
                   filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.5)) drop-shadow(0 0 60px rgba(255, 0, 255, 0.3))',
-                  animation: 'rotation 8s infinite linear'
+                  animation: 'breathing 3s ease-in-out infinite'
                 }}
               />
               
@@ -573,20 +573,22 @@ export default function Intro({ onComplete }: IntroProps) {
                    }} />
             </div>
             
-            {/* Open Button */}
-            <Button
-              onClick={handleOpenCase}
-              className="font-bold text-2xl px-16 py-6 rounded-2xl transform hover:scale-105 transition-all duration-300 border-0 intro-button"
-              style={{ 
-                background: 'linear-gradient(45deg, #00FFFF, #FF00FF)',
-                color: '#FFFFFF',
-                boxShadow: '0 0 30px rgba(0, 255, 255, 0.6), 0 0 60px rgba(255, 0, 255, 0.4)',
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
-                animation: 'pulse 2s infinite'
-              }}
-            >
-              Открыть кейс
-            </Button>
+            {/* Open Button - positioned at bottom */}
+            <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+              <Button
+                onClick={handleOpenCase}
+                className="font-bold text-lg px-8 py-3 rounded-xl transform hover:scale-105 transition-all duration-300 border-0 intro-button"
+                style={{ 
+                  background: 'linear-gradient(45deg, #00FFFF, #FF00FF)',
+                  color: '#FFFFFF',
+                  boxShadow: '0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.4)',
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
+                  animation: 'pulse 2s infinite'
+                }}
+              >
+                Открыть кейс
+              </Button>
+            </div>
           </div>
         )}
 
@@ -595,7 +597,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="flex-1 flex items-center justify-center z-10">
             <div className="relative animate-case-disappear">
               <img 
-                src="/attached_assets/car_box-Photoroom_1754148813853.jpg"
+                src="/attached_assets/Leonardo_Phoenix_10_A_vibrant_cartoonstyle_3D_render_of_a_clos_3-Photoroom (1)_1754150180830.png"
                 alt="AUTO ARENA Case"
                 className="w-80 h-80 object-contain"
                 style={{ 
