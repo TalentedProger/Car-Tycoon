@@ -68,6 +68,7 @@ export default function Intro({ onComplete }: IntroProps) {
   const [wheelRotation, setWheelRotation] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
   const [showColorSelection, setShowColorSelection] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   const wheelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -345,8 +346,13 @@ export default function Intro({ onComplete }: IntroProps) {
           <img 
             src={carIntroImage} 
             alt="Car with neon effects" 
-            className="max-w-sm max-h-80 object-contain"
-            style={{ filter: 'drop-shadow(0 0 20px rgba(255, 20, 147, 0.8))' }}
+            className="max-w-lg max-h-96 object-contain transition-opacity duration-500"
+            style={{ 
+              filter: 'drop-shadow(0 0 20px rgba(255, 20, 147, 0.8))',
+              opacity: imageLoaded ? 1 : 0
+            }}
+            onLoad={() => setImageLoaded(true)}
+            loading="eager"
           />
         </div>
         

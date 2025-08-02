@@ -116,6 +116,11 @@ Preferred communication style: Simple, everyday language.
   - Increased spacing between navigation buttons and pagination circles (mb-8)
   - Reduced pagination circle size from w-3 h-3 to w-2 h-2 for better visual balance
   - Applied consistent styling across all intro screens (welcome, mechanics, car selection, wheel spin, color selection, celebration)
+- **Image Optimization**: Enhanced car intro image performance and visibility:
+  - Increased image size from max-w-sm max-h-80 to max-w-lg max-h-96 for better visibility
+  - Added preloading mechanism with opacity transition for smoother loading experience
+  - Implemented loading="eager" attribute for immediate loading priority
+  - Added imageLoaded state management for smooth fade-in effect
 - **Technical Improvements**: Fixed tsx package installation, confirmed Telegram bot integration working
 - **Project Structure**: Confirmed all dependencies properly installed and server running on port 5000
 
