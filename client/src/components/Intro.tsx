@@ -556,37 +556,52 @@ export default function Intro({ onComplete }: IntroProps) {
                   );
                 })}
                 
-                {/* Car content with logo, name and price */}
+                {/* Car content with logo, name and price - properly contained in segments */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
-                  const radius = 120; // Distance from center
+                  const radius = 110; // Reduced distance to keep content inside segments
                   const centerAngle = angle + (segmentAngle / 2); // Center of segment
                   const radians = (centerAngle * Math.PI) / 180;
                   const x = Math.cos(radians) * radius;
                   const y = Math.sin(radians) * radius;
                   
+                  // Get segment color for container background
+                  const segmentGradients = [
+                    'rgba(0, 245, 255, 0.2)', // Cyan
+                    'rgba(255, 46, 196, 0.2)', // Pink
+                    'rgba(57, 255, 20, 0.2)', // Green
+                    'rgba(255, 111, 0, 0.2)', // Orange
+                    'rgba(255, 255, 51, 0.2)', // Yellow
+                    'rgba(255, 7, 58, 0.2)', // Red
+                  ];
+                  
+                  const containerBg = segmentGradients[index % segmentGradients.length];
+                  
                   return (
                     <div
                       key={`content-${car.id}`}
-                      className="text-white text-center absolute flex flex-col items-center justify-center" 
+                      className="text-white text-center absolute flex flex-col items-center justify-center rounded-lg border border-white/20 backdrop-blur-sm" 
                       style={{ 
                         left: `calc(50% + ${x}px)`,
                         top: `calc(50% + ${y}px)`,
                         transform: `translate(-50%, -50%) rotate(${centerAngle + 90}deg)`,
-                        zIndex: 10, 
-                        width: '70px',
-                        height: '65px'
+                        zIndex: 15, 
+                        width: '85px',
+                        height: '75px',
+                        backgroundColor: containerBg,
+                        boxShadow: '0 0 15px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.1)',
+                        padding: '4px'
                       }}
                     >
                       {/* Car logo/image */}
-                      <div className="mb-1 flex items-center justify-center h-8">
+                      <div className="mb-1 flex items-center justify-center h-6">
                         <img 
                           src={`/assets/cars/${car.id}/logotype.png`}
                           alt={`${car.brand} logo`}
-                          className="w-6 h-6 object-contain"
+                          className="w-5 h-5 object-contain"
                           style={{ 
-                            filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.8)) brightness(1.2) contrast(1.3)',
+                            filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) brightness(1.3) contrast(1.4)',
                           }}
                           onError={(e) => {
                             // Fallback to car emoji if logo not found
@@ -594,29 +609,31 @@ export default function Intro({ onComplete }: IntroProps) {
                             (e.target as HTMLImageElement).nextElementSibling!.textContent = '🚗';
                           }}
                         />
-                        <span className="text-xl" style={{ display: 'none' }}>🚗</span>
+                        <span className="text-lg" style={{ display: 'none' }}>🚗</span>
                       </div>
                       
                       {/* Car name */}
-                      <div className="font-bold mb-1 leading-tight intro-text" style={{ 
-                        fontSize: '9px',
-                        lineHeight: '10px',
+                      <div className="font-extrabold mb-1 leading-tight intro-text" style={{ 
+                        fontSize: '11px',
+                        lineHeight: '12px',
                         textAlign: 'center',
                         color: '#FFFFFF',
-                        textShadow: '0 0 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(255, 255, 255, 0.3)',
+                        textShadow: '0 0 12px rgba(0, 0, 0, 1), 0 0 6px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8)',
                         wordWrap: 'break-word',
                         overflow: 'hidden',
-                        fontWeight: 'bold'
+                        fontWeight: '900',
+                        letterSpacing: '0.5px'
                       }}>{car.name}</div>
                       
                       {/* Car price */}
-                      <div className="font-bold intro-text" style={{ 
-                        fontSize: '8px',
-                        lineHeight: '9px',
+                      <div className="font-extrabold intro-text" style={{ 
+                        fontSize: '10px',
+                        lineHeight: '11px',
                         textAlign: 'center',
                         color: '#FFD700',
-                        textShadow: '0 0 6px rgba(0, 0, 0, 0.9), 0 0 3px rgba(255, 215, 0, 0.8)',
-                        fontWeight: 'bold'
+                        textShadow: '0 0 10px rgba(0, 0, 0, 1), 0 0 5px rgba(255, 215, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8)',
+                        fontWeight: '900',
+                        letterSpacing: '0.3px'
                       }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
                     </div>
                   );
