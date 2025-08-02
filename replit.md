@@ -127,8 +127,10 @@ Preferred communication style: Simple, everyday language.
   - Enhanced visual depth while maintaining readability
 - **Welcome Screen Redesign**: Restructured first hero slide layout for better visual hierarchy:
   - Removed "Добро пожаловать в игру" main title
-  - Moved first text block to top with smaller font and golden color
-  - Added futuristic car image in center with neon glow effects
+  - Moved first text block to top with larger, bolder golden text (text-2xl font-bold)
+  - Added futuristic car image in center with enhanced sizing (max-w-lg max-h-80)
+  - Applied dark shadows around image for depth (drop-shadow effects)
+  - Combined neon glow effects with realistic shadows for premium look
   - Split descriptive text into two separate blocks with proper spacing
   - Maintained button position at bottom for consistent UX
 

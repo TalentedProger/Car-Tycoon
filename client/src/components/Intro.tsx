@@ -240,7 +240,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             {/* Первый текстовый блок вверху */}
             <p 
-              className="text-xl font-medium mb-8 leading-relaxed intro-text"
+              className="text-2xl font-bold mb-8 leading-relaxed intro-text"
               style={{
                 color: '#FFD700',
               }}
@@ -253,9 +253,9 @@ export default function Intro({ onComplete }: IntroProps) {
               <img 
                 src="/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png"
                 alt="Futuristic Sports Car"
-                className="max-w-md max-h-72 mx-auto object-contain transition-opacity duration-500"
+                className="max-w-lg max-h-80 mx-auto object-contain transition-opacity duration-500"
                 style={{ 
-                  filter: 'drop-shadow(0 0 30px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 60px rgba(138, 43, 226, 0.4))',
+                  filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 60px rgba(138, 43, 226, 0.4))',
                 }}
                 onError={(e) => {
                   console.error('Image failed to load:', (e.target as HTMLImageElement).src);
