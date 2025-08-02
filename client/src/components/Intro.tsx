@@ -267,7 +267,7 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
         <div className="flex-1 flex items-center justify-center">
-          <div className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
+          <div key={currentMechanic} className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
             <div className="text-8xl mb-6 animate-float">
               {mechanic.icon}
             </div>
