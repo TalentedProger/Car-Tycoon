@@ -218,7 +218,7 @@ export default function Intro({ onComplete }: IntroProps) {
   // Welcome Screen
   if (state === 'welcome') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden" style={{ fontFamily: 'Nunito, sans-serif' }}>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
@@ -229,13 +229,12 @@ export default function Intro({ onComplete }: IntroProps) {
               style={{
                 color: '#FFD700',
                 textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
-                fontFamily: 'Nunito, sans-serif'
               }}
             >
               Добро пожаловать в игру
             </h1>
             
-            <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300" style={{ fontFamily: 'Nunito, sans-serif' }}>
+            <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300">
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
               Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
               Всё начинается прямо сейчас — с твоей первой машины.
@@ -244,7 +243,6 @@ export default function Intro({ onComplete }: IntroProps) {
             <Button
               onClick={handleNext}
               className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white"
-              style={{ fontFamily: 'Nunito, sans-serif' }}
             >
               Далее
             </Button>
@@ -264,7 +262,7 @@ export default function Intro({ onComplete }: IntroProps) {
     const mechanic = gameMechanics[currentMechanic];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden" style={{ fontFamily: 'Nunito, sans-serif' }}>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
@@ -274,11 +272,11 @@ export default function Intro({ onComplete }: IntroProps) {
               {mechanic.icon}
             </div>
             
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: 'Nunito, sans-serif' }}>
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
               {mechanic.title}
             </h2>
             
-            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300" style={{ fontFamily: 'Nunito, sans-serif' }}>
+            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300">
               {mechanic.description}
             </p>
           </div>
@@ -291,8 +289,7 @@ export default function Intro({ onComplete }: IntroProps) {
             className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0"
             style={{ 
               backgroundColor: '#FFD700',
-              color: '#0C011C',
-              fontFamily: 'Nunito, sans-serif'
+              color: '#0C011C'
             }}
           >
             ← Назад
@@ -301,7 +298,6 @@ export default function Intro({ onComplete }: IntroProps) {
           <Button
             onClick={handleNext}
             className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white cursor-pointer transform hover:scale-105 transition-all duration-300"
-            style={{ fontFamily: 'Nunito, sans-serif' }}
           >
             {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
           </Button>
@@ -328,7 +324,7 @@ export default function Intro({ onComplete }: IntroProps) {
     return (
       <div 
         className="min-h-screen flex flex-col items-center justify-between text-white p-6 relative overflow-hidden"
-        style={{ backgroundColor: '#0C011C', fontFamily: 'Nunito, sans-serif' }}
+        style={{ backgroundColor: '#0C011C' }}
       >
         <div className={`text-center z-10 transition-all duration-500 pt-16 ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
           <h1 
@@ -336,7 +332,6 @@ export default function Intro({ onComplete }: IntroProps) {
             style={{
               color: '#F5F5F5',
               textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
-              fontFamily: 'Nunito, sans-serif'
             }}
           >
             Твоя первая машина уже ждёт тебя !
@@ -361,8 +356,7 @@ export default function Intro({ onComplete }: IntroProps) {
             style={{ 
               backgroundColor: '#00FFFF',
               color: '#0C011C',
-              boxShadow: '0px 0px 16px rgba(0,255,255,0.6)',
-              fontFamily: 'Nunito, sans-serif'
+              boxShadow: '0px 0px 16px rgba(0,255,255,0.6)'
             }}
           >
             Вперёд
@@ -382,12 +376,12 @@ export default function Intro({ onComplete }: IntroProps) {
   // Wheel Spin Screen
   if (state === 'wheelSpin') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden" style={{ fontFamily: 'Nunito, sans-serif' }}>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
         <div className="flex-1 flex flex-col items-center justify-center text-center z-10">
-          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: 'Nunito, sans-serif' }}>
+          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Колесо фортуны
           </h1>
           
@@ -420,7 +414,7 @@ export default function Intro({ onComplete }: IntroProps) {
                       className="absolute w-full h-full"
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
-                      <div className="text-white text-center absolute top-8 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10, fontFamily: 'Nunito, sans-serif' }}>
+                      <div className="text-white text-center absolute top-8 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10 }}>
                         <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
                         <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
                         <div className="text-lg">
@@ -439,7 +433,6 @@ export default function Intro({ onComplete }: IntroProps) {
             onClick={spinWheel}
             disabled={isSpinning}
             className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white disabled:opacity-50 disabled:cursor-not-allowed animate-neon-orange"
-            style={{ fontFamily: 'Nunito, sans-serif' }}
           >
             {isSpinning ? 'Крутится...' : 'Запустить'}
           </Button>
@@ -463,14 +456,14 @@ export default function Intro({ onComplete }: IntroProps) {
     return (
       <div 
         className="min-h-screen flex flex-col text-white p-6 relative overflow-hidden"
-        style={{ backgroundColor: '#0C011C', fontFamily: 'Nunito, sans-serif' }}
+        style={{ backgroundColor: '#0C011C' }}
       >
         {/* Top section - Car name and price */}
         <div className="text-center pt-8 pb-6">
-          <h1 className="text-2xl font-bold mb-2" style={{ color: '#F5F5F5', fontSize: '24px', fontFamily: 'Nunito, sans-serif' }}>
+          <h1 className="text-2xl font-bold mb-2" style={{ color: '#F5F5F5', fontSize: '24px' }}>
             {selectedCar.name}
           </h1>
-          <p className="text-base font-medium" style={{ color: '#C0C0C0', fontSize: '16px', fontFamily: 'Nunito, sans-serif' }}>
+          <p className="text-base font-medium" style={{ color: '#C0C0C0', fontSize: '16px' }}>
             {selectedCar.price.toLocaleString()} ₽
           </p>
         </div>
@@ -493,7 +486,7 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedColor === '#8B4513' ? '20deg' :
                   selectedColor === '#000080' ? '240deg' :
                   '120deg'
-                })` : 'none'
+                })` : 'none' 
               }}
             >
               🚗
@@ -508,17 +501,17 @@ export default function Intro({ onComplete }: IntroProps) {
           {/* Car characteristics */}
           <div className="w-full max-w-sm mb-8">
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)', fontFamily: 'Nunito, sans-serif' }}>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
                 <div className="text-xs font-bold text-white mb-1">Мощность</div>
                 <div className="text-lg font-bold text-white">{selectedCar.horsepower}</div>
                 <div className="text-xs text-gray-400">л.с.</div>
               </div>
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)', fontFamily: 'Nunito, sans-serif' }}>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
                 <div className="text-xs font-bold text-white mb-1">0-100 км/ч</div>
                 <div className="text-lg font-bold text-white">{selectedCar.acceleration}</div>
                 <div className="text-xs text-gray-400">сек</div>
               </div>
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)', fontFamily: 'Nunito, sans-serif' }}>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
                 <div className="text-xs font-bold text-white mb-1">Макс. скорость</div>
                 <div className="text-lg font-bold text-white">{selectedCar.maxSpeed}</div>
                 <div className="text-xs text-gray-400">км/ч</div>
@@ -562,8 +555,7 @@ export default function Intro({ onComplete }: IntroProps) {
               color: '#0C011C',
               minWidth: '220px',
               height: '48px',
-              boxShadow: selectedColor ? '0px 0px 14px rgba(0,255,255,0.5)' : 'none',
-              fontFamily: 'Nunito, sans-serif'
+              boxShadow: selectedColor ? '0px 0px 14px rgba(0,255,255,0.5)' : 'none'
             }}
           >
             Подтвердить выбор
@@ -585,7 +577,7 @@ export default function Intro({ onComplete }: IntroProps) {
   // Celebration Screen
   if (state === 'celebration' && selectedCar) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden" style={{ fontFamily: 'Nunito, sans-serif' }}>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon fireworks */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
@@ -603,7 +595,7 @@ export default function Intro({ onComplete }: IntroProps) {
         
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-md mx-auto animate-celebration">
-            <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent" style={{ fontFamily: 'Nunito, sans-serif' }}>
+            <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
               Поздравляем! 🎆
             </h1>
             
@@ -621,13 +613,13 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedCar.color === '#8B4513' ? '20deg' :
                   selectedCar.color === '#000080' ? '240deg' :
                   '120deg'
-                })` : 'none'
+                })` : 'none' 
               }}>
                 🚗
               </div>
             </div>
             
-            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30" style={{ fontFamily: 'Nunito, sans-serif' }}>
+            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
               <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
               <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
               <p className="text-sm text-gray-400">Цвет: {
@@ -647,7 +639,6 @@ export default function Intro({ onComplete }: IntroProps) {
             <Button
               onClick={handleStartGame}
               className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green"
-              style={{ fontFamily: 'Nunito, sans-serif' }}
             >
               В путь!
             </Button>
