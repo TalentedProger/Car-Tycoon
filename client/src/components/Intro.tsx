@@ -239,10 +239,10 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             <h1 
-              className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 intro-title"
+              className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 hero-title-montserrat intro-title"
               style={{
                 color: '#FFD700',
-                textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
+                textShadow: '0px 4px 12px rgba(255, 215, 0, 0.15), 0 0 30px rgba(255, 215, 0, 0.4)',
               }}
             >
               Добро пожаловать в игру
@@ -256,7 +256,12 @@ export default function Intro({ onComplete }: IntroProps) {
             
             <Button
               onClick={handleNext}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white intro-button"
+              className="font-bold text-xl px-16 py-6 rounded-full border-0 text-white intro-button animate-hero-pulse"
+              style={{
+                background: 'linear-gradient(45deg, #00FFFF, #22D3EE)',
+                boxShadow: '0 0 20px rgba(0, 255, 255, 0.3)',
+                marginBottom: '2rem'
+              }}
             >
               Далее
             </Button>
@@ -349,10 +354,10 @@ export default function Intro({ onComplete }: IntroProps) {
       >
         <div className={`text-center z-10 transition-all duration-500 pt-16 ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
           <h1 
-            className="text-4xl font-bold mb-8 intro-title"
+            className="text-4xl font-bold mb-8 hero-title-montserrat intro-title"
             style={{
               color: '#F5F5F5',
-              textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
+              textShadow: '0px 4px 12px rgba(245, 245, 245, 0.15), 0 0 30px rgba(245, 245, 245, 0.4)',
             }}
           >
             Твоя первая машина уже ждёт тебя !

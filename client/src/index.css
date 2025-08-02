@@ -124,6 +124,16 @@
     animation: neon-orange 2s ease-in-out infinite;
   }
   
+  .animate-hero-pulse {
+    animation: hero-pulse 3s ease-in-out infinite;
+  }
+  
+  /* Специальные классы для hero-секций */
+  .hero-title-montserrat {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+  }
+  
   .animate-pulse-green {
     animation: pulse-green 2s ease-in-out infinite;
   }
@@ -512,6 +522,19 @@
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes hero-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    background: linear-gradient(45deg, #00FFFF, #22D3EE);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(34, 211, 238, 0.3);
+    background: linear-gradient(45deg, #22D3EE, #0EA5E9);
   }
 }
 
