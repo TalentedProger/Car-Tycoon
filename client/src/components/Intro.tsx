@@ -242,30 +242,32 @@ export default function Intro({ onComplete }: IntroProps) {
               className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 hero-title-montserrat intro-title"
               style={{
                 color: '#FFD700',
-                textShadow: '0px 4px 12px rgba(255, 215, 0, 0.15), 0 0 30px rgba(255, 215, 0, 0.4)',
               }}
             >
               Добро пожаловать в игру
             </h1>
             
-            <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300 intro-text">
+            <p className="text-lg opacity-90 leading-relaxed max-w-3xl mx-auto text-gray-300 intro-text">
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
               Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
               Всё начинается прямо сейчас — с твоей первой машины.
             </p>
-            
-            <Button
-              onClick={handleNext}
-              className="font-bold text-xl px-16 py-6 rounded-full border-0 text-white intro-button animate-hero-pulse"
-              style={{
-                background: 'linear-gradient(45deg, #00FFFF, #22D3EE)',
-                boxShadow: '0 0 20px rgba(0, 255, 255, 0.3)',
-                marginBottom: '2rem'
-              }}
-            >
-              Далее
-            </Button>
           </div>
+        </div>
+        
+        {/* Кнопка внизу экрана */}
+        <div className="mb-8 z-20 relative">
+          <Button
+            onClick={handleNext}
+            className="font-bold text-xl px-16 py-6 rounded-full border-0 text-white intro-button animate-pulse-subtle"
+            style={{
+              background: '#00FFFF',
+              color: '#0C011C',
+              boxShadow: '0 0 20px rgba(0, 255, 255, 0.3)',
+            }}
+          >
+            Далее
+          </Button>
         </div>
         
 

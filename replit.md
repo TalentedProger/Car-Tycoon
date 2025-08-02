@@ -109,6 +109,18 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### February 2, 2025 - Hero Section Design Updates & Complete Project Migration
+- **Hero Section Typography**: Updated main h1 titles to use Montserrat font for enhanced visual impact:
+  - "Добро пожаловать в игру" title now uses Montserrat 800 weight
+  - "Твоя первая машина уже ждёт тебя !" title also uses Montserrat 800 weight
+  - Changed text shadows to use text color instead of white for better contrast
+- **Welcome Screen Button Design**: Enhanced "Далее" button on first screen only:
+  - Removed color-changing animation for cleaner look
+  - Repositioned button to bottom of screen for better UX
+  - Added subtle pulse animation with cyan color scheme
+  - Increased button size with px-16 py-6 padding
+  - All other intro screens maintain original button styling
+
 ### February 2, 2025 - Complete Project Migration & Navigation Improvements
 - **Successful Migration**: Completed migration from Replit Agent to standard Replit environment with all packages properly installed
 - **Navigation Button Improvements**: Updated intro system navigation with consistent sizing:
