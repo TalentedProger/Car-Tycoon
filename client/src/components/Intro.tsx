@@ -70,6 +70,29 @@ export default function Intro({ onComplete }: IntroProps) {
   const [showColorSelection, setShowColorSelection] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
+  // Case opening hooks - moved to top level to avoid conditional hooks
+  const [casePhase, setCasePhase] = useState<'closed' | 'opening' | 'scrolling' | 'result'>('closed');
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [selectedWinningCar, setSelectedWinningCar] = useState<typeof wheelCars[0] | null>(null);
+  const [cardScrollPosition, setCardScrollPosition] = useState(0);
+  
+  // Generate extended card list for scrolling effect
+  const generateScrollCards = () => {
+    const cards = [];
+    // Add random cars for scroll effect (50 cards total)
+    for (let i = 0; i < 50; i++) {
+      const randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
+      cards.push({ ...randomCar, id: `scroll-${i}` });
+    }
+    // Insert the winning car at position 25 (center)
+    const winningCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
+    cards[25] = { ...winningCar, id: 'winning-car' };
+    setSelectedWinningCar(winningCar);
+    return cards;
+  };
+  
+  const [scrollCards] = useState(() => generateScrollCards());
+  
   const wheelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const introMusicRef = useRef<HTMLAudioElement>(null);
@@ -437,28 +460,6 @@ export default function Intro({ onComplete }: IntroProps) {
 
   // Case Opening Screen - CS2 Style
   if (state === 'wheelSpin') {
-    const [casePhase, setCasePhase] = useState<'closed' | 'opening' | 'scrolling' | 'result'>('closed');
-    const [isScrolling, setIsScrolling] = useState(false);
-    const [selectedWinningCar, setSelectedWinningCar] = useState<typeof wheelCars[0] | null>(null);
-    const [cardScrollPosition, setCardScrollPosition] = useState(0);
-    
-    // Generate extended card list for scrolling effect
-    const generateScrollCards = () => {
-      const cards = [];
-      // Add random cars for scroll effect (50 cards total)
-      for (let i = 0; i < 50; i++) {
-        const randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
-        cards.push({ ...randomCar, id: `scroll-${i}` });
-      }
-      // Insert the winning car at position 25 (center)
-      const winningCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
-      cards[25] = { ...winningCar, id: 'winning-car' };
-      setSelectedWinningCar(winningCar);
-      return cards;
-    };
-    
-    const [scrollCards] = useState(() => generateScrollCards());
-    
     // Play sound function
     const playSound = (soundPath: string, volume: number = 0.5) => {
       try {
