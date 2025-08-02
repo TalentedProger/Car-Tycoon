@@ -388,7 +388,7 @@ export default function Intro({ onComplete }: IntroProps) {
             className="text-4xl font-bold mb-8 hero-title-montserrat intro-title"
             style={{
               color: '#F5F5F5',
-              textShadow: '0px 4px 12px rgba(245, 245, 245, 0.15), 0 0 30px rgba(245, 245, 245, 0.4)',
+              textShadow: '0px 4px 12px rgba(255, 105, 180, 0.25), 0 0 30px rgba(255, 105, 180, 0.5)',
             }}
           >
             Твоя первая машина уже ждёт тебя !
@@ -396,7 +396,7 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Central image */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-start justify-center pt-8">
           <img 
             src={carIntroImage} 
             alt="Car with neon effects" 
@@ -411,10 +411,10 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Forward button at bottom - centered */}
-        <div className="flex justify-center items-center mb-8 z-20 relative">
+        <div className="flex justify-center items-center mb-16 z-20 relative">
           <Button
             onClick={handleNext}
-            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90 animate-pulse-subtle intro-button"
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-110 transition-all duration-300 border-0 cursor-pointer hover:opacity-90 animate-pulse-subtle intro-button"
             style={{ 
               backgroundColor: '#00FFFF',
               color: '#0C011C',
