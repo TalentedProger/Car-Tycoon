@@ -19,14 +19,17 @@ const wheelCars = [
   { id: 'car-9', name: 'Toyota Corolla', price: 575000, brand: 'Toyota', category: 'standard', chance: 0.05, horsepower: 132, acceleration: 10.2, maxSpeed: 195 },
 ];
 
-// Available colors for each car
+// Standard 5-color palette for all cars
+const standardColors = ['#FFFFFF', '#000000', '#0000FF', '#FF0000', '#808080']; // Белый, Чёрный, Синий, Красный, Серый
+
+// Available colors for each car - all cars get the standard palette
 const carColors = {
-  'car-1': ['#FFFFFF', '#000000', '#FF0000', '#0000FF'], // ВАЗ 2107
-  'car-2': ['#FFFFFF', '#808080', '#FF0000', '#000000'], // ВАЗ 2110
-  'car-3': ['#000000', '#FFFFFF', '#C0C0C0', '#FF0000'], // Audi 100
-  'car-4': ['#FFFFFF', '#000000', '#0000FF', '#808080'], // Hyundai Sonata IV
-  'car-8': ['#000000', '#FFFFFF', '#C0C0C0', '#8B4513', '#FF0000', '#000080'], // Honda Accord 7
-  'car-9': ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'], // Toyota Corolla
+  'car-1': standardColors, // ВАЗ 2107
+  'car-2': standardColors, // ВАЗ 2110
+  'car-3': standardColors, // Audi 100
+  'car-4': standardColors, // Hyundai Sonata IV
+  'car-8': standardColors, // Honda Accord 7
+  'car-9': standardColors, // Toyota Corolla
 };
 
 // Game mechanics data
@@ -272,13 +275,7 @@ export default function Intro({ onComplete }: IntroProps) {
 
   const handleColorSelection = (color: string) => {
     setSelectedColor(color);
-    setState('celebration');
-    playSound('win.mp3');
-    
-    // Stop intro music
-    if (introMusicRef.current) {
-      introMusicRef.current.pause();
-    }
+    // Don't auto-proceed, just set the selected color for radio button behavior
   };
 
   const handleStartGame = () => {
@@ -807,7 +804,7 @@ export default function Intro({ onComplete }: IntroProps) {
 
   // Color Selection Screen
   if (state === 'colorSelection' && selectedCar) {
-    const availableColors = carColors[selectedCar.id as keyof typeof carColors] || ['#FFFFFF', '#000000'];
+    const availableColors = carColors[selectedCar.id as keyof typeof carColors] || standardColors;
     
     return (
       <div 
@@ -837,10 +834,6 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedColor === '#000000' ? '0deg' : 
                   selectedColor === '#FFFFFF' ? '0deg' :
                   selectedColor === '#808080' ? '0deg' :
-                  selectedColor === '#C0C0C0' ? '0deg' :
-                  selectedColor === '#FFA500' ? '30deg' :
-                  selectedColor === '#8B4513' ? '20deg' :
-                  selectedColor === '#000080' ? '240deg' :
                   '120deg'
                 })` : 'none' 
               }}
@@ -857,18 +850,18 @@ export default function Intro({ onComplete }: IntroProps) {
           {/* Car characteristics */}
           <div className="w-full max-w-sm mb-8">
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text">Мощность</div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">Мощность авто</div>
                 <div className="text-lg font-bold text-white intro-text">{selectedCar.horsepower}</div>
                 <div className="text-xs text-gray-400 intro-text">л.с.</div>
               </div>
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text">0-100 км/ч</div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">0-100<br />км/ч</div>
                 <div className="text-lg font-bold text-white intro-text">{selectedCar.acceleration}</div>
                 <div className="text-xs text-gray-400 intro-text">сек</div>
               </div>
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text">Макс. скорость</div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">Макс. скорость</div>
                 <div className="text-lg font-bold text-white intro-text">{selectedCar.maxSpeed}</div>
                 <div className="text-xs text-gray-400 intro-text">км/ч</div>
               </div>
@@ -902,6 +895,12 @@ export default function Intro({ onComplete }: IntroProps) {
                 // Save selected color to the car object
                 setSelectedCar({ ...selectedCar, color: selectedColor });
                 setState('celebration');
+                playSound('win.mp3');
+                
+                // Stop intro music
+                if (introMusicRef.current) {
+                  introMusicRef.current.pause();
+                }
               }
             }}
             disabled={!selectedColor}
@@ -969,10 +968,6 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedCar.color === '#000000' ? '0deg' : 
                   selectedCar.color === '#FFFFFF' ? '0deg' :
                   selectedCar.color === '#808080' ? '0deg' :
-                  selectedCar.color === '#C0C0C0' ? '0deg' :
-                  selectedCar.color === '#FFA500' ? '30deg' :
-                  selectedCar.color === '#8B4513' ? '20deg' :
-                  selectedCar.color === '#000080' ? '240deg' :
                   '120deg'
                 })` : 'none' 
               }}>
@@ -989,10 +984,6 @@ export default function Intro({ onComplete }: IntroProps) {
                 selectedCar.color === '#FF0000' ? 'Красный' : 
                 selectedCar.color === '#0000FF' ? 'Синий' : 
                 selectedCar.color === '#808080' ? 'Серый' :
-                selectedCar.color === '#C0C0C0' ? 'Серебристый' :
-                selectedCar.color === '#FFA500' ? 'Оранжевый' :
-                selectedCar.color === '#8B4513' ? 'Коричневый' :
-                selectedCar.color === '#000080' ? 'Тёмно-синий' :
                 'Особый'
               }</p>
             </div>

@@ -6,6 +6,17 @@ Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScri
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+- **Date: August 2, 2025** - Successfully migrated project from Replit Agent to standard Replit environment
+- Fixed missing tsx dependency causing startup failures
+- Improved UI consistency in color selection screen:
+  - Standardized 5-color palette (White, Black, Blue, Red, Gray) for all cars
+  - Fixed color selection behavior to work as radio buttons (selection only highlights, confirm button proceeds)
+  - Made car characteristic containers uniform with consistent sizing and spacing
+  - Updated headers for better mobile responsiveness
+  - Removed unwanted blue border from card container
+- Enhanced button responsiveness for mobile devices with adaptive sizing and text truncation
+
 ## System Architecture
 
 ### Frontend
