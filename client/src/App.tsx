@@ -37,7 +37,7 @@ function App() {
   // Reset intro data immediately for all users
   React.useEffect(() => {
     // Force reset intro data on app load to show new intro system
-    const shouldReset = localStorage.getItem('forceIntroReset') !== 'done-v2';
+    const shouldReset = localStorage.getItem('forceIntroReset') !== 'done-v3';
     if (shouldReset) {
       localStorage.removeItem('carTycoonIntro');
       localStorage.removeItem('selectedStarterCar');
@@ -55,7 +55,7 @@ function App() {
         }
       }
       
-      localStorage.setItem('forceIntroReset', 'done-v2');
+      localStorage.setItem('forceIntroReset', 'done-v3');
       window.location.reload(); // Reload to apply changes
     }
   }, []);
