@@ -375,10 +375,14 @@ export default function Intro({ onComplete }: IntroProps) {
       >
         <div className={`text-center z-10 transition-all duration-500 pt-16 ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
           <h1 
-            className="text-4xl font-bold mb-8 hero-title-montserrat intro-title"
+            className="text-4xl font-bold mb-8 hero-title-montserrat intro-title animate-neon-flow"
             style={{
-              color: '#F5F5F5',
-              textShadow: '0px 4px 12px rgba(245, 245, 245, 0.15), 0 0 30px rgba(245, 245, 245, 0.4)',
+              background: 'linear-gradient(45deg, #FF2EC4, #00F5FF, #FF2EC4)',
+              backgroundSize: '200% 200%',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: '0 0 20px rgba(255, 46, 196, 0.5), 0 0 40px rgba(0, 245, 255, 0.3)',
             }}
           >
             Твоя первая машина уже ждёт тебя !
@@ -386,7 +390,7 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Central image */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center mx-auto">
           <img 
             src={carIntroImage} 
             alt="Car with neon effects" 
