@@ -438,20 +438,25 @@ export default function Intro({ onComplete }: IntroProps) {
   // Wheel Spin Screen
   if (state === 'wheelSpin') {
     return (
-      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
-        <div className="flex-1 flex flex-col items-center justify-center text-center z-10">
+        {/* Top title */}
+        <div className="text-center pt-4 pb-4 z-10">
           <h1 
-            className="text-3xl font-bold mb-8 intro-title"
+            className="text-3xl font-bold intro-title"
             style={{
               color: '#FFFFFF',
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8)',
+              textShadow: '0 0 8px rgba(255, 105, 180, 0.8), 0 0 15px rgba(255, 105, 180, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8)',
             }}
           >
             Колесо фортуны
           </h1>
+        </div>
+
+        {/* Central wheel section */}
+        <div className="flex-1 flex items-center justify-center z-10">
           
           {/* Premium Neon Wheel of Fortune */}
           <div className="relative mb-8">
@@ -504,29 +509,29 @@ export default function Intro({ onComplete }: IntroProps) {
                   boxShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.2)'
                 }}
               >
-                {/* Neon segments with premium gradients */}
+                {/* Unique neon segments - no repetitions */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
                   
-                  // Premium neon color palette
-                  const segmentGradients = [
-                    'linear-gradient(135deg, #00F5FF 0%, #0080FF 100%)', // Cyan to blue
-                    'linear-gradient(135deg, #FF2EC4 0%, #C41E3A 100%)', // Pink to crimson
-                    'linear-gradient(135deg, #39FF14 0%, #32CD32 100%)', // Neon green to lime
-                    'linear-gradient(135deg, #FF6F00 0%, #FF4500 100%)', // Orange to red-orange
-                    'linear-gradient(135deg, #FFFF33 0%, #FFD700 100%)', // Yellow to gold
-                    'linear-gradient(135deg, #FF073A 0%, #DC143C 100%)', // Red to crimson
+                  // 6 unique neon colors for 6 cars
+                  const uniqueSegmentColors = [
+                    '#00F5FF', // Electric cyan
+                    '#FF1493', // Deep pink
+                    '#39FF14', // Electric lime
+                    '#FF4500', // Orange red
+                    '#FFD700', // Gold
+                    '#8A2BE2', // Blue violet
                   ];
                   
-                  const gradientBg = segmentGradients[index % segmentGradients.length];
+                  const segmentColor = uniqueSegmentColors[index];
                   
                   return (
                     <div
                       key={`segment-${car.id}`}
                       className="absolute w-full h-full"
                       style={{
-                        background: `conic-gradient(from ${angle}deg, transparent 0deg, transparent ${angle}deg, ${gradientBg.replace('linear-gradient(135deg,', '').replace(')', '').split(',')[0]} ${angle}deg, ${gradientBg.replace('linear-gradient(135deg,', '').replace(')', '').split(',')[1]} ${angle + segmentAngle}deg, transparent ${angle + segmentAngle}deg)`,
+                        background: `conic-gradient(from ${angle}deg, transparent 0deg, transparent ${angle}deg, ${segmentColor} ${angle}deg, ${segmentColor} ${angle + segmentAngle}deg, transparent ${angle + segmentAngle}deg)`,
                         borderRadius: '50%',
                         filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))'
                       }}
@@ -600,29 +605,30 @@ export default function Intro({ onComplete }: IntroProps) {
                         <span className="text-base" style={{ display: 'none' }}>🚗</span>
                       </div>
                       
-                      {/* Car name */}
-                      <div className="font-extrabold mb-1 leading-tight intro-text" style={{ 
-                        fontSize: '12px',
-                        lineHeight: '13px',
+                      {/* Car name - larger text */}
+                      <div className="font-extrabold mb-2 leading-tight intro-text" style={{ 
+                        fontSize: '15px',
+                        lineHeight: '16px',
                         textAlign: 'center',
                         color: '#FFFFFF',
-                        textShadow: '0 0 15px rgba(0, 0, 0, 1), 0 0 8px rgba(255, 255, 255, 0.6), 0 3px 6px rgba(0, 0, 0, 0.9)',
+                        textShadow: '0 0 18px rgba(0, 0, 0, 1), 0 0 10px rgba(255, 255, 255, 0.7), 0 4px 8px rgba(0, 0, 0, 0.9)',
                         wordWrap: 'break-word',
                         overflow: 'hidden',
                         fontWeight: '900',
-                        letterSpacing: '0.8px',
+                        letterSpacing: '1px',
                         maxWidth: '65px'
                       }}>{car.name}</div>
                       
-                      {/* Car price */}
+                      {/* Car price - neon glow with black shadows */}
                       <div className="font-extrabold intro-text" style={{ 
-                        fontSize: '11px',
-                        lineHeight: '12px',
+                        fontSize: '14px',
+                        lineHeight: '15px',
                         textAlign: 'center',
-                        color: '#FFD700',
-                        textShadow: '0 0 12px rgba(0, 0, 0, 1), 0 0 6px rgba(255, 215, 0, 1), 0 3px 6px rgba(0, 0, 0, 0.9)',
+                        color: '#00FFFF',
+                        textShadow: '0 0 20px #000000, 0 0 15px #00FFFF, 0 0 10px #00FFFF, 0 0 5px #00FFFF, 0 4px 8px rgba(0, 0, 0, 1)',
                         fontWeight: '900',
-                        letterSpacing: '0.5px'
+                        letterSpacing: '0.8px',
+                        filter: 'drop-shadow(0 0 8px #00FFFF)'
                       }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
                     </div>
                   );
@@ -637,7 +643,10 @@ export default function Intro({ onComplete }: IntroProps) {
                    }} />
             </div>
           </div>
-          
+        </div>
+
+        {/* Bottom button section */}
+        <div className="text-center pb-4 z-10">
           <Button
             onClick={spinWheel}
             disabled={isSpinning}
