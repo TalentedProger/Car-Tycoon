@@ -240,17 +240,17 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             {/* Первый текстовый блок вверху */}
             <p 
-              className="text-2xl font-bold mb-8 leading-tight intro-text animate-text-glow"
+              className="text-2xl font-bold mb-6 leading-tight intro-text animate-text-glow"
               style={{
                 color: '#FFD700',
-                textShadow: '0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3)',
+                textShadow: '0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
               }}
             >
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху
             </p>
             
             {/* Фото машины в центре */}
-            <div className="mb-8">
+            <div className="mb-6">
               <img 
                 src="/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png"
                 alt="Futuristic Sports Car"

@@ -129,8 +129,9 @@ Preferred communication style: Simple, everyday language.
   - Removed "Добро пожаловать в игру" main title
   - Moved first text block to top with larger, bolder golden text (text-2xl font-bold)
   - Reduced line spacing for compact text layout (leading-tight for title, leading-snug for description)
-  - Added dynamic golden glow animation to main title with pulsing text shadows
-  - Multiple-layer shadow effect combining golden glow with realistic depth shadows
+  - Added subtle dynamic golden glow animation to main title with reduced shadow intensity
+  - Refined shadow effects for elegant text highlighting without overwhelming the design
+  - Reduced vertical spacing around car image (mb-8 to mb-6) for tighter layout
   - Added futuristic car image in center with enhanced sizing (max-w-lg max-h-80)
   - Applied dark shadows around image for depth (drop-shadow effects)
   - Combined neon glow effects with realistic shadows for premium look
