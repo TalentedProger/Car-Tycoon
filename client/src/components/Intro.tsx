@@ -414,11 +414,19 @@ export default function Intro({ onComplete }: IntroProps) {
                       className="absolute w-full h-full"
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
-                      <div className="text-white text-center absolute top-8 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10 }}>
-                        <div className="text-xs font-bold mb-1 leading-tight intro-text">{car.name}</div>
-                        <div className="text-xs mb-1 intro-text">{(car.price / 1000000).toFixed(1)}M ₽</div>
-                        <div className="text-lg">
-                          {/* Brand logo placeholder */}
+                      <div className="text-white text-center absolute top-6 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10, width: '60px' }}>
+                        <div className="text-[10px] font-bold mb-0.5 leading-tight intro-text" style={{ 
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          fontSize: '9px',
+                          lineHeight: '10px'
+                        }}>{car.name}</div>
+                        <div className="text-[9px] mb-0.5 intro-text" style={{ 
+                          fontSize: '8px',
+                          lineHeight: '9px'
+                        }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
+                        <div className="text-sm" style={{ fontSize: '14px' }}>
                           🚗
                         </div>
                       </div>
