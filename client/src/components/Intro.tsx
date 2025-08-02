@@ -240,9 +240,10 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             {/* Первый текстовый блок вверху */}
             <p 
-              className="text-2xl font-bold mb-8 leading-tight intro-text"
+              className="text-2xl font-bold mb-8 leading-tight intro-text animate-text-glow"
               style={{
                 color: '#FFD700',
+                textShadow: '0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3)',
               }}
             >
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху

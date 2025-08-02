@@ -132,6 +132,10 @@
     animation: gradient-flow 8s ease-in-out infinite;
   }
   
+  .animate-text-glow {
+    animation: text-glow 4s ease-in-out infinite;
+  }
+  
   /* Специальные классы для hero-секций */
   .hero-title-montserrat {
     font-family: 'Montserrat', sans-serif;
@@ -562,6 +566,15 @@
   }
   100% {
     background-position: 0% 0%;
+  }
+}
+
+@keyframes text-glow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.8), 0 0 90px rgba(255, 215, 0, 0.6), 0 6px 12px rgba(0, 0, 0, 0.4);
   }
 }
 
