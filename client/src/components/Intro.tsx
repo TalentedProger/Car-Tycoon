@@ -407,26 +407,41 @@ export default function Intro({ onComplete }: IntroProps) {
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
+                  // Calculate center position of each segment
+                  const radius = 120; // Distance from center to content
+                  const centerAngle = angle + (segmentAngle / 2);
+                  const radians = (centerAngle * Math.PI) / 180;
+                  const x = Math.cos(radians) * radius;
+                  const y = Math.sin(radians) * radius;
                   
                   return (
                     <div
                       key={car.id}
                       className="absolute w-full h-full"
-                      style={{ transform: `rotate(${angle}deg)` }}
                     >
-                      <div className="text-white text-center absolute top-6 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10, width: '60px' }}>
-                        <div className="text-[10px] font-bold mb-0.5 leading-tight intro-text" style={{ 
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          fontSize: '9px',
-                          lineHeight: '10px'
-                        }}>{car.name}</div>
-                        <div className="text-[9px] mb-0.5 intro-text" style={{ 
+                      <div 
+                        className="text-white text-center absolute flex flex-col items-center justify-center" 
+                        style={{ 
+                          left: `calc(50% + ${x}px)`,
+                          top: `calc(50% + ${y}px)`,
+                          transform: `translate(-50%, -50%)`,
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.9)', 
+                          zIndex: 10, 
+                          width: '85px',
+                          height: '60px'
+                        }}
+                      >
+                        <div className="text-[10px] font-bold mb-1 leading-tight intro-text" style={{ 
                           fontSize: '8px',
-                          lineHeight: '9px'
+                          lineHeight: '9px',
+                          textAlign: 'center'
+                        }}>{car.name}</div>
+                        <div className="text-[9px] mb-1 intro-text" style={{ 
+                          fontSize: '7px',
+                          lineHeight: '8px',
+                          textAlign: 'center'
                         }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
-                        <div className="text-sm" style={{ fontSize: '14px' }}>
+                        <div className="text-sm" style={{ fontSize: '12px' }}>
                           🚗
                         </div>
                       </div>
