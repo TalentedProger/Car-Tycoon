@@ -74,51 +74,65 @@ export default function Intro({ onComplete }: IntroProps) {
   // Case opening hooks - moved to top level to avoid conditional hooks
   const [casePhase, setCasePhase] = useState<'closed' | 'opening' | 'scrolling' | 'result'>('closed');
   const [isScrolling, setIsScrolling] = useState(false);
-  const [selectedWinningCar, setSelectedWinningCar] = useState<typeof wheelCars[0] | null>(null);
   const [cardScrollPosition, setCardScrollPosition] = useState(0);
+  const [finalWinningCar, setFinalWinningCar] = useState<typeof wheelCars[0] | null>(null);
   
-  // Function to select car based on chances
-  const selectCarByChance = () => {
-    const random = Math.random();
-    let accumulatedChance = 0;
-    
-    for (const car of wheelCars) {
-      accumulatedChance += car.chance;
-      if (random <= accumulatedChance) {
-        return car;
-      }
-    }
-    // Fallback to first car if something goes wrong
-    return wheelCars[0];
-  };
-
-  // Generate extended card list for scrolling effect
-  const generateScrollCards = () => {
+  // Generate truly random card list with no adjacent duplicates
+  const generateRandomScrollCards = () => {
     const cards = [];
     const totalCards = 51; // Odd number to have clear center
-    const centerIndex = Math.floor(totalCards / 2); // Index 25 is center
     
-    // First, select the winning car based on chances
-    const winningCar = selectCarByChance();
-    console.log('🎲 Selected winning car:', winningCar.name, 'Price:', winningCar.price, 'Chance:', winningCar.chance);
-    setSelectedWinningCar(winningCar);
-    
-    // Generate random cars for all positions
     for (let i = 0; i < totalCards; i++) {
-      if (i === centerIndex) {
-        // Place winning car exactly in center
-        cards.push({ ...winningCar, id: 'winning-car' });
-      } else {
-        // Random car for other positions
-        const randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
-        cards.push({ ...randomCar, id: `scroll-${i}` });
-      }
+      let randomCar;
+      let attempts = 0;
+      
+      do {
+        randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
+        attempts++;
+        
+        // If we've tried too many times, just use any car to avoid infinite loop
+        if (attempts > 20) {
+          break;
+        }
+      } while (
+        // Check if previous card is the same (avoid adjacent duplicates)
+        (i > 0 && cards[i - 1].name === randomCar.name) ||
+        // Check if next planned position would create duplicate (for index 0, check index 1)
+        (i === 0 && i + 1 < totalCards && Math.random() < 0.3 && cards.length > 0) // Small chance to add extra randomness
+      );
+      
+      cards.push({ ...randomCar, id: `scroll-${i}` });
     }
     
     return cards;
   };
   
-  const [scrollCards, setScrollCards] = useState(() => generateScrollCards());
+  const [scrollCards, setScrollCards] = useState(() => generateRandomScrollCards());
+  
+  // Format price properly - under 1M show as thousands
+  const formatPrice = (price: number) => {
+    if (price >= 1000000) {
+      return `${(price / 1000000).toFixed(1)}M ₽`;
+    } else {
+      return `${Math.round(price / 1000)} тыс. ₽`;
+    }
+  };
+  
+  // Determine winning car based on final arrow position
+  const determineWinnerByPosition = (scrollPosition: number) => {
+    const cardWidth = 160; // 144px + 16px margin
+    const containerWidth = 1024; // max-w-4xl container
+    const centerPosition = containerWidth / 2;
+    
+    // Calculate which card index is at the center
+    const relativePosition = -scrollPosition + centerPosition;
+    const cardIndex = Math.round(relativePosition / cardWidth);
+    
+    // Ensure index is within bounds
+    const clampedIndex = Math.max(0, Math.min(cardIndex, scrollCards.length - 1));
+    
+    return scrollCards[clampedIndex];
+  };
   
   const wheelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -499,8 +513,10 @@ export default function Intro({ onComplete }: IntroProps) {
     };
 
     const handleOpenCase = () => {
-      // Reset position for new opening
+      // Reset for new opening and regenerate cards
       setCardScrollPosition(0);
+      setFinalWinningCar(null);
+      setScrollCards(generateRandomScrollCards());
       
       playSound('/sounds/case/button_click.mp3', 0.3);
       setTimeout(() => {
@@ -519,13 +535,19 @@ export default function Intro({ onComplete }: IntroProps) {
             // Calculate exact position to center the winning card
             // Each card is w-36 (144px) + mx-2 (8px each side) = 160px total
             const cardWidth = 160; // 144px + 16px margin  
-            const centerIndex = 25;
+            // Remove centerIndex - we'll calculate random position
             const containerWidth = 1024; // max-w-4xl container
             
             // Position to center the winning card in the container
-            const scrollPosition = -(centerIndex * cardWidth) + (containerWidth / 2) - (cardWidth / 2);
+            const maxScroll = (scrollCards.length - 3) * cardWidth; // Leave some cards visible
+            const minScroll = -cardWidth * 2; // Don't scroll too far left
             
-            setCardScrollPosition(scrollPosition);
+            // Generate truly random scroll position
+            const randomScrollPosition = -(Math.random() * (maxScroll - minScroll) + minScroll);
+            
+            console.log('🎲 Random scroll position:', randomScrollPosition);
+            
+            setCardScrollPosition(randomScrollPosition);
             
             setTimeout(() => {
               setIsScrolling(false);
@@ -533,7 +555,11 @@ export default function Intro({ onComplete }: IntroProps) {
               setCasePhase('result');
               
               // Log for debugging - verify the winning card is in center
-              console.log('🎯 Animation complete. Winning car should be centered:', selectedWinningCar?.name);
+              // NOW determine the winner based on where the arrow points
+              const winner = determineWinnerByPosition(randomScrollPosition);
+              setFinalWinningCar(winner);
+              
+              console.log('🎯 Winner determined by arrow position:', winner.name, 'Price:', winner.price);
               
               setTimeout(() => {
                 playSound('/sounds/case/win_sound.mp3', 0.6);
@@ -545,8 +571,8 @@ export default function Intro({ onComplete }: IntroProps) {
     };
 
     const handleTakeReward = () => {
-      if (selectedWinningCar) {
-        setSelectedCar(selectedWinningCar);
+      if (finalWinningCar) {
+        setSelectedCar(finalWinningCar);
         setState('colorSelection');
       }
     };
@@ -731,7 +757,7 @@ export default function Intro({ onComplete }: IntroProps) {
                                color: '#FFD700',
                                textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
                              }}>
-                          {(car.price / 1000000).toFixed(1)}M ₽
+                          {formatPrice(car.price)}
                         </div>
                       </div>
                     </div>
@@ -747,19 +773,19 @@ export default function Intro({ onComplete }: IntroProps) {
             </div>
             
             {/* Take reward button - only show after result */}
-            {casePhase === 'result' && selectedWinningCar && (
+            {casePhase === 'result' && finalWinningCar && (
               <div className="mt-8">
                 <Button
                   onClick={handleTakeReward}
                   className="font-bold text-xl px-12 py-4 rounded-xl transform hover:scale-105 transition-all duration-300 border-0 intro-button"
                   style={{ 
-                    background: `linear-gradient(45deg, ${getRarityColor(selectedWinningCar.price).color}, #FFFFFF)`,
+                    background: `linear-gradient(45deg, ${getRarityColor(finalWinningCar.price).color}, #FFFFFF)`,
                     color: '#000000',
-                    boxShadow: `0 0 20px ${getRarityColor(selectedWinningCar.price).color}80`,
+                    boxShadow: `0 0 20px ${getRarityColor(finalWinningCar.price).color}80`,
                     textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)'
                   }}
                 >
-                  Забрать {selectedWinningCar.name}
+                  Забрать {finalWinningCar.name}
                 </Button>
               </div>
             )}
