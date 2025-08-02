@@ -136,6 +136,19 @@
     animation: text-glow 4s ease-in-out infinite;
   }
   
+  /* Case Opening Animations */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-case-disappear {
+    animation: caseDisappear 0.8s ease-in forwards;
+  }
+  
+  .animate-rotation {
+    animation: rotation 8s infinite linear;
+  }
+  
   /* Специальные классы для hero-секций */
   .hero-title-montserrat {
     font-family: 'Montserrat', sans-serif;
@@ -607,9 +620,35 @@
   50% {
     opacity: 1;
   }
-  100% {
-    transform: translateX(0) scale(1);
+}
+
+/* Case Opening Keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes caseDisappear {
+  0% {
+    transform: scale(1);
     opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

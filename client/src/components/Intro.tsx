@@ -435,232 +435,290 @@ export default function Intro({ onComplete }: IntroProps) {
     );
   }
 
-  // Wheel Spin Screen
+  // Case Opening Screen - CS2 Style
   if (state === 'wheelSpin') {
-    return (
-      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col text-white p-6 relative overflow-hidden">
-        {/* Neon glow effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
+    const [casePhase, setCasePhase] = useState<'closed' | 'opening' | 'scrolling' | 'result'>('closed');
+    const [isScrolling, setIsScrolling] = useState(false);
+    const [selectedWinningCar, setSelectedWinningCar] = useState<typeof wheelCars[0] | null>(null);
+    const [cardScrollPosition, setCardScrollPosition] = useState(0);
+    
+    // Generate extended card list for scrolling effect
+    const generateScrollCards = () => {
+      const cards = [];
+      // Add random cars for scroll effect (50 cards total)
+      for (let i = 0; i < 50; i++) {
+        const randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
+        cards.push({ ...randomCar, id: `scroll-${i}` });
+      }
+      // Insert the winning car at position 25 (center)
+      const winningCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
+      cards[25] = { ...winningCar, id: 'winning-car' };
+      setSelectedWinningCar(winningCar);
+      return cards;
+    };
+    
+    const [scrollCards] = useState(() => generateScrollCards());
+    
+    // Play sound function
+    const playSound = (soundPath: string, volume: number = 0.5) => {
+      try {
+        const audio = new Audio(soundPath);
+        audio.volume = volume;
+        audio.play().catch(e => console.log('Audio play failed:', e));
+      } catch (e) {
+        console.log('Audio not available:', e);
+      }
+    };
+
+    const handleOpenCase = () => {
+      playSound('/sounds/case/button_click.mp3', 0.3);
+      setTimeout(() => {
+        playSound('/sounds/case/case_lock_click.mp3', 0.4);
+        setCasePhase('opening');
         
-        {/* Top title */}
-        <div className="text-center pt-4 pb-4 z-10">
-          <h1 
-            className="text-3xl font-bold intro-title"
-            style={{
-              color: '#FFFFFF',
-              textShadow: '0 0 8px rgba(255, 105, 180, 0.8), 0 0 15px rgba(255, 105, 180, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8)',
-            }}
-          >
-            Колесо фортуны
-          </h1>
+        setTimeout(() => {
+          playSound('/sounds/case/case_opening.mp3', 0.5);
+          setCasePhase('scrolling');
+          setIsScrolling(true);
+          
+          // Start scrolling animation
+          setTimeout(() => {
+            playSound('/sounds/case/cards_scroll.mp3', 0.2);
+            setCardScrollPosition(-2400); // Move to center position
+            
+            setTimeout(() => {
+              setIsScrolling(false);
+              playSound('/sounds/case/scroll_stop.mp3', 0.4);
+              setCasePhase('result');
+              
+              setTimeout(() => {
+                playSound('/sounds/case/win_sound.mp3', 0.6);
+              }, 500);
+            }, 3000); // 3 seconds scrolling
+          }, 500);
+        }, 800);
+      }, 150);
+    };
+
+    const handleTakeReward = () => {
+      if (selectedWinningCar) {
+        setSelectedCar(selectedWinningCar);
+        setState('colorSelection');
+      }
+    };
+
+    // Get rarity color for car based on price
+    const getRarityColor = (price: number) => {
+      if (price >= 1500000) return { color: '#FFD700', name: 'Legendary' }; // Gold
+      if (price >= 1200000) return { color: '#8A2BE2', name: 'Epic' }; // Purple  
+      if (price >= 1000000) return { color: '#00BFFF', name: 'Rare' }; // Blue
+      return { color: '#808080', name: 'Common' }; // Gray
+    };
+
+    return (
+      <div className="min-h-screen flex flex-col text-white relative overflow-hidden"
+           style={{ 
+             background: 'radial-gradient(circle at center, #2D1B69 0%, #1a0d3d 50%, #0a0520 100%)'
+           }}>
+        
+        {/* Animated neon background particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-float"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${3 + Math.random() * 4}s`,
+                opacity: 0.6,
+                filter: 'blur(0.5px)'
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Neon lines background */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+          <div className="absolute bottom-20 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
+          <div className="absolute left-20 top-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400 to-transparent" />
+          <div className="absolute right-20 top-0 w-px h-full bg-gradient-to-b from-transparent via-yellow-400 to-transparent" />
         </div>
 
-        {/* Central wheel section */}
-        <div className="flex-1 flex items-center justify-center z-10">
-          
-          {/* Premium Neon Wheel of Fortune */}
-          <div className="relative mb-8">
-            <div className="w-96 h-96 mx-auto relative">
-              {/* Glowing outer ring */}
-              <div className="absolute inset-0 rounded-full border-4 border-transparent animate-pulse-subtle"
-                   style={{ 
-                     background: 'linear-gradient(45deg, #00FFFF, #FF00FF, #FFFF00, #00FF00) border-box',
-                     filter: 'blur(2px)',
-                     transform: 'scale(1.02)'
-                   }} />
-              
-              {/* Central company logo hub */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 w-20 h-20 rounded-full flex items-center justify-center"
-                   style={{ 
-                     background: 'radial-gradient(circle, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                     border: '3px solid #00FFFF',
-                     boxShadow: '0 0 30px rgba(0, 255, 255, 0.8), inset 0 0 15px rgba(0, 255, 255, 0.3)'
-                   }}>
-                <div className="text-center">
-                  <div className="text-xs font-bold text-cyan-400 mb-1 intro-text" style={{ textShadow: '0 0 8px rgba(0, 255, 255, 0.8)' }}>AUTO</div>
-                  <div className="text-xs font-bold text-yellow-400 intro-text" style={{ textShadow: '0 0 8px rgba(255, 255, 0, 0.8)' }}>ARENA</div>
-                </div>
-              </div>
-              
-              {/* Premium pointer with glow */}
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4 z-20">
-                <div className="relative">
-                  <div className="w-0 h-0 animate-pulse-subtle" 
-                       style={{ 
-                         borderLeft: '8px solid transparent',
-                         borderRight: '8px solid transparent',
-                         borderBottom: '20px solid #FFD700',
-                         filter: 'drop-shadow(0 0 12px rgba(255, 215, 0, 1)) drop-shadow(0 0 24px rgba(255, 215, 0, 0.6))'
-                       }} />
-                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-sm"
-                       style={{ filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.8))' }} />
-                </div>
-              </div>
-              
-              {/* Main wheel container */}
-              <div 
-                ref={wheelRef}
-                className={`w-full h-full rounded-full relative transition-transform ${isSpinning ? '' : 'duration-300'} overflow-hidden`}
+        {/* Phase 1: Closed Case */}
+        {casePhase === 'closed' && (
+          <div className="flex-1 flex flex-col items-center justify-center z-10 px-6">
+            {/* 3D Case */}
+            <div className="relative mb-12 animate-float">
+              <img 
+                src="/attached_assets/car_box-Photoroom_1754148813853.jpg"
+                alt="AUTO ARENA Case"
+                className="w-80 h-80 object-contain animate-spin-slow"
                 style={{ 
-                  transitionDuration: isSpinning ? '10s' : '300ms',
-                  transform: `rotate(${wheelRotation}deg)`,
-                  background: 'radial-gradient(circle, #2a2a3e 0%, #1a1a2e 100%)',
-                  border: '6px solid #FFD700',
-                  boxShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.2)'
+                  filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.5)) drop-shadow(0 0 60px rgba(255, 0, 255, 0.3))',
+                  animation: 'rotation 8s infinite linear'
+                }}
+              />
+              
+              {/* Neon glow around case */}
+              <div className="absolute inset-0 rounded-2xl opacity-50"
+                   style={{
+                     background: 'conic-gradient(from 0deg, #00FFFF, #FF00FF, #FFFF00, #00FF00, #00FFFF)',
+                     filter: 'blur(20px)',
+                     transform: 'scale(1.1)',
+                     zIndex: -1
+                   }} />
+            </div>
+            
+            {/* Open Button */}
+            <Button
+              onClick={handleOpenCase}
+              className="font-bold text-2xl px-16 py-6 rounded-2xl transform hover:scale-105 transition-all duration-300 border-0 intro-button"
+              style={{ 
+                background: 'linear-gradient(45deg, #00FFFF, #FF00FF)',
+                color: '#FFFFFF',
+                boxShadow: '0 0 30px rgba(0, 255, 255, 0.6), 0 0 60px rgba(255, 0, 255, 0.4)',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
+                animation: 'pulse 2s infinite'
+              }}
+            >
+              Открыть кейс
+            </Button>
+          </div>
+        )}
+
+        {/* Phase 2: Case Opening Animation */}
+        {casePhase === 'opening' && (
+          <div className="flex-1 flex items-center justify-center z-10">
+            <div className="relative animate-case-disappear">
+              <img 
+                src="/attached_assets/car_box-Photoroom_1754148813853.jpg"
+                alt="AUTO ARENA Case"
+                className="w-80 h-80 object-contain"
+                style={{ 
+                  filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.5))',
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Phase 3: Card Scrolling */}
+        {(casePhase === 'scrolling' || casePhase === 'result') && (
+          <div className="flex-1 flex flex-col items-center justify-center z-10 px-6">
+            
+            {/* Arrow pointer */}
+            <div className="mb-4 z-20">
+              <div className="w-0 h-0" 
+                   style={{ 
+                     borderLeft: '15px solid transparent',
+                     borderRight: '15px solid transparent',
+                     borderTop: '25px solid #FFFFFF',
+                     filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(0, 255, 255, 0.6))'
+                   }} />
+            </div>
+            
+            {/* Card scrolling container */}
+            <div className="relative w-full max-w-4xl h-48 overflow-hidden rounded-xl border-2 border-cyan-400/50"
+                 style={{ 
+                   background: 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%)',
+                   boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.5)'
+                 }}>
+              
+              {/* Cards strip */}
+              <div 
+                className="flex absolute left-0 top-0 h-full transition-transform ease-out"
+                style={{ 
+                  transform: `translateX(${cardScrollPosition}px)`,
+                  transitionDuration: isScrolling ? '3s' : '0.5s'
                 }}
               >
-                {/* Unique neon segments - no repetitions */}
-                {wheelCars.map((car, index) => {
-                  const angle = (360 / wheelCars.length) * index;
-                  const segmentAngle = 360 / wheelCars.length;
-                  
-                  // 6 unique neon colors for 6 cars
-                  const uniqueSegmentColors = [
-                    '#00F5FF', // Electric cyan
-                    '#FF1493', // Deep pink
-                    '#39FF14', // Electric lime
-                    '#FF4500', // Orange red
-                    '#FFD700', // Gold
-                    '#8A2BE2', // Blue violet
-                  ];
-                  
-                  const segmentColor = uniqueSegmentColors[index];
+                {scrollCards.map((car, index) => {
+                  const rarity = getRarityColor(car.price);
+                  const isWinning = car.id === 'winning-car' && casePhase === 'result';
                   
                   return (
                     <div
-                      key={`segment-${car.id}`}
-                      className="absolute w-full h-full"
-                      style={{
-                        background: `conic-gradient(from ${angle}deg, transparent 0deg, transparent ${angle}deg, ${segmentColor} ${angle}deg, ${segmentColor} ${angle + segmentAngle}deg, transparent ${angle + segmentAngle}deg)`,
-                        borderRadius: '50%',
-                        filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))'
-                      }}
-                    />
-                  );
-                })}
-                
-                {/* Glowing segment dividers */}
-                {wheelCars.map((car, index) => {
-                  const angle = (360 / wheelCars.length) * index;
-                  
-                  return (
-                    <div
-                      key={`border-${car.id}`}
-                      className="absolute"
-                      style={{
-                        width: '3px',
-                        height: '50%',
-                        left: '50%',
-                        top: '0%',
-                        background: 'linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.3) 100%)',
-                        transformOrigin: 'bottom center',
-                        transform: `translateX(-50%) rotate(${angle}deg)`,
-                        filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.4))'
-                      }}
-                    />
-                  );
-                })}
-                
-                {/* Car content positioned strictly inside each segment */}
-                {wheelCars.map((car, index) => {
-                  const angle = (360 / wheelCars.length) * index;
-                  const segmentAngle = 360 / wheelCars.length;
-                  
-                  // Position in the middle of each segment, not at boundaries
-                  const centerAngle = angle + (segmentAngle / 2); // Perfect center of segment
-                  const radius = 95; // Distance from center to avoid edge overlap
-                  const radians = (centerAngle * Math.PI) / 180;
-                  const x = Math.cos(radians) * radius;
-                  const y = Math.sin(radians) * radius;
-                  
-                  return (
-                    <div
-                      key={`content-${car.id}`}
-                      className="text-white text-center absolute flex flex-col items-center justify-center" 
+                      key={car.id}
+                      className={`flex-shrink-0 w-36 h-44 mx-2 rounded-lg border-2 flex flex-col items-center justify-between p-3 transition-all duration-500 ${
+                        isWinning ? 'animate-pulse' : ''
+                      }`}
                       style={{ 
-                        left: `calc(50% + ${x}px)`,
-                        top: `calc(50% + ${y}px)`,
-                        transform: `translate(-50%, -50%) rotate(${centerAngle + 90}deg)`,
-                        zIndex: 15, 
-                        width: '70px',
-                        height: '65px',
-                        padding: '2px'
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        borderColor: rarity.color,
+                        boxShadow: isWinning 
+                          ? `0 0 25px ${rarity.color}, 0 0 50px ${rarity.color}` 
+                          : `0 0 10px ${rarity.color}40`
                       }}
                     >
-                      {/* Car logo/image */}
-                      <div className="mb-1 flex items-center justify-center h-5">
+                      {/* Car logo */}
+                      <div className="flex items-center justify-center h-12 mb-2">
                         <img 
-                          src={`/assets/cars/${car.id}/logotype.png`}
+                          src={`/assets/cars/${car.id.replace('scroll-', '').replace('winning-car', car.id)}/logotype.png`}
                           alt={`${car.brand} logo`}
-                          className="w-4 h-4 object-contain"
+                          className="w-8 h-8 object-contain"
                           style={{ 
-                            filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 1)) brightness(1.4) contrast(1.5)',
+                            filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)) brightness(1.2)',
                           }}
                           onError={(e) => {
-                            // Fallback to car emoji if logo not found
                             (e.target as HTMLImageElement).style.display = 'none';
                             (e.target as HTMLImageElement).nextElementSibling!.textContent = '🚗';
                           }}
                         />
-                        <span className="text-base" style={{ display: 'none' }}>🚗</span>
+                        <span className="text-2xl" style={{ display: 'none' }}>🚗</span>
                       </div>
                       
-                      {/* Car name - larger text */}
-                      <div className="font-extrabold mb-2 leading-tight intro-text" style={{ 
-                        fontSize: '15px',
-                        lineHeight: '16px',
-                        textAlign: 'center',
-                        color: '#FFFFFF',
-                        textShadow: '0 0 18px rgba(0, 0, 0, 1), 0 0 10px rgba(255, 255, 255, 0.7), 0 4px 8px rgba(0, 0, 0, 0.9)',
-                        wordWrap: 'break-word',
-                        overflow: 'hidden',
-                        fontWeight: '900',
-                        letterSpacing: '1px',
-                        maxWidth: '65px'
-                      }}>{car.name}</div>
+                      {/* Car name */}
+                      <div className="text-center mb-2">
+                        <div className="text-white font-bold text-sm leading-tight intro-text" 
+                             style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)' }}>
+                          {car.name}
+                        </div>
+                      </div>
                       
-                      {/* Car price - neon glow with black shadows */}
-                      <div className="font-extrabold intro-text" style={{ 
-                        fontSize: '14px',
-                        lineHeight: '15px',
-                        textAlign: 'center',
-                        color: '#00FFFF',
-                        textShadow: '0 0 20px #000000, 0 0 15px #00FFFF, 0 0 10px #00FFFF, 0 0 5px #00FFFF, 0 4px 8px rgba(0, 0, 0, 1)',
-                        fontWeight: '900',
-                        letterSpacing: '0.8px',
-                        filter: 'drop-shadow(0 0 8px #00FFFF)'
-                      }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
+                      {/* Price */}
+                      <div className="text-center">
+                        <div className="font-bold text-xs intro-text"
+                             style={{ 
+                               color: '#FFD700',
+                               textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
+                             }}>
+                          {(car.price / 1000000).toFixed(1)}M ₽
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
               </div>
               
-              {/* Metallic reflections overlay */}
-              <div className="absolute inset-4 rounded-full pointer-events-none"
+              {/* Center highlight overlay */}
+              <div className="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-40 pointer-events-none"
                    style={{ 
-                     background: 'conic-gradient(from 0deg, transparent 0%, rgba(255, 255, 255, 0.1) 25%, transparent 50%, rgba(255, 255, 255, 0.05) 75%, transparent 100%)',
-                     filter: 'blur(1px)'
+                     background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
                    }} />
             </div>
+            
+            {/* Take reward button - only show after result */}
+            {casePhase === 'result' && selectedWinningCar && (
+              <div className="mt-8">
+                <Button
+                  onClick={handleTakeReward}
+                  className="font-bold text-xl px-12 py-4 rounded-xl transform hover:scale-105 transition-all duration-300 border-0 intro-button"
+                  style={{ 
+                    background: `linear-gradient(45deg, ${getRarityColor(selectedWinningCar.price).color}, #FFFFFF)`,
+                    color: '#000000',
+                    boxShadow: `0 0 20px ${getRarityColor(selectedWinningCar.price).color}80`,
+                    textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)'
+                  }}
+                >
+                  Забрать {selectedWinningCar.name}
+                </Button>
+              </div>
+            )}
           </div>
-        </div>
-
-        {/* Bottom button section */}
-        <div className="text-center pb-4 z-10">
-          <Button
-            onClick={spinWheel}
-            disabled={isSpinning}
-            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button"
-            style={{ 
-              backgroundColor: '#FFD700',
-              color: '#0C011C',
-              boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)',
-              textShadow: '0 1px 2px rgba(12, 1, 28, 0.8)'
-            }}
-          >
-            {isSpinning ? 'Крутится...' : 'Запустить'}
-          </Button>
-        </div>
+        )}
         
         {/* Pagination circles at bottom */}
         <div className="flex justify-center space-x-2 pb-4">
@@ -672,6 +730,7 @@ export default function Intro({ onComplete }: IntroProps) {
       </div>
     );
   }
+
 
   // Color Selection Screen
   if (state === 'colorSelection' && selectedCar) {
