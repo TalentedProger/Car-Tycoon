@@ -414,19 +414,29 @@ export default function Intro({ onComplete }: IntroProps) {
                       className="absolute w-full h-full"
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
-                      <div className="text-white text-center absolute top-6 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10, width: '60px' }}>
-                        <div className="text-[10px] font-bold mb-0.5 leading-tight intro-text" style={{ 
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          fontSize: '9px',
-                          lineHeight: '10px'
-                        }}>{car.name}</div>
-                        <div className="text-[9px] mb-0.5 intro-text" style={{ 
+                      <div className="text-white text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ 
+                        transform: `translate(-50%, -50%) rotate(-${angle}deg)`, 
+                        textShadow: '2px 2px 4px rgba(0,0,0,0.9)', 
+                        zIndex: 10, 
+                        width: '80px',
+                        height: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <div className="font-bold mb-0.5 leading-tight intro-text" style={{ 
                           fontSize: '8px',
-                          lineHeight: '9px'
+                          lineHeight: '9px',
+                          wordWrap: 'break-word',
+                          hyphens: 'auto',
+                          textAlign: 'center'
+                        }}>{car.name}</div>
+                        <div className="mb-0.5 intro-text" style={{ 
+                          fontSize: '7px',
+                          lineHeight: '8px'
                         }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
-                        <div className="text-sm" style={{ fontSize: '14px' }}>
+                        <div style={{ fontSize: '12px' }}>
                           🚗
                         </div>
                       </div>
