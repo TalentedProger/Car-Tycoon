@@ -240,7 +240,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             {/* Первый текстовый блок вверху */}
             <p 
-              className="text-2xl font-bold mb-8 leading-relaxed intro-text"
+              className="text-2xl font-bold mb-8 leading-tight intro-text"
               style={{
                 color: '#FFD700',
               }}
@@ -266,7 +266,7 @@ export default function Intro({ onComplete }: IntroProps) {
             </div>
             
             {/* Второй текстовый блок внизу */}
-            <p className="text-lg opacity-90 leading-relaxed max-w-3xl mx-auto text-gray-300 intro-text">
+            <p className="text-lg opacity-90 leading-snug max-w-3xl mx-auto text-gray-300 intro-text">
               Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
               Всё начинается прямо сейчас — с твоей первой машины.
             </p>
