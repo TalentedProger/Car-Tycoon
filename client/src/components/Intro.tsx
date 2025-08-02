@@ -850,18 +850,18 @@ export default function Intro({ onComplete }: IntroProps) {
           {/* Car characteristics */}
           <div className="w-full max-w-sm mb-8">
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">Мощность авто</div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 text-center border border-white/10 h-24 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white intro-text leading-tight">Мощность авто</div>
                 <div className="text-lg font-bold text-white intro-text">{selectedCar.horsepower}</div>
                 <div className="text-xs text-gray-400 intro-text">л.с.</div>
               </div>
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">0-100<br />км/ч</div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 text-center border border-white/10 h-24 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white intro-text leading-tight">0-100<br />км/ч</div>
                 <div className="text-lg font-bold text-white intro-text">{selectedCar.acceleration}</div>
                 <div className="text-xs text-gray-400 intro-text">сек</div>
               </div>
-              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10 h-20 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1 intro-text leading-tight">Макс. скорость</div>
+              <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 text-center border border-white/10 h-24 flex flex-col justify-between" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
+                <div className="text-xs font-bold text-white intro-text leading-tight">Макс. скорость</div>
                 <div className="text-lg font-bold text-white intro-text">{selectedCar.maxSpeed}</div>
                 <div className="text-xs text-gray-400 intro-text">км/ч</div>
               </div>
