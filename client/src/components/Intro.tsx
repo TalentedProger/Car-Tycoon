@@ -77,22 +77,48 @@ export default function Intro({ onComplete }: IntroProps) {
   const [selectedWinningCar, setSelectedWinningCar] = useState<typeof wheelCars[0] | null>(null);
   const [cardScrollPosition, setCardScrollPosition] = useState(0);
   
+  // Function to select car based on chances
+  const selectCarByChance = () => {
+    const random = Math.random();
+    let accumulatedChance = 0;
+    
+    for (const car of wheelCars) {
+      accumulatedChance += car.chance;
+      if (random <= accumulatedChance) {
+        return car;
+      }
+    }
+    // Fallback to first car if something goes wrong
+    return wheelCars[0];
+  };
+
   // Generate extended card list for scrolling effect
   const generateScrollCards = () => {
     const cards = [];
-    // Add random cars for scroll effect (50 cards total)
-    for (let i = 0; i < 50; i++) {
-      const randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
-      cards.push({ ...randomCar, id: `scroll-${i}` });
-    }
-    // Insert the winning car at position 25 (center)
-    const winningCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
-    cards[25] = { ...winningCar, id: 'winning-car' };
+    const totalCards = 51; // Odd number to have clear center
+    const centerIndex = Math.floor(totalCards / 2); // Index 25 is center
+    
+    // First, select the winning car based on chances
+    const winningCar = selectCarByChance();
+    console.log('🎲 Selected winning car:', winningCar.name, 'Price:', winningCar.price, 'Chance:', winningCar.chance);
     setSelectedWinningCar(winningCar);
+    
+    // Generate random cars for all positions
+    for (let i = 0; i < totalCards; i++) {
+      if (i === centerIndex) {
+        // Place winning car exactly in center
+        cards.push({ ...winningCar, id: 'winning-car' });
+      } else {
+        // Random car for other positions
+        const randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
+        cards.push({ ...randomCar, id: `scroll-${i}` });
+      }
+    }
+    
     return cards;
   };
   
-  const [scrollCards] = useState(() => generateScrollCards());
+  const [scrollCards, setScrollCards] = useState(() => generateScrollCards());
   
   const wheelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -473,6 +499,9 @@ export default function Intro({ onComplete }: IntroProps) {
     };
 
     const handleOpenCase = () => {
+      // Reset position for new opening
+      setCardScrollPosition(0);
+      
       playSound('/sounds/case/button_click.mp3', 0.3);
       setTimeout(() => {
         playSound('/sounds/case/case_lock_click.mp3', 0.4);
@@ -486,12 +515,25 @@ export default function Intro({ onComplete }: IntroProps) {
           // Start scrolling animation
           setTimeout(() => {
             playSound('/sounds/case/cards_scroll.mp3', 0.2);
-            setCardScrollPosition(-2400); // Move to center position
+            
+            // Calculate exact position to center the winning card
+            // Each card is w-36 (144px) + mx-2 (8px each side) = 160px total
+            const cardWidth = 160; // 144px + 16px margin  
+            const centerIndex = 25;
+            const containerWidth = 1024; // max-w-4xl container
+            
+            // Position to center the winning card in the container
+            const scrollPosition = -(centerIndex * cardWidth) + (containerWidth / 2) - (cardWidth / 2);
+            
+            setCardScrollPosition(scrollPosition);
             
             setTimeout(() => {
               setIsScrolling(false);
               playSound('/sounds/case/scroll_stop.mp3', 0.4);
               setCasePhase('result');
+              
+              // Log for debugging - verify the winning card is in center
+              console.log('🎯 Animation complete. Winning car should be centered:', selectedWinningCar?.name);
               
               setTimeout(() => {
                 playSound('/sounds/case/win_sound.mp3', 0.6);
