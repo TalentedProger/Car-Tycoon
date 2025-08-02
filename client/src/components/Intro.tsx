@@ -283,13 +283,14 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Navigation at bottom */}
-        <div className="flex justify-center items-center space-x-4 mb-4 z-20 relative">
+        <div className="flex justify-center items-center space-x-4 mb-8 z-20 relative">
           <Button
             onClick={handlePrevious}
-            className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0 intro-button"
+            className="text-lg px-8 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0 intro-button"
             style={{ 
               backgroundColor: '#FFD700',
-              color: '#0C011C'
+              color: '#0C011C',
+              width: '120px'
             }}
           >
             ← Назад
@@ -298,6 +299,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <Button
             onClick={handleNext}
             className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white cursor-pointer transform hover:scale-105 transition-all duration-300 intro-button"
+            style={{ width: '120px' }}
           >
             {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
           </Button>
@@ -305,11 +307,11 @@ export default function Intro({ onComplete }: IntroProps) {
         
         {/* Pagination circles at bottom */}
         <div className="flex justify-center space-x-2 pb-4 z-10 relative pointer-events-none">
-          <div className="w-3 h-3 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
           {gameMechanics.map((_, index) => (
             <div
               key={index}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentMechanic ? 'bg-cyan-400' : 'bg-white/20'
               }`}
             />
@@ -365,9 +367,9 @@ export default function Intro({ onComplete }: IntroProps) {
         
         {/* Pagination circles at bottom */}
         <div className="flex justify-center space-x-2 pb-4 z-10 relative pointer-events-none">
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-cyan-400" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
@@ -463,10 +465,10 @@ export default function Intro({ onComplete }: IntroProps) {
         
         {/* Pagination circles at bottom */}
         <div className="flex justify-center space-x-2 pb-4">
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-cyan-400" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
@@ -587,11 +589,11 @@ export default function Intro({ onComplete }: IntroProps) {
 
         {/* Pagination circles at bottom */}
         <div className="flex justify-center space-x-2 pb-4 z-10 relative pointer-events-none">
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-cyan-400" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
@@ -670,12 +672,12 @@ export default function Intro({ onComplete }: IntroProps) {
         
         {/* Pagination circles at bottom */}
         <div className="flex justify-center space-x-2 pb-4">
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-white/20" />
-          <div className="w-3 h-3 rounded-full bg-cyan-400" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-cyan-400" />
         </div>
       </div>
     );
