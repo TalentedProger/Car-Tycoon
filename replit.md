@@ -6,15 +6,6 @@ Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScri
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
-## Recent Changes (January 2025)
-- **CS2-Style Case Opening System**: Completely redesigned car selection mechanics using CS2 algorithm
-  - Random winner generation based on pure randomness (no pre-calculation)
-  - Real DOM measurement for card positioning using `offsetWidth` and `getComputedStyle`
-  - Precise arrow-based winner determination using center positioning
-  - Enhanced rarity system with 5 tiers (Common, Uncommon, Rare, Epic, Legendary)
-  - Added premium cars (BMW M3, Mercedes AMG C63) to increase variety
-  - Improved visual feedback with CS2-style card highlighting and animations
-
 ## System Architecture
 
 ### Frontend

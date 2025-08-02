@@ -6,19 +6,17 @@ interface IntroProps {
   onComplete: (selectedCar?: any) => void;
 }
 
-// Car data for the CS2-style case opening - Real cars from AutoSalon
+// Car data for the wheel - Real cars from AutoSalon
 const wheelCars = [
-  // Economy cars (4 cars)
-  { id: 'car-1', name: 'ВАЗ 2107', price: 85000, brand: 'ВАЗ', category: 'economy', horsepower: 75, acceleration: 14.0, maxSpeed: 155, logo: '🚗' },
-  { id: 'car-2', name: 'ВАЗ 2110', price: 125000, brand: 'ВАЗ', category: 'economy', horsepower: 82, acceleration: 13.2, maxSpeed: 170, logo: '🚙' },
-  { id: 'car-3', name: 'Audi 100', price: 140000, brand: 'Audi', category: 'economy', horsepower: 115, acceleration: 11.5, maxSpeed: 195, logo: '🚗' },
-  { id: 'car-4', name: 'Hyundai Sonata IV', price: 135000, brand: 'Hyundai', category: 'economy', horsepower: 136, acceleration: 12.0, maxSpeed: 185, logo: '🚙' },
-  // Budget cars
-  { id: 'car-8', name: 'Honda Accord 7', price: 750000, brand: 'Honda', category: 'budget', horsepower: 156, acceleration: 9.5, maxSpeed: 205, logo: '🏎️' },
-  { id: 'car-9', name: 'Toyota Corolla', price: 575000, brand: 'Toyota', category: 'standard', horsepower: 132, acceleration: 10.2, maxSpeed: 195, logo: '🚗' },
-  // Premium cars  
-  { id: 'car-10', name: 'BMW M3', price: 1200000, brand: 'BMW', category: 'premium', horsepower: 431, acceleration: 4.1, maxSpeed: 250, logo: '🏁' },
-  { id: 'car-11', name: 'Mercedes AMG C63', price: 1500000, brand: 'Mercedes', category: 'luxury', horsepower: 469, acceleration: 3.9, maxSpeed: 280, logo: '✨' },
+  // Economy cars (4 cars, ~20% each)
+  { id: 'car-1', name: 'ВАЗ 2107', price: 85000, brand: 'ВАЗ', category: 'economy', chance: 0.2, horsepower: 75, acceleration: 14.0, maxSpeed: 155 },
+  { id: 'car-2', name: 'ВАЗ 2110', price: 125000, brand: 'ВАЗ', category: 'economy', chance: 0.2, horsepower: 82, acceleration: 13.2, maxSpeed: 170 },
+  { id: 'car-3', name: 'Audi 100', price: 140000, brand: 'Audi', category: 'economy', chance: 0.2, horsepower: 115, acceleration: 11.5, maxSpeed: 195 },
+  { id: 'car-4', name: 'Hyundai Sonata IV', price: 135000, brand: 'Hyundai', category: 'economy', chance: 0.2, horsepower: 136, acceleration: 12.0, maxSpeed: 185 },
+  // Budget car (1 car, 15% chance)
+  { id: 'car-8', name: 'Honda Accord 7', price: 750000, brand: 'Honda', category: 'budget', chance: 0.15, horsepower: 156, acceleration: 9.5, maxSpeed: 205 },
+  // Standard car (1 car, 5% chance)
+  { id: 'car-9', name: 'Toyota Corolla', price: 575000, brand: 'Toyota', category: 'standard', chance: 0.05, horsepower: 132, acceleration: 10.2, maxSpeed: 195 },
 ];
 
 // Available colors for each car
@@ -79,10 +77,10 @@ export default function Intro({ onComplete }: IntroProps) {
   const [cardScrollPosition, setCardScrollPosition] = useState(0);
   const [finalWinningCar, setFinalWinningCar] = useState<typeof wheelCars[0] | null>(null);
   
-  // Generate truly random card list for CS2-style case opening  
+  // Generate truly random card list with no adjacent duplicates
   const generateRandomScrollCards = () => {
     const cards = [];
-    const totalCards = 49; // Odd number for clear center positioning, CS2-style length
+    const totalCards = 51; // Odd number to have clear center
     
     for (let i = 0; i < totalCards; i++) {
       let randomCar;
@@ -92,24 +90,20 @@ export default function Intro({ onComplete }: IntroProps) {
         randomCar = wheelCars[Math.floor(Math.random() * wheelCars.length)];
         attempts++;
         
-        // Prevent infinite loops
+        // If we've tried too many times, just use any car to avoid infinite loop
         if (attempts > 20) {
           break;
         }
       } while (
-        // Avoid consecutive identical cars for visual variety
-        (i > 0 && cards[i - 1].name === randomCar.name)
+        // Check if previous card is the same (avoid adjacent duplicates)
+        (i > 0 && cards[i - 1].name === randomCar.name) ||
+        // Check if next planned position would create duplicate (for index 0, check index 1)
+        (i === 0 && i + 1 < totalCards && Math.random() < 0.3 && cards.length > 0) // Small chance to add extra randomness
       );
       
-      // Create unique scroll card with proper indexing
-      cards.push({ 
-        ...randomCar, 
-        id: `scroll-card-${i}`,
-        scrollIndex: i 
-      });
+      cards.push({ ...randomCar, id: `scroll-${i}` });
     }
     
-    console.log('🎲 Generated', cards.length, 'cards for case opening');
     return cards;
   };
   
@@ -124,60 +118,20 @@ export default function Intro({ onComplete }: IntroProps) {
     }
   };
   
-  // Determine winning car based on final arrow position - CS2 Style Algorithm
+  // Determine winning car based on final arrow position
   const determineWinnerByPosition = (scrollPosition: number) => {
-    // Get real DOM elements to calculate actual sizes
-    const cardElements = document.querySelectorAll('[data-card-index]');
-    if (cardElements.length === 0) return scrollCards[0];
+    const cardWidth = 160; // 144px + 16px margin
+    const containerWidth = 1024; // max-w-4xl container
+    const centerPosition = containerWidth / 2;
     
-    // Get container element to find arrow center
-    const container = document.querySelector('[data-scroll-container]');
-    if (!container) return scrollCards[0];
+    // Calculate which card index is at the center
+    const relativePosition = -scrollPosition + centerPosition;
+    const cardIndex = Math.round(relativePosition / cardWidth);
     
-    const containerRect = container.getBoundingClientRect();
-    const arrowCenter = containerRect.width / 2; // Center of the container where arrow points
+    // Ensure index is within bounds
+    const clampedIndex = Math.max(0, Math.min(cardIndex, scrollCards.length - 1));
     
-    // Find which card is closest to the arrow center
-    let closestCard = null;
-    let minDistance = Infinity;
-    
-    cardElements.forEach((cardElement, index) => {
-      if (index >= scrollCards.length) return;
-      
-      const cardStyle = getComputedStyle(cardElement);
-      const marginLeft = parseFloat(cardStyle.marginLeft) || 0;
-      const marginRight = parseFloat(cardStyle.marginRight) || 0;
-      const cardWidth = cardElement.getBoundingClientRect().width;
-      
-      // Calculate total offset from start to this card's center
-      let totalOffset = 0;
-      for (let i = 0; i < index; i++) {
-        const prevCard = cardElements[i];
-        if (prevCard) {
-          const prevStyle = getComputedStyle(prevCard);
-          const prevMarginLeft = parseFloat(prevStyle.marginLeft) || 0;
-          const prevMarginRight = parseFloat(prevStyle.marginRight) || 0;
-          const prevWidth = prevCard.getBoundingClientRect().width;
-          totalOffset += prevWidth + prevMarginLeft + prevMarginRight;
-        }
-      }
-      
-      // Add current card's margin and half its width to get center position
-      const cardCenter = totalOffset + marginLeft + (cardWidth / 2);
-      
-      // Calculate the position relative to scroll
-      const cardPositionInView = cardCenter + scrollPosition;
-      
-      // Calculate distance from arrow center
-      const distance = Math.abs(cardPositionInView - arrowCenter);
-      
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestCard = scrollCards[index];
-      }
-    });
-    
-    return closestCard || scrollCards[0];
+    return scrollCards[clampedIndex];
   };
   
   const wheelRef = useRef<HTMLDivElement>(null);
@@ -574,91 +528,43 @@ export default function Intro({ onComplete }: IntroProps) {
           setCasePhase('scrolling');
           setIsScrolling(true);
           
-          // Start scrolling animation - CS2 Style Algorithm
+          // Start scrolling animation
           setTimeout(() => {
             playSound('/sounds/case/cards_scroll.mp3', 0.2);
             
-            // 🎯 Step 1: Generate random winner index (purely random, no pre-calculation)
-            const winnerIndex = Math.floor(Math.random() * scrollCards.length);
-            console.log('🎲 Random winner index:', winnerIndex, 'Car:', scrollCards[winnerIndex].name);
+            // Calculate exact position to center the winning card
+            // Each card is w-36 (144px) + mx-2 (8px each side) = 160px total
+            const cardWidth = 160; // 144px + 16px margin  
+            // Remove centerIndex - we'll calculate random position
+            const containerWidth = 1024; // max-w-4xl container
             
-            // 🎯 Step 2: Calculate target offset using real DOM measurements
-            // Wait for next frame to ensure DOM is ready
-            requestAnimationFrame(() => {
-              const calculateTargetOffset = () => {
-                const container = document.querySelector('[data-scroll-container]');
-                const cardElements = document.querySelectorAll('[data-card-index]');
-                
-                if (!container || cardElements.length === 0) {
-                  console.warn('Container or cards not found, using fallback');
-                  return -(winnerIndex * 160); // Fallback to old calculation
-                }
-                
-                const containerRect = container.getBoundingClientRect();
-                const arrowCenter = containerRect.width / 2;
-                
-                // Calculate sum of all widths before winner card + winner card half
-                let totalOffset = 0;
-                
-                for (let i = 0; i < winnerIndex; i++) {
-                  const cardElement = cardElements[i];
-                  if (cardElement) {
-                    const cardStyle = getComputedStyle(cardElement);
-                    const marginLeft = parseFloat(cardStyle.marginLeft) || 0;
-                    const marginRight = parseFloat(cardStyle.marginRight) || 0;
-                    const cardWidth = cardElement.getBoundingClientRect().width || 144; // Fallback to 144px
-                    totalOffset += cardWidth + marginLeft + marginRight;
-                  }
-                }
-                
-                // Add winner card's half width and margins
-                if (cardElements[winnerIndex]) {
-                  const winnerCard = cardElements[winnerIndex];
-                  const winnerStyle = getComputedStyle(winnerCard);
-                  const winnerMarginLeft = parseFloat(winnerStyle.marginLeft) || 0;
-                  const winnerWidth = winnerCard.getBoundingClientRect().width || 144;
-                  const winnerHalf = winnerWidth / 2;
-                  
-                  // 🎯 CS2 Formula: targetOffset = arrowCenter - (totalOffset + winnerHalf)
-                  const targetOffset = arrowCenter - (totalOffset + winnerMarginLeft + winnerHalf);
-                  
-                  console.log('🎯 CS2 Calculation:', {
-                    winnerIndex,
-                    arrowCenter,
-                    totalOffset,
-                    winnerHalf,
-                    targetOffset
-                  });
-                  
-                  return targetOffset;
-                }
-                
-                return -(winnerIndex * 160); // Final fallback
-              };
+            // Position to center the winning card in the container
+            const maxScroll = (scrollCards.length - 3) * cardWidth; // Leave some cards visible
+            const minScroll = -cardWidth * 2; // Don't scroll too far left
+            
+            // Generate truly random scroll position
+            const randomScrollPosition = -(Math.random() * (maxScroll - minScroll) + minScroll);
+            
+            console.log('🎲 Random scroll position:', randomScrollPosition);
+            
+            setCardScrollPosition(randomScrollPosition);
+            
+            setTimeout(() => {
+              setIsScrolling(false);
+              playSound('/sounds/case/scroll_stop.mp3', 0.4);
+              setCasePhase('result');
               
-              const targetOffset = calculateTargetOffset();
-              setCardScrollPosition(targetOffset);
+              // Log for debugging - verify the winning card is in center
+              // NOW determine the winner based on where the arrow points
+              const winner = determineWinnerByPosition(randomScrollPosition);
+              setFinalWinningCar(winner);
+              
+              console.log('🎯 Winner determined by arrow position:', winner.name, 'Price:', winner.price);
               
               setTimeout(() => {
-                setIsScrolling(false);
-                playSound('/sounds/case/scroll_stop.mp3', 0.4);
-                setCasePhase('result');
-                
-                // 🎯 Step 3: Determine winner based on arrow position (verification)
-                // Wait a bit more for DOM to settle after animation
-                requestAnimationFrame(() => {
-                  const winner = determineWinnerByPosition(targetOffset);
-                  setFinalWinningCar(winner);
-                  
-                  console.log('🎯 Winner determined by arrow position:', winner.name, 'Price:', winner.price);
-                  console.log('🎯 Original intended winner:', scrollCards[winnerIndex].name);
-                  
-                  setTimeout(() => {
-                    playSound('/sounds/case/win_sound.mp3', 0.6);
-                  }, 500);
-                });
-              }, 3000); // 3 seconds scrolling
-            });
+                playSound('/sounds/case/win_sound.mp3', 0.6);
+              }, 500);
+            }, 3000); // 3 seconds scrolling
           }, 500);
         }, 800);
       }, 150);
@@ -671,13 +577,12 @@ export default function Intro({ onComplete }: IntroProps) {
       }
     };
 
-    // Get rarity color for car based on price - CS2 Style
+    // Get rarity color for car based on price
     const getRarityColor = (price: number) => {
-      if (price >= 1400000) return { color: '#FFD700', name: 'Legendary' }; // Gold - самые дорогие
-      if (price >= 1000000) return { color: '#FF69B4', name: 'Epic' }; // Pink/Purple - премиум  
-      if (price >= 500000) return { color: '#00BFFF', name: 'Rare' }; // Blue - средний класс
-      if (price >= 200000) return { color: '#32CD32', name: 'Uncommon' }; // Green - бюджет
-      return { color: '#808080', name: 'Common' }; // Gray - эконом
+      if (price >= 1500000) return { color: '#FFD700', name: 'Legendary' }; // Gold
+      if (price >= 1200000) return { color: '#8A2BE2', name: 'Epic' }; // Purple  
+      if (price >= 1000000) return { color: '#00BFFF', name: 'Rare' }; // Blue
+      return { color: '#808080', name: 'Common' }; // Gray
     };
 
     return (
@@ -788,13 +693,11 @@ export default function Intro({ onComplete }: IntroProps) {
             </div>
             
             {/* Card scrolling container */}
-            <div 
-              className="relative w-full max-w-4xl h-48 overflow-hidden rounded-xl border-2 border-cyan-400/50"
-              data-scroll-container
-              style={{ 
-                background: 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%)',
-                boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.5)'
-              }}>
+            <div className="relative w-full max-w-4xl h-48 overflow-hidden rounded-xl border-2 border-cyan-400/50"
+                 style={{ 
+                   background: 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%)',
+                   boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.5)'
+                 }}>
               
               {/* Cards strip */}
               <div 
@@ -806,12 +709,11 @@ export default function Intro({ onComplete }: IntroProps) {
               >
                 {scrollCards.map((car, index) => {
                   const rarity = getRarityColor(car.price);
-                  const isWinning = finalWinningCar && car.id === finalWinningCar.id && casePhase === 'result';
+                  const isWinning = car.id === 'winning-car' && casePhase === 'result';
                   
                   return (
                     <div
                       key={car.id}
-                      data-card-index={index}
                       className={`flex-shrink-0 w-36 h-44 mx-2 rounded-lg border-2 flex flex-col items-center justify-between p-3 transition-all duration-500 ${
                         isWinning ? 'animate-pulse' : ''
                       }`}
@@ -825,12 +727,19 @@ export default function Intro({ onComplete }: IntroProps) {
                     >
                       {/* Car logo */}
                       <div className="flex items-center justify-center h-12 mb-2">
-                        <span className="text-2xl" style={{ 
-                          filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.6))',
-                          textShadow: '0 0 8px rgba(255, 255, 255, 0.4)'
-                        }}>
-                          {car.logo || '🚗'}
-                        </span>
+                        <img 
+                          src={`/assets/cars/${car.id.replace('scroll-', '').replace('winning-car', car.id)}/logotype.png`}
+                          alt={`${car.brand} logo`}
+                          className="w-8 h-8 object-contain"
+                          style={{ 
+                            filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)) brightness(1.2)',
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            (e.target as HTMLImageElement).nextElementSibling!.textContent = '🚗';
+                          }}
+                        />
+                        <span className="text-2xl" style={{ display: 'none' }}>🚗</span>
                       </div>
                       
                       {/* Car name */}
