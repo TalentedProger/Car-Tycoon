@@ -270,7 +270,7 @@ export default function Intro({ onComplete }: IntroProps) {
         
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-3xl mx-auto animate-slide-in">
-            <div className="text-8xl mb-6 animate-float">
+            <div className="text-8xl mb-6 animate-float" style={{ fontFamily: 'initial' }}>
               {mechanic.icon}
             </div>
             
@@ -423,7 +423,7 @@ export default function Intro({ onComplete }: IntroProps) {
                       <div className="text-white text-center absolute top-8 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10, fontFamily: 'Nunito, sans-serif' }}>
                         <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
                         <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
-                        <div className="text-lg">
+                        <div className="text-lg" style={{ fontFamily: 'initial' }}>
                           {/* Brand logo placeholder */}
                           🚗
                         </div>
@@ -493,7 +493,8 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedColor === '#8B4513' ? '20deg' :
                   selectedColor === '#000080' ? '240deg' :
                   '120deg'
-                })` : 'none' 
+                })` : 'none',
+                fontFamily: 'initial'
               }}
             >
               🚗
@@ -621,7 +622,8 @@ export default function Intro({ onComplete }: IntroProps) {
                   selectedCar.color === '#8B4513' ? '20deg' :
                   selectedCar.color === '#000080' ? '240deg' :
                   '120deg'
-                })` : 'none' 
+                })` : 'none',
+                fontFamily: 'initial'
               }}>
                 🚗
               </div>
