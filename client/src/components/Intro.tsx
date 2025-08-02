@@ -453,79 +453,115 @@ export default function Intro({ onComplete }: IntroProps) {
             Колесо фортуны
           </h1>
           
-          {/* Wheel */}
+          {/* Premium Neon Wheel of Fortune */}
           <div className="relative mb-8">
-            <div className="w-80 h-80 mx-auto relative">
-              {/* Pointer */}
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-3 z-20">
-                <div className="w-0 h-0 animate-pulse-subtle" 
-                     style={{ 
-                       borderLeft: '6px solid transparent',
-                       borderRight: '6px solid transparent',
-                       borderBottom: '12px solid #00FFFF',
-                       filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8)) drop-shadow(0 0 16px rgba(34, 211, 238, 0.6))'
-                     }} />
+            <div className="w-96 h-96 mx-auto relative">
+              {/* Glowing outer ring */}
+              <div className="absolute inset-0 rounded-full border-4 border-transparent animate-pulse-subtle"
+                   style={{ 
+                     background: 'linear-gradient(45deg, #00FFFF, #FF00FF, #FFFF00, #00FF00) border-box',
+                     filter: 'blur(2px)',
+                     transform: 'scale(1.02)'
+                   }} />
+              
+              {/* Central company logo hub */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 w-20 h-20 rounded-full flex items-center justify-center"
+                   style={{ 
+                     background: 'radial-gradient(circle, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+                     border: '3px solid #00FFFF',
+                     boxShadow: '0 0 30px rgba(0, 255, 255, 0.8), inset 0 0 15px rgba(0, 255, 255, 0.3)'
+                   }}>
+                <div className="text-center">
+                  <div className="text-xs font-bold text-cyan-400 mb-1 intro-text" style={{ textShadow: '0 0 8px rgba(0, 255, 255, 0.8)' }}>AUTO</div>
+                  <div className="text-xs font-bold text-yellow-400 intro-text" style={{ textShadow: '0 0 8px rgba(255, 255, 0, 0.8)' }}>ARENA</div>
+                </div>
               </div>
               
-              {/* Wheel */}
+              {/* Premium pointer with glow */}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4 z-20">
+                <div className="relative">
+                  <div className="w-0 h-0 animate-pulse-subtle" 
+                       style={{ 
+                         borderLeft: '8px solid transparent',
+                         borderRight: '8px solid transparent',
+                         borderBottom: '20px solid #FFD700',
+                         filter: 'drop-shadow(0 0 12px rgba(255, 215, 0, 1)) drop-shadow(0 0 24px rgba(255, 215, 0, 0.6))'
+                       }} />
+                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-sm"
+                       style={{ filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.8))' }} />
+                </div>
+              </div>
+              
+              {/* Main wheel container */}
               <div 
                 ref={wheelRef}
-                className={`w-full h-full rounded-full border-4 relative transition-transform ${isSpinning ? '' : 'duration-300'} overflow-hidden`}
+                className={`w-full h-full rounded-full relative transition-transform ${isSpinning ? '' : 'duration-300'} overflow-hidden`}
                 style={{ 
                   transitionDuration: isSpinning ? '10s' : '300ms',
                   transform: `rotate(${wheelRotation}deg)`,
-                  borderColor: '#FFD700',
-                  boxShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4)'
+                  background: 'radial-gradient(circle, #2a2a3e 0%, #1a1a2e 100%)',
+                  border: '6px solid #FFD700',
+                  boxShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.2)'
                 }}
               >
-                {/* Background segments */}
+                {/* Neon segments with premium gradients */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
                   
-                  // Неоновая палитра для сегментов
-                  const segmentColors = ['#00F5FF', '#FF2EC4', '#39FF14', '#FF6F00', '#FFFF33', '#FF073A'];
-                  const bgColor = segmentColors[index % segmentColors.length];
+                  // Premium neon color palette
+                  const segmentGradients = [
+                    'linear-gradient(135deg, #00F5FF 0%, #0080FF 100%)', // Cyan to blue
+                    'linear-gradient(135deg, #FF2EC4 0%, #C41E3A 100%)', // Pink to crimson
+                    'linear-gradient(135deg, #39FF14 0%, #32CD32 100%)', // Neon green to lime
+                    'linear-gradient(135deg, #FF6F00 0%, #FF4500 100%)', // Orange to red-orange
+                    'linear-gradient(135deg, #FFFF33 0%, #FFD700 100%)', // Yellow to gold
+                    'linear-gradient(135deg, #FF073A 0%, #DC143C 100%)', // Red to crimson
+                  ];
+                  
+                  const gradientBg = segmentGradients[index % segmentGradients.length];
                   
                   return (
                     <div
                       key={`segment-${car.id}`}
                       className="absolute w-full h-full"
                       style={{
-                        background: `conic-gradient(from ${angle}deg, ${bgColor} 0deg, ${bgColor} ${segmentAngle}deg, transparent ${segmentAngle}deg, transparent 360deg)`,
-                        borderRadius: '50%'
+                        background: `conic-gradient(from ${angle}deg, transparent 0deg, transparent ${angle}deg, ${gradientBg.replace('linear-gradient(135deg,', '').replace(')', '').split(',')[0]} ${angle}deg, ${gradientBg.replace('linear-gradient(135deg,', '').replace(')', '').split(',')[1]} ${angle + segmentAngle}deg, transparent ${angle + segmentAngle}deg)`,
+                        borderRadius: '50%',
+                        filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))'
                       }}
                     />
                   );
                 })}
                 
-                {/* Segment borders */}
+                {/* Glowing segment dividers */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   
                   return (
                     <div
                       key={`border-${car.id}`}
-                      className="absolute bg-white"
+                      className="absolute"
                       style={{
-                        width: '2px',
+                        width: '3px',
                         height: '50%',
                         left: '50%',
                         top: '0%',
+                        background: 'linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.3) 100%)',
                         transformOrigin: 'bottom center',
-                        transform: `translateX(-50%) rotate(${angle}deg)`
+                        transform: `translateX(-50%) rotate(${angle}deg)`,
+                        filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.4))'
                       }}
                     />
                   );
                 })}
                 
-                {/* Car information */}
+                {/* Car content with logo, name and price */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
-                  // Правильное позиционирование в центре сегмента
-                  const radius = 100; // Увеличенное расстояние от центра
-                  const centerAngle = angle + (segmentAngle / 2); // Центр сегмента
+                  const radius = 120; // Distance from center
+                  const centerAngle = angle + (segmentAngle / 2); // Center of segment
                   const radians = (centerAngle * Math.PI) / 180;
                   const x = Math.cos(radians) * radius;
                   const y = Math.sin(radians) * radius;
@@ -537,37 +573,62 @@ export default function Intro({ onComplete }: IntroProps) {
                       style={{ 
                         left: `calc(50% + ${x}px)`,
                         top: `calc(50% + ${y}px)`,
-                        transform: `translate(-50%, -50%)`,
+                        transform: `translate(-50%, -50%) rotate(${centerAngle + 90}deg)`,
                         zIndex: 10, 
-                        width: '60px',
-                        height: '50px'
+                        width: '70px',
+                        height: '65px'
                       }}
                     >
+                      {/* Car logo/image */}
+                      <div className="mb-1 flex items-center justify-center h-8">
+                        <img 
+                          src={`/assets/cars/${car.id}/logotype.png`}
+                          alt={`${car.brand} logo`}
+                          className="w-6 h-6 object-contain"
+                          style={{ 
+                            filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.8)) brightness(1.2) contrast(1.3)',
+                          }}
+                          onError={(e) => {
+                            // Fallback to car emoji if logo not found
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            (e.target as HTMLImageElement).nextElementSibling!.textContent = '🚗';
+                          }}
+                        />
+                        <span className="text-xl" style={{ display: 'none' }}>🚗</span>
+                      </div>
+                      
+                      {/* Car name */}
                       <div className="font-bold mb-1 leading-tight intro-text" style={{ 
+                        fontSize: '9px',
+                        lineHeight: '10px',
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        textShadow: '0 0 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(255, 255, 255, 0.3)',
+                        wordWrap: 'break-word',
+                        overflow: 'hidden',
+                        fontWeight: 'bold'
+                      }}>{car.name}</div>
+                      
+                      {/* Car price */}
+                      <div className="font-bold intro-text" style={{ 
                         fontSize: '8px',
                         lineHeight: '9px',
                         textAlign: 'center',
-                        color: '#FFFFFF',
-                        textShadow: '1px 1px 2px rgba(0,0,0,0.9)',
-                        wordWrap: 'break-word',
-                        overflow: 'hidden'
-                      }}>{car.name}</div>
-                      <div className="font-bold mb-1 intro-text" style={{ 
-                        fontSize: '7px',
-                        lineHeight: '8px',
-                        textAlign: 'center',
-                        color: '#000000',
-                        textShadow: '1px 1px 1px rgba(255,255,255,0.9)'
+                        color: '#FFD700',
+                        textShadow: '0 0 6px rgba(0, 0, 0, 0.9), 0 0 3px rgba(255, 215, 0, 0.8)',
+                        fontWeight: 'bold'
                       }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
-                      <div className="text-lg" style={{ 
-                        fontSize: '12px'
-                      }}>
-                        🚗
-                      </div>
                     </div>
                   );
                 })}
               </div>
+              
+              {/* Metallic reflections overlay */}
+              <div className="absolute inset-4 rounded-full pointer-events-none"
+                   style={{ 
+                     background: 'conic-gradient(from 0deg, transparent 0%, rgba(255, 255, 255, 0.1) 25%, transparent 50%, rgba(255, 255, 255, 0.05) 75%, transparent 100%)',
+                     filter: 'blur(1px)'
+                   }} />
             </div>
           </div>
           
