@@ -693,7 +693,7 @@ export default function Intro({ onComplete }: IntroProps) {
             </div>
             
             {/* Card scrolling container */}
-            <div className="relative w-full max-w-4xl h-48 overflow-hidden rounded-xl border-2 border-cyan-400/50"
+            <div className="relative w-full max-w-4xl h-48 overflow-hidden rounded-xl"
                  style={{ 
                    background: 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%)',
                    boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.5)'
@@ -774,18 +774,19 @@ export default function Intro({ onComplete }: IntroProps) {
             
             {/* Take reward button - only show after result */}
             {casePhase === 'result' && finalWinningCar && (
-              <div className="mt-8">
+              <div className="mt-8 px-4">
                 <Button
                   onClick={handleTakeReward}
-                  className="font-bold text-xl px-12 py-4 rounded-xl transform hover:scale-105 transition-all duration-300 border-0 intro-button"
+                  className="font-bold text-lg sm:text-xl px-6 sm:px-12 py-3 sm:py-4 rounded-xl transform hover:scale-105 transition-all duration-300 border-0 intro-button w-full max-w-xs mx-auto"
                   style={{ 
                     background: `linear-gradient(45deg, ${getRarityColor(finalWinningCar.price).color}, #FFFFFF)`,
                     color: '#000000',
                     boxShadow: `0 0 20px ${getRarityColor(finalWinningCar.price).color}80`,
-                    textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)'
+                    textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)',
+                    minHeight: '48px'
                   }}
                 >
-                  Забрать {finalWinningCar.name}
+                  <span className="truncate">Забрать {finalWinningCar.name}</span>
                 </Button>
               </div>
             )}
@@ -904,16 +905,15 @@ export default function Intro({ onComplete }: IntroProps) {
               }
             }}
             disabled={!selectedColor}
-            className="font-bold text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button"
+            className="font-bold text-base sm:text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button w-full max-w-xs mx-auto px-4 sm:px-6"
             style={{ 
               backgroundColor: selectedColor ? '#00FFFF' : '#666666',
               color: '#0C011C',
-              minWidth: '220px',
               height: '48px',
               boxShadow: selectedColor ? '0px 0px 14px rgba(0,255,255,0.5)' : 'none'
             }}
           >
-            Подтвердить выбор
+            <span className="truncate">Подтвердить выбор</span>
           </Button>
         </div>
 
@@ -999,9 +999,10 @@ export default function Intro({ onComplete }: IntroProps) {
             
             <Button
               onClick={handleStartGame}
-              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green intro-button"
+              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green intro-button w-full max-w-xs mx-auto"
+              style={{ minHeight: '48px' }}
             >
-              В путь!
+              <span className="truncate">В путь!</span>
             </Button>
           </div>
         </div>
