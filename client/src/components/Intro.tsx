@@ -908,7 +908,7 @@ export default function Intro({ onComplete }: IntroProps) {
               }
             }}
             disabled={!selectedColor}
-            className="font-bold text-base sm:text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button w-full max-w-xs mx-auto px-4 sm:px-6"
+            className="font-bold text-base sm:text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button w-full max-w-xs mx-auto px-4 sm:px-6 mb-6"
             style={{ 
               backgroundColor: selectedColor ? '#00FFFF' : '#666666',
               color: '#0C011C',
