@@ -120,6 +120,11 @@ Preferred communication style: Simple, everyday language.
   - Added subtle pulse animation with cyan color scheme
   - Increased button size with px-16 py-6 padding
   - All other intro screens maintain original button styling
+- **Dynamic Background Animation**: Added flowing gradient background to hero sections:
+  - Beautiful gradient transition from dark pink to dark purple (#4c1d95 → #7c2d92 → #be185d)
+  - Smooth 8-second animation cycle flowing from top-left to bottom-right
+  - Applied to welcome, mechanics presentation, wheel spin, and celebration screens
+  - Enhanced visual depth while maintaining readability
 
 ### February 2, 2025 - Complete Project Migration & Navigation Improvements
 - **Successful Migration**: Completed migration from Replit Agent to standard Replit environment with all packages properly installed

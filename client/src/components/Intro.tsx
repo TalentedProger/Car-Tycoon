@@ -232,7 +232,7 @@ export default function Intro({ onComplete }: IntroProps) {
   // Welcome Screen
   if (state === 'welcome') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
@@ -283,7 +283,7 @@ export default function Intro({ onComplete }: IntroProps) {
     const mechanic = gameMechanics[currentMechanic];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
@@ -409,7 +409,7 @@ export default function Intro({ onComplete }: IntroProps) {
   // Wheel Spin Screen
   if (state === 'wheelSpin') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
@@ -690,7 +690,7 @@ export default function Intro({ onComplete }: IntroProps) {
   // Celebration Screen
   if (state === 'celebration' && selectedCar) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
+      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
         {/* Neon fireworks */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
