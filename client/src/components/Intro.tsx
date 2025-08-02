@@ -153,6 +153,7 @@ export default function Intro({ onComplete }: IntroProps) {
     if (isSpinning) return;
     
     setIsSpinning(true);
+    playSound('engine_start.wav');
     
     // Select random car based on chances
     const random = Math.random();
@@ -169,10 +170,22 @@ export default function Intro({ onComplete }: IntroProps) {
     
     // Calculate rotation to land on winner
     const carIndex = wheelCars.findIndex(car => car.id === winner.id);
-    const segmentAngle = 360 / wheelCars.length;
-    const targetAngle = (carIndex * segmentAngle) + (segmentAngle / 2);
-    const spins = 5; // Number of full rotations
-    const finalRotation = (spins * 360) + (360 - targetAngle);
+    const segmentAngle = 360 / wheelCars.length; // 60 degrees per segment
+    
+    // Calculate the target angle - we want to land in the CENTER of the segment
+    // The pointer points to the TOP (0 degrees), so we need to calculate where the segment center should be
+    // Segment 0 starts at 0°, segment 1 at 60°, etc.
+    const segmentStartAngle = carIndex * segmentAngle;
+    const segmentCenterAngle = segmentStartAngle + (segmentAngle / 2);
+    
+    // Since the pointer is at the top, we want the segment center to be at the top (0°)
+    // So we need to rotate the wheel so that segmentCenterAngle becomes 0°
+    const targetAngle = 360 - segmentCenterAngle;
+    
+    // Add multiple spins for effect
+    const spins = 5 + Math.floor(Math.random() * 3); // 5-7 full rotations
+    const randomOffset = (Math.random() - 0.5) * 10; // Small random offset for realism
+    const finalRotation = (spins * 360) + targetAngle + randomOffset;
     
     setWheelRotation(finalRotation);
     setSelectedCar(winner);
@@ -402,19 +415,25 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="relative mb-8">
             <div className="w-80 h-80 mx-auto relative">
               {/* Pointer */}
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 z-20">
-                <div className="w-0 h-0 border-l-4 border-r-4 border-b-8 border-l-transparent border-r-transparent border-b-yellow-400" />
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-3 z-20">
+                <div className="w-0 h-0 animate-pulse-subtle" 
+                     style={{ 
+                       borderLeft: '6px solid transparent',
+                       borderRight: '6px solid transparent',
+                       borderBottom: '12px solid #00FFFF',
+                       filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8)) drop-shadow(0 0 16px rgba(34, 211, 238, 0.6))'
+                     }} />
               </div>
               
               {/* Wheel */}
               <div 
                 ref={wheelRef}
-                className={`w-full h-full rounded-full border-4 border-yellow-400 relative transition-transform ${isSpinning ? '' : 'duration-300'}`}
+                className={`w-full h-full rounded-full border-4 border-cyan-400 relative transition-transform ${isSpinning ? '' : 'duration-300'}`}
                 style={{ 
                   transitionDuration: isSpinning ? '10s' : '300ms',
                   transform: `rotate(${wheelRotation}deg)`,
-                  background: 'conic-gradient(from 0deg, #ef4444 0deg 60deg, #f97316 60deg 120deg, #eab308 120deg 180deg, #22c55e 180deg 240deg, #3b82f6 240deg 300deg, #8b5cf6 300deg 360deg)',
-                  boxShadow: '0 0 30px rgba(251, 191, 36, 0.6)'
+                  background: 'conic-gradient(from 0deg, #1a0d2e 0deg 60deg, #0f1419 60deg 120deg, #1a1a2e 120deg 180deg, #16213e 180deg 240deg, #2d1b69 240deg 300deg, #1f0a2e 300deg 360deg)',
+                  boxShadow: '0 0 40px rgba(34, 211, 238, 0.8), 0 0 80px rgba(34, 211, 238, 0.4)'
                 }}
               >
                 {wheelCars.map((car, index) => {
@@ -438,23 +457,30 @@ export default function Intro({ onComplete }: IntroProps) {
                           left: `calc(50% + ${x}px)`,
                           top: `calc(50% + ${y}px)`,
                           transform: `translate(-50%, -50%)`,
-                          textShadow: '2px 2px 4px rgba(0,0,0,0.9)', 
+                          textShadow: '0 0 8px rgba(0,255,255,0.8), 0 0 16px rgba(0,255,255,0.6), 2px 2px 4px rgba(0,0,0,0.9)', 
                           zIndex: 10, 
-                          width: '85px',
-                          height: '60px'
+                          width: '90px',
+                          height: '65px'
                         }}
                       >
-                        <div className="text-[10px] font-bold mb-1 leading-tight intro-text" style={{ 
+                        <div className="font-extrabold mb-1 leading-tight intro-text" style={{ 
+                          fontSize: '10px',
+                          lineHeight: '11px',
+                          textAlign: 'center',
+                          color: '#00FFFF',
+                          textShadow: '0 0 6px rgba(0,255,255,0.9), 0 0 12px rgba(0,255,255,0.6)'
+                        }}>{car.name}</div>
+                        <div className="font-bold mb-1 intro-text" style={{ 
                           fontSize: '8px',
                           lineHeight: '9px',
-                          textAlign: 'center'
-                        }}>{car.name}</div>
-                        <div className="text-[9px] mb-1 intro-text" style={{ 
-                          fontSize: '7px',
-                          lineHeight: '8px',
-                          textAlign: 'center'
+                          textAlign: 'center',
+                          color: '#FFD700',
+                          textShadow: '0 0 6px rgba(255,215,0,0.8), 0 0 12px rgba(255,215,0,0.5)'
                         }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
-                        <div className="text-sm" style={{ fontSize: '12px' }}>
+                        <div className="text-lg animate-pulse-subtle" style={{ 
+                          fontSize: '16px',
+                          filter: 'drop-shadow(0 0 4px rgba(0,255,255,0.6))'
+                        }}>
                           🚗
                         </div>
                       </div>
@@ -468,7 +494,13 @@ export default function Intro({ onComplete }: IntroProps) {
           <Button
             onClick={spinWheel}
             disabled={isSpinning}
-            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white disabled:opacity-50 disabled:cursor-not-allowed animate-neon-orange intro-button"
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed animate-pulse-subtle intro-button"
+            style={{
+              background: 'linear-gradient(135deg, #00FFFF 0%, #1E90FF 50%, #00CED1 100%)',
+              color: '#0C011C',
+              boxShadow: '0 0 20px rgba(0,255,255,0.6), 0 0 40px rgba(0,255,255,0.4), 0 8px 25px rgba(0,0,0,0.3)',
+              textShadow: '0 0 4px rgba(12,1,28,0.8)'
+            }}
           >
             {isSpinning ? 'Крутится...' : 'Запустить'}
           </Button>
