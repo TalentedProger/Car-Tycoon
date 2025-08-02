@@ -396,7 +396,7 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Central image */}
-        <div className="flex-1 flex items-start justify-center pt-8">
+        <div className="flex-1 flex items-start justify-center pb-8">
           <img 
             src={carIntroImage} 
             alt="Car with neon effects" 
