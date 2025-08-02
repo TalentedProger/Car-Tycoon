@@ -240,7 +240,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             {/* Первый текстовый блок вверху */}
             <p 
-              className="text-2xl font-bold mb-6 leading-tight intro-text animate-text-glow"
+              className="text-2xl font-bold mb-6 leading-tight intro-text"
               style={{
                 color: '#FFD700',
                 textShadow: '0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
