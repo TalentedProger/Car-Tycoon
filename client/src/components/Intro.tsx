@@ -312,7 +312,13 @@ export default function Intro({ onComplete }: IntroProps) {
               {mechanic.icon}
             </div>
             
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent intro-title">
+            <h2 
+              className="text-4xl font-bold mb-6 intro-title"
+              style={{
+                color: '#FFFFFF',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8)',
+              }}
+            >
               {mechanic.title}
             </h2>
             
@@ -433,7 +439,13 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
         <div className="flex-1 flex flex-col items-center justify-center text-center z-10">
-          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent intro-title">
+          <h1 
+            className="text-3xl font-bold mb-8 intro-title"
+            style={{
+              color: '#FFFFFF',
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8)',
+            }}
+          >
             Колесо фортуны
           </h1>
           
@@ -727,7 +739,13 @@ export default function Intro({ onComplete }: IntroProps) {
         
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-md mx-auto animate-celebration">
-            <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent intro-title">
+            <h1 
+              className="text-4xl font-bold mb-6 intro-title"
+              style={{
+                color: '#FFFFFF',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8)',
+              }}
+            >
               Поздравляем! 🎆
             </h1>
             
