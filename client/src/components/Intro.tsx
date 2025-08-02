@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import carIntroImage from '@/assets/car-intro-image.png';
+import carIntroImage from '@assets/Flux_Dev_a_lush_3d_render_of_Create_an_isolated_composition_of_3 (1)-Photoroom_1754120888358.png';
 
 interface IntroProps {
   onComplete: (selectedCar?: any) => void;
@@ -344,7 +344,7 @@ export default function Intro({ onComplete }: IntroProps) {
             src={carIntroImage} 
             alt="Car with neon effects" 
             className="max-w-sm max-h-80 object-contain"
-            style={{ filter: 'drop-shadow(0 0 20px rgba(0, 255, 255, 0.5))' }}
+            style={{ filter: 'drop-shadow(0 0 20px rgba(255, 20, 147, 0.8))' }}
           />
         </div>
         
