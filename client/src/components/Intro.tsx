@@ -225,7 +225,7 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
             <h1 
-              className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600"
+              className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 intro-title"
               style={{
                 color: '#FFD700',
                 textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
@@ -234,7 +234,7 @@ export default function Intro({ onComplete }: IntroProps) {
               Добро пожаловать в игру
             </h1>
             
-            <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300">
+            <p className="text-lg opacity-90 mb-12 leading-relaxed max-w-3xl mx-auto text-gray-300 intro-text">
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
               Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
               Всё начинается прямо сейчас — с твоей первой машины.
@@ -242,7 +242,7 @@ export default function Intro({ onComplete }: IntroProps) {
             
             <Button
               onClick={handleNext}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white"
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:scale-105 transition-all duration-300 border-0 text-white intro-button"
             >
               Далее
             </Button>
@@ -272,11 +272,11 @@ export default function Intro({ onComplete }: IntroProps) {
               {mechanic.icon}
             </div>
             
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent intro-title">
               {mechanic.title}
             </h2>
             
-            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300">
+            <p className="text-lg opacity-90 mb-12 leading-relaxed text-gray-300 intro-text">
               {mechanic.description}
             </p>
           </div>
@@ -286,7 +286,7 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="flex justify-center items-center space-x-4 mb-4 z-20 relative">
           <Button
             onClick={handlePrevious}
-            className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0"
+            className="text-lg px-6 py-3 rounded-full cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-105 border-0 intro-button"
             style={{ 
               backgroundColor: '#FFD700',
               color: '#0C011C'
@@ -297,7 +297,7 @@ export default function Intro({ onComplete }: IntroProps) {
           
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white cursor-pointer transform hover:scale-105 transition-all duration-300"
+            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white cursor-pointer transform hover:scale-105 transition-all duration-300 intro-button"
           >
             {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
           </Button>
@@ -328,7 +328,7 @@ export default function Intro({ onComplete }: IntroProps) {
       >
         <div className={`text-center z-10 transition-all duration-500 pt-16 ${textVisible ? 'opacity-100' : 'opacity-0 transform translate-y-8'}`}>
           <h1 
-            className="text-4xl font-bold mb-8"
+            className="text-4xl font-bold mb-8 intro-title"
             style={{
               color: '#F5F5F5',
               textShadow: '0px 4px 12px rgba(255,255,255,0.15), 0 0 30px rgba(128, 0, 255, 0.4)',
@@ -352,7 +352,7 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="flex justify-center items-center mb-8 z-20 relative">
           <Button
             onClick={handleNext}
-            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90 animate-pulse-subtle"
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90 animate-pulse-subtle intro-button"
             style={{ 
               backgroundColor: '#00FFFF',
               color: '#0C011C',
@@ -381,7 +381,7 @@ export default function Intro({ onComplete }: IntroProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
         <div className="flex-1 flex flex-col items-center justify-center text-center z-10">
-          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent intro-title">
             Колесо фортуны
           </h1>
           
@@ -415,8 +415,8 @@ export default function Intro({ onComplete }: IntroProps) {
                       style={{ transform: `rotate(${angle}deg)` }}
                     >
                       <div className="text-white text-center absolute top-8 left-1/2 transform -translate-x-1/2" style={{ transform: `rotate(-${angle}deg)`, textShadow: '2px 2px 4px rgba(0,0,0,0.9)', zIndex: 10 }}>
-                        <div className="text-xs font-bold mb-1 leading-tight">{car.name}</div>
-                        <div className="text-xs mb-1">{(car.price / 1000000).toFixed(1)}M ₽</div>
+                        <div className="text-xs font-bold mb-1 leading-tight intro-text">{car.name}</div>
+                        <div className="text-xs mb-1 intro-text">{(car.price / 1000000).toFixed(1)}M ₽</div>
                         <div className="text-lg">
                           {/* Brand logo placeholder */}
                           🚗
@@ -432,7 +432,7 @@ export default function Intro({ onComplete }: IntroProps) {
           <Button
             onClick={spinWheel}
             disabled={isSpinning}
-            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white disabled:opacity-50 disabled:cursor-not-allowed animate-neon-orange"
+            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-orange-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white disabled:opacity-50 disabled:cursor-not-allowed animate-neon-orange intro-button"
           >
             {isSpinning ? 'Крутится...' : 'Запустить'}
           </Button>
@@ -460,10 +460,10 @@ export default function Intro({ onComplete }: IntroProps) {
       >
         {/* Top section - Car name and price */}
         <div className="text-center pt-8 pb-6">
-          <h1 className="text-2xl font-bold mb-2" style={{ color: '#F5F5F5', fontSize: '24px' }}>
+          <h1 className="text-2xl font-bold mb-2 intro-title" style={{ color: '#F5F5F5', fontSize: '24px' }}>
             {selectedCar.name}
           </h1>
-          <p className="text-base font-medium" style={{ color: '#C0C0C0', fontSize: '16px' }}>
+          <p className="text-base font-medium intro-text" style={{ color: '#C0C0C0', fontSize: '16px' }}>
             {selectedCar.price.toLocaleString()} ₽
           </p>
         </div>
@@ -502,19 +502,19 @@ export default function Intro({ onComplete }: IntroProps) {
           <div className="w-full max-w-sm mb-8">
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1">Мощность</div>
-                <div className="text-lg font-bold text-white">{selectedCar.horsepower}</div>
-                <div className="text-xs text-gray-400">л.с.</div>
+                <div className="text-xs font-bold text-white mb-1 intro-text">Мощность</div>
+                <div className="text-lg font-bold text-white intro-text">{selectedCar.horsepower}</div>
+                <div className="text-xs text-gray-400 intro-text">л.с.</div>
               </div>
               <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1">0-100 км/ч</div>
-                <div className="text-lg font-bold text-white">{selectedCar.acceleration}</div>
-                <div className="text-xs text-gray-400">сек</div>
+                <div className="text-xs font-bold text-white mb-1 intro-text">0-100 км/ч</div>
+                <div className="text-lg font-bold text-white intro-text">{selectedCar.acceleration}</div>
+                <div className="text-xs text-gray-400 intro-text">сек</div>
               </div>
               <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10" style={{ boxShadow: 'inset 0 0 10px rgba(255,255,255,0.05)' }}>
-                <div className="text-xs font-bold text-white mb-1">Макс. скорость</div>
-                <div className="text-lg font-bold text-white">{selectedCar.maxSpeed}</div>
-                <div className="text-xs text-gray-400">км/ч</div>
+                <div className="text-xs font-bold text-white mb-1 intro-text">Макс. скорость</div>
+                <div className="text-lg font-bold text-white intro-text">{selectedCar.maxSpeed}</div>
+                <div className="text-xs text-gray-400 intro-text">км/ч</div>
               </div>
             </div>
           </div>
@@ -549,7 +549,7 @@ export default function Intro({ onComplete }: IntroProps) {
               }
             }}
             disabled={!selectedColor}
-            className="font-bold text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="font-bold text-lg rounded-3xl transition-all duration-300 transform hover:scale-105 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button"
             style={{ 
               backgroundColor: selectedColor ? '#00FFFF' : '#666666',
               color: '#0C011C',
@@ -595,7 +595,7 @@ export default function Intro({ onComplete }: IntroProps) {
         
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center z-10 max-w-md mx-auto animate-celebration">
-            <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent intro-title">
               Поздравляем! 🎆
             </h1>
             
@@ -620,9 +620,9 @@ export default function Intro({ onComplete }: IntroProps) {
             </div>
             
             <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
-              <h2 className="text-xl font-bold mb-2 text-yellow-400">{selectedCar.name}</h2>
-              <p className="text-sm text-gray-300 mb-1">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-              <p className="text-sm text-gray-400">Цвет: {
+              <h2 className="text-xl font-bold mb-2 text-yellow-400 intro-title">{selectedCar.name}</h2>
+              <p className="text-sm text-gray-300 mb-1 intro-text">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
+              <p className="text-sm text-gray-400 intro-text">Цвет: {
                 selectedCar.color === '#FFFFFF' ? 'Белый' : 
                 selectedCar.color === '#000000' ? 'Чёрный' : 
                 selectedCar.color === '#FF0000' ? 'Красный' : 
@@ -638,7 +638,7 @@ export default function Intro({ onComplete }: IntroProps) {
             
             <Button
               onClick={handleStartGame}
-              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green"
+              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-xl px-12 py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green intro-button"
             >
               В путь!
             </Button>
