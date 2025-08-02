@@ -377,8 +377,8 @@ export default function Intro({ onComplete }: IntroProps) {
           <h1 
             className="text-4xl font-bold mb-8 hero-title-montserrat intro-title"
             style={{
-              color: '#8B00FF',
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px rgba(139, 0, 255, 0.6)',
+              color: '#F5F5F5',
+              textShadow: '0px 4px 12px rgba(245, 245, 245, 0.15), 0 0 30px rgba(245, 245, 245, 0.4)',
             }}
           >
             Твоя первая машина уже ждёт тебя !
@@ -386,7 +386,7 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
         
         {/* Central image */}
-        <div className="flex-1 flex items-center justify-center mx-auto">
+        <div className="flex-1 flex items-center justify-center">
           <img 
             src={carIntroImage} 
             alt="Car with neon effects" 
