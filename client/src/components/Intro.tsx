@@ -236,19 +236,32 @@ export default function Intro({ onComplete }: IntroProps) {
         {/* Neon glow effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
           <div className="text-center z-10 max-w-4xl mx-auto animate-fade-in">
-            <h1 
-              className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 hero-title-montserrat intro-title"
+            {/* Первый текстовый блок вверху */}
+            <p 
+              className="text-xl font-medium mb-8 leading-relaxed intro-text"
               style={{
                 color: '#FFD700',
               }}
             >
-              Добро пожаловать в игру
-            </h1>
+              Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху
+            </p>
             
+            {/* Фото машины в центре */}
+            <div className="mb-8">
+              <img 
+                src="/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png"
+                alt="Futuristic Sports Car"
+                className="max-w-md max-h-72 mx-auto object-contain"
+                style={{ 
+                  filter: 'drop-shadow(0 0 30px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 60px rgba(138, 43, 226, 0.4))',
+                }}
+              />
+            </div>
+            
+            {/* Второй текстовый блок внизу */}
             <p className="text-lg opacity-90 leading-relaxed max-w-3xl mx-auto text-gray-300 intro-text">
-              Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху. 
               Покупай, продавай, улучшай, соревнуйся и строй свою империю скорости. 
               Всё начинается прямо сейчас — с твоей первой машины.
             </p>

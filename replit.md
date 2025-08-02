@@ -125,6 +125,12 @@ Preferred communication style: Simple, everyday language.
   - Smooth 8-second animation cycle flowing from top-left to bottom-right
   - Applied to welcome, mechanics presentation, wheel spin, and celebration screens
   - Enhanced visual depth while maintaining readability
+- **Welcome Screen Redesign**: Restructured first hero slide layout for better visual hierarchy:
+  - Removed "Добро пожаловать в игру" main title
+  - Moved first text block to top with smaller font and golden color
+  - Added futuristic car image in center with neon glow effects
+  - Split descriptive text into two separate blocks with proper spacing
+  - Maintained button position at bottom for consistent UX
 
 ### February 2, 2025 - Complete Project Migration & Navigation Improvements
 - **Successful Migration**: Completed migration from Replit Agent to standard Replit environment with all packages properly installed
