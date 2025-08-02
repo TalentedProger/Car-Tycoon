@@ -898,13 +898,15 @@ export default function Intro({ onComplete }: IntroProps) {
               if (selectedColor) {
                 // Save selected color to the car object
                 setSelectedCar({ ...selectedCar, color: selectedColor });
-                setState('celebration');
                 playSound('win.mp3');
                 
                 // Stop intro music
                 if (introMusicRef.current) {
                   introMusicRef.current.pause();
                 }
+                
+                // Navigate to main game
+                handleStartGame();
               }
             }}
             disabled={!selectedColor}
@@ -932,88 +934,7 @@ export default function Intro({ onComplete }: IntroProps) {
     );
   }
 
-  // Celebration Screen
-  if (state === 'celebration' && selectedCar) {
-    return (
-      <div className="min-h-screen hero-gradient-bg animate-gradient-flow flex flex-col items-center justify-between text-white p-6 relative overflow-hidden">
-        {/* Neon fireworks */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-firework"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-              }}
-            />
-          ))}
-        </div>
-        
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center z-10 max-w-md mx-auto animate-celebration">
-            <h1 
-              className="text-4xl font-bold mb-6 intro-title"
-              style={{
-                color: '#FFFFFF',
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8)',
-              }}
-            >
-              Поздравляем! 🎆
-            </h1>
-            
-            {/* Car driving out animation */}
-            <div className="mb-6">
-              <div className="text-8xl animate-drive-in" style={{ 
-                filter: selectedCar.color ? `hue-rotate(${
-                  selectedCar.color === '#FF0000' ? '0deg' : 
-                  selectedCar.color === '#0000FF' ? '240deg' : 
-                  selectedCar.color === '#000000' ? '0deg' : 
-                  selectedCar.color === '#FFFFFF' ? '0deg' :
-                  selectedCar.color === '#808080' ? '0deg' :
-                  '120deg'
-                })` : 'none' 
-              }}>
-                🚗
-              </div>
-            </div>
-            
-            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-yellow-400/30">
-              <h2 className="text-xl font-bold mb-2 text-yellow-400 intro-title">{selectedCar.name}</h2>
-              <p className="text-sm text-gray-300 mb-1 intro-text">Стоимость: {selectedCar.price.toLocaleString()} ₽</p>
-              <p className="text-sm text-gray-400 intro-text">Цвет: {
-                selectedCar.color === '#FFFFFF' ? 'Белый' : 
-                selectedCar.color === '#000000' ? 'Чёрный' : 
-                selectedCar.color === '#FF0000' ? 'Красный' : 
-                selectedCar.color === '#0000FF' ? 'Синий' : 
-                selectedCar.color === '#808080' ? 'Серый' :
-                'Особый'
-              }</p>
-            </div>
-            
-            <Button
-              onClick={handleStartGame}
-              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 font-bold text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-xl shadow-green-500/25 transform hover:scale-105 transition-all duration-300 border-0 text-white animate-pulse-green intro-button w-full max-w-xs mx-auto"
-              style={{ minHeight: '48px' }}
-            >
-              <span className="truncate">В путь!</span>
-            </Button>
-          </div>
-        </div>
-        
-        {/* Pagination circles at bottom */}
-        <div className="flex justify-center space-x-2 pb-4">
-          <div className="w-2 h-2 rounded-full bg-white/20" />
-          <div className="w-2 h-2 rounded-full bg-white/20" />
-          <div className="w-2 h-2 rounded-full bg-white/20" />
-          <div className="w-2 h-2 rounded-full bg-white/20" />
-          <div className="w-2 h-2 rounded-full bg-white/20" />
-          <div className="w-2 h-2 rounded-full bg-cyan-400" />
-        </div>
-      </div>
-    );
-  }
+
 
   return null;
 }
