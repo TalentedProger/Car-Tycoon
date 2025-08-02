@@ -116,6 +116,18 @@
     animation: spin 3s linear infinite;
   }
   
+  .animate-pulse-subtle {
+    animation: pulseSubtle 2s ease-in-out infinite;
+  }
+  
+  .animate-neon-orange {
+    animation: neon-orange 2s ease-in-out infinite;
+  }
+  
+  .animate-pulse-green {
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+  
   .safe-area-inset-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -522,6 +534,15 @@
   0% {
     transform: translateX(-100px) scale(0.5);
     opacity: 0;
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
     transform: translateX(0) scale(1);

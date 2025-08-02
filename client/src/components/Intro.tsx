@@ -299,8 +299,13 @@ export default function Intro({ onComplete }: IntroProps) {
           
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 border-0 text-white cursor-pointer transform hover:scale-105 transition-all duration-300 intro-button"
-            style={{ width: '120px' }}
+            className="font-bold text-lg px-8 py-3 rounded-full transform hover:scale-105 transition-all duration-300 border-0 cursor-pointer hover:opacity-90 animate-pulse-subtle intro-button"
+            style={{ 
+              backgroundColor: '#00FFFF',
+              color: '#0C011C',
+              boxShadow: '0px 0px 16px rgba(0,255,255,0.6)',
+              width: '120px'
+            }}
           >
             {currentMechanic === gameMechanics.length - 1 ? 'Продолжить' : 'Далее →'}
           </Button>
