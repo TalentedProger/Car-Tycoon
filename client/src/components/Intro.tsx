@@ -428,19 +428,61 @@ export default function Intro({ onComplete }: IntroProps) {
               {/* Wheel */}
               <div 
                 ref={wheelRef}
-                className={`w-full h-full rounded-full border-4 border-cyan-400 relative transition-transform ${isSpinning ? '' : 'duration-300'}`}
+                className={`w-full h-full rounded-full border-4 border-gray-300 relative transition-transform ${isSpinning ? '' : 'duration-300'} overflow-hidden`}
                 style={{ 
                   transitionDuration: isSpinning ? '10s' : '300ms',
                   transform: `rotate(${wheelRotation}deg)`,
-                  background: 'conic-gradient(from 0deg, #1a0d2e 0deg 60deg, #0f1419 60deg 120deg, #1a1a2e 120deg 180deg, #16213e 180deg 240deg, #2d1b69 240deg 300deg, #1f0a2e 300deg 360deg)',
-                  boxShadow: '0 0 40px rgba(34, 211, 238, 0.8), 0 0 80px rgba(34, 211, 238, 0.4)'
+                  boxShadow: '0 0 20px rgba(0,0,0,0.3)'
                 }}
               >
+                {/* Background segments */}
                 {wheelCars.map((car, index) => {
                   const angle = (360 / wheelCars.length) * index;
                   const segmentAngle = 360 / wheelCars.length;
-                  // Calculate center position of each segment
-                  const radius = 120; // Distance from center to content
+                  
+                  // Define segment colors
+                  const segmentColors = ['#FF4444', '#4444FF', '#44FF44', '#FFFF44', '#FF44FF', '#44FFFF'];
+                  const bgColor = segmentColors[index % segmentColors.length];
+                  
+                  return (
+                    <div
+                      key={`segment-${car.id}`}
+                      className="absolute w-full h-full"
+                      style={{
+                        background: `conic-gradient(from ${angle}deg, ${bgColor} 0deg, ${bgColor} ${segmentAngle}deg, transparent ${segmentAngle}deg, transparent 360deg)`,
+                        borderRadius: '50%'
+                      }}
+                    />
+                  );
+                })}
+                
+                {/* Segment borders */}
+                {wheelCars.map((car, index) => {
+                  const angle = (360 / wheelCars.length) * index;
+                  const radians = (angle * Math.PI) / 180;
+                  
+                  return (
+                    <div
+                      key={`border-${car.id}`}
+                      className="absolute bg-white"
+                      style={{
+                        width: '2px',
+                        height: '50%',
+                        left: '50%',
+                        top: '0%',
+                        transformOrigin: 'bottom center',
+                        transform: `translateX(-50%) rotate(${angle}deg)`
+                      }}
+                    />
+                  );
+                })}
+                
+                {/* Car information */}
+                {wheelCars.map((car, index) => {
+                  const angle = (360 / wheelCars.length) * index;
+                  const segmentAngle = 360 / wheelCars.length;
+                  // Calculate center position of each segment - moved closer to center
+                  const radius = 85; // Distance from center to content
                   const centerAngle = angle + (segmentAngle / 2);
                   const radians = (centerAngle * Math.PI) / 180;
                   const x = Math.cos(radians) * radius;
@@ -448,41 +490,35 @@ export default function Intro({ onComplete }: IntroProps) {
                   
                   return (
                     <div
-                      key={car.id}
-                      className="absolute w-full h-full"
+                      key={`content-${car.id}`}
+                      className="text-white text-center absolute flex flex-col items-center justify-center" 
+                      style={{ 
+                        left: `calc(50% + ${x}px)`,
+                        top: `calc(50% + ${y}px)`,
+                        transform: `translate(-50%, -50%)`,
+                        zIndex: 10, 
+                        width: '70px',
+                        height: '60px'
+                      }}
                     >
-                      <div 
-                        className="text-white text-center absolute flex flex-col items-center justify-center" 
-                        style={{ 
-                          left: `calc(50% + ${x}px)`,
-                          top: `calc(50% + ${y}px)`,
-                          transform: `translate(-50%, -50%)`,
-                          textShadow: '0 0 8px rgba(0,255,255,0.8), 0 0 16px rgba(0,255,255,0.6), 2px 2px 4px rgba(0,0,0,0.9)', 
-                          zIndex: 10, 
-                          width: '90px',
-                          height: '65px'
-                        }}
-                      >
-                        <div className="font-extrabold mb-1 leading-tight intro-text" style={{ 
-                          fontSize: '10px',
-                          lineHeight: '11px',
-                          textAlign: 'center',
-                          color: '#00FFFF',
-                          textShadow: '0 0 6px rgba(0,255,255,0.9), 0 0 12px rgba(0,255,255,0.6)'
-                        }}>{car.name}</div>
-                        <div className="font-bold mb-1 intro-text" style={{ 
-                          fontSize: '8px',
-                          lineHeight: '9px',
-                          textAlign: 'center',
-                          color: '#FFD700',
-                          textShadow: '0 0 6px rgba(255,215,0,0.8), 0 0 12px rgba(255,215,0,0.5)'
-                        }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
-                        <div className="text-lg animate-pulse-subtle" style={{ 
-                          fontSize: '16px',
-                          filter: 'drop-shadow(0 0 4px rgba(0,255,255,0.6))'
-                        }}>
-                          🚗
-                        </div>
+                      <div className="font-bold mb-1 leading-tight intro-text" style={{ 
+                        fontSize: '9px',
+                        lineHeight: '10px',
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
+                      }}>{car.name}</div>
+                      <div className="font-bold mb-1 intro-text" style={{ 
+                        fontSize: '8px',
+                        lineHeight: '9px',
+                        textAlign: 'center',
+                        color: '#000000',
+                        textShadow: '1px 1px 1px rgba(255,255,255,0.8)'
+                      }}>{(car.price / 1000000).toFixed(1)}M ₽</div>
+                      <div className="text-lg" style={{ 
+                        fontSize: '14px'
+                      }}>
+                        🚗
                       </div>
                     </div>
                   );
@@ -494,12 +530,11 @@ export default function Intro({ onComplete }: IntroProps) {
           <Button
             onClick={spinWheel}
             disabled={isSpinning}
-            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed animate-pulse-subtle intro-button"
+            className="font-bold text-xl px-12 py-4 rounded-full transform hover:scale-105 transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed intro-button"
             style={{
-              background: 'linear-gradient(135deg, #00FFFF 0%, #1E90FF 50%, #00CED1 100%)',
-              color: '#0C011C',
-              boxShadow: '0 0 20px rgba(0,255,255,0.6), 0 0 40px rgba(0,255,255,0.4), 0 8px 25px rgba(0,0,0,0.3)',
-              textShadow: '0 0 4px rgba(12,1,28,0.8)'
+              backgroundColor: '#4A90E2',
+              color: '#FFFFFF',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
             }}
           >
             {isSpinning ? 'Крутится...' : 'Запустить'}
