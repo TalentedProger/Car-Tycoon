@@ -32,7 +32,8 @@ function App() {
     claimDailyProfit,
     getCurrentCar,
     updateGameState,
-    resetIntroForAllUsers
+    resetIntroForAllUsers,
+    resetAllUsersToInitial
   } = useGameState();
 
   // Reset intro data immediately for all users

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - Сброс пользователей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .reset-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px;
+        }
+        .reset-btn:hover {
+            background: #ff3742;
+        }
+        .success {
+            color: #2ed573;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Админ панель</h1>
+        <p>Сброс всех пользователей к первоначальному экрану</p>
+        
+        <button class="reset-btn" onclick="resetAllUsers()">
+            🔄 Сбросить всех пользователей
+        </button>
+        
+        <div id="status"></div>
+        
+        <script>
+            function resetAllUsers() {
+                // Устанавливаем флаг принудительного сброса
+                localStorage.setItem('forceReset', 'true');
+                
+                // Очищаем данные текущего пользователя
+                const keys = Object.keys(localStorage);
+                keys.forEach(key => {
+                    if (key !== 'forceReset') {
+                        localStorage.removeItem(key);
+                    }
+                });
+                
+                document.getElementById('status').innerHTML = 
+                    '<div class="success">✅ Сброс выполнен!<br>Все пользователи начнут с первоначального экрана</div>';
+                
+                // Перенаправляем на главную страницу
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            }
+        </script>
+    </div>
+</body>
+</html>

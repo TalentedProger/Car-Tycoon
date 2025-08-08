@@ -81,6 +81,15 @@ const getLevelProgress = (clicks: number, level: number): number => {
 export function useGameState() {
   const [gameState, setGameState] = useState<GameState>(() => {
     try {
+      // Проверяем флаг принудительного сброса
+      const forceReset = localStorage.getItem('forceReset');
+      if (forceReset === 'true') {
+        // Очищаем все данные и удаляем флаг сброса
+        localStorage.clear();
+        console.log('Выполнен принудительный сброс всех пользователей');
+        return INITIAL_STATE;
+      }
+
       const savedState = localStorage.getItem('carTycoonGame');
       const savedIntro = localStorage.getItem('carTycoonIntro');
       
@@ -218,6 +227,18 @@ export function useGameState() {
     updateGameState({ introShown: false });
   }, [updateGameState]);
 
+  // Reset all users to initial screen (admin function)
+  const resetAllUsersToInitial = useCallback(() => {
+    // Set force reset flag - will trigger on next app load
+    localStorage.setItem('forceReset', 'true');
+    // Also immediately reset current user
+    localStorage.clear();
+    setGameState(INITIAL_STATE);
+    console.log('Все пользователи будут сброшены при следующей загрузке приложения');
+    // Force page reload to apply changes
+    window.location.reload();
+  }, []);
+
   // Проверка доступности награды
   const canClaimReward = useCallback(() => {
     const now = Date.now();
@@ -339,6 +360,7 @@ export function useGameState() {
     updateGameState,
     resetDailyBoosts,
     resetIntroForAllUsers,
+    resetAllUsersToInitial,
     canClaimReward,
     claimReward,
     canClaimDailyProfit,

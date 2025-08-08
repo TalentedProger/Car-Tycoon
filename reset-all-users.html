@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Сброс всех пользователей</title>
+    <script>
+        // Сброс всех пользователей к первоначальному экрану
+        localStorage.setItem('forceReset', 'true');
+        console.log('Установлен флаг сброса для всех пользователей');
+        
+        // Также очистим текущего пользователя
+        const keysToKeep = ['forceReset'];
+        const allKeys = Object.keys(localStorage);
+        
+        allKeys.forEach(key => {
+            if (!keysToKeep.includes(key)) {
+                localStorage.removeItem(key);
+            }
+        });
+        
+        alert('Все пользователи будут сброшены к первоначальному экрану!');
+        
+        // Перезагрузим страницу для применения изменений
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 1000);
+    </script>
+</head>
+<body>
+    <h1>Сброс выполнен!</h1>
+    <p>Все пользователи теперь начнут с первоначального экрана при следующем входе в приложение.</p>
+</body>
+</html>
