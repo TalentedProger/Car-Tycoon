@@ -134,15 +134,18 @@ export function DailyProfitModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[400px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center text-3xl font-bold flex items-center justify-center gap-2 mb-4" style={{
-            background: 'linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            textShadow: '0 0 20px rgba(168, 85, 247, 0.5)',
-            filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.3))'
-          }}>
-            Твой ежедневный доход 💸
+          <DialogTitle className="tracking-tight text-center font-bold flex items-center justify-center gap-2 mb-4 text-[26px]">
+            <span style={{
+              background: 'linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: '0 0 20px rgba(168, 85, 247, 0.5)',
+              filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.3))'
+            }}>
+              Твой ежедневный доход
+            </span>
+            <span>💸</span>
           </DialogTitle>
         </DialogHeader>
         
