@@ -102,7 +102,7 @@ function App() {
           />
         );
       case 'factories':
-        return <Garage onNavigate={setActiveTab} getCurrentCar={getCurrentCar} />;
+        return <Garage onNavigate={setActiveTab} getCurrentCar={getCurrentCar} gameState={gameState} />;
       case 'autosalon':
         return <AutoSalon gameState={gameState} />;
       case 'detailing':

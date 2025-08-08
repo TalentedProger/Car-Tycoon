@@ -17,6 +17,7 @@ interface GameState {
   dailyStreak: number;
   selectedStarterCar?: any;
   ownedCars: any[];
+  carMileage: number;  // Пробег автомобиля в км
 }
 
 const INITIAL_STATE: GameState = {
@@ -36,6 +37,7 @@ const INITIAL_STATE: GameState = {
   dailyStreak: 0,
   selectedStarterCar: undefined,
   ownedCars: [],
+  carMileage: 0,  // Начальный пробег = 0
 };
 
 // Вспомогательные функции
@@ -175,10 +177,14 @@ export function useGameState() {
     const newCoins = gameState.coins + coinsEarned;
     const newTotalClicks = gameState.totalClicks + 1;
     
+    // Увеличиваем пробег: +1км за каждые 100 кликов
+    const newMileage = Math.floor(newTotalClicks / 100);
+    
     updateGameState({
       coins: newCoins,
       energy: gameState.energy - 1,
       totalClicks: newTotalClicks,
+      carMileage: newMileage,
     });
 
     updateLevel(newTotalClicks);
@@ -231,10 +237,10 @@ export function useGameState() {
   const resetAllUsersToInitial = useCallback(() => {
     // Set force reset flag - will trigger on next app load
     localStorage.setItem('forceReset', 'true');
-    // Also immediately reset current user
+    // Also immediately reset current user including mileage
     localStorage.clear();
     setGameState(INITIAL_STATE);
-    console.log('Все пользователи будут сброшены при следующей загрузке приложения');
+    console.log('Все пользователи сброшены: пробег = 0км, клики = 0');
     // Force page reload to apply changes
     window.location.reload();
   }, []);

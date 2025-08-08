@@ -7,9 +7,10 @@ import { ChevronLeft, ChevronRight, ChevronRight as ArrowRight } from 'lucide-re
 interface GarageProps {
   onNavigate?: (tab: string) => void;
   getCurrentCar?: () => any;
+  gameState?: any;
 }
 
-export default function Garage({ onNavigate, getCurrentCar }: GarageProps = {}) {
+export default function Garage({ onNavigate, getCurrentCar, gameState }: GarageProps = {}) {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   // Get the current owned car or show default message
@@ -32,9 +33,9 @@ export default function Garage({ onNavigate, getCurrentCar }: GarageProps = {}) 
 
   function getCarMileage(car: any): string {
     if (car.mileage) return car.mileage;
-    // Generate random but realistic mileage for the game
-    const randomMileage = Math.floor(Math.random() * 80000) + 10000;
-    return `${randomMileage.toLocaleString()} км`;
+    // Используем пробег из состояния игры (1км за каждые 100 кликов)
+    const mileage = gameState?.carMileage || 0;
+    return `${mileage.toLocaleString()} км`;
   }
 
   function getColorName(color: string): string {
