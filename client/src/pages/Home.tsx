@@ -13,6 +13,8 @@ interface HomeProps {
     maxEnergy: number;
     hourlyIncome: number;
     boostActive: boolean;
+    ownedCars?: any[];
+    selectedStarterCar?: any;
   };
   onEarnCoins: () => boolean;
   onActivateBoost: () => boolean;
@@ -71,6 +73,24 @@ export default function Home({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  // Calculate dynamic hourly income based on current car characteristics
+  const calculateHourlyIncome = () => {
+    const currentCar = gameState.ownedCars?.[0] || gameState.selectedStarterCar;
+    if (!currentCar) return 79; // Default fallback
+    
+    // Base calculation using car characteristics
+    const basePower = currentCar.horsepower || currentCar.basePower || 100;
+    const baseAcceleration = parseFloat(currentCar.acceleration || currentCar.baseAcceleration || '12.0');
+    const baseMaxSpeed = currentCar.maxSpeed || currentCar.baseMaxSpeed || 180;
+    
+    // Hourly income formula: (power + max_speed + (15 - acceleration) * 10) / 20
+    const hourlyIncome = Math.floor(
+      (basePower + baseMaxSpeed + (15 - baseAcceleration) * 10) / 20
+    );
+    
+    return Math.max(hourlyIncome, 50); // Minimum 50 per hour
+  };
+
   return (
     <div className="min-h-screen bg-background p-4 pb-20">
       {/* Top Section - Level Progress and Hourly Income */}
@@ -88,7 +108,7 @@ export default function Home({
         <div className="flex items-center gap-3">
           <div className="glass-dark rounded-2xl p-3 flex items-center gap-2">
             <span className="hourly-income text-sm font-bold flex items-center gap-1">
-              <span>{gameState.hourlyIncome}</span>
+              <span>+{calculateHourlyIncome()}</span>
               <span className="text-green-700 text-sm">₽</span>
               <span>/час</span>
             </span>

@@ -91,7 +91,11 @@ function App() {
       case 'home':
         return (
           <Home
-            gameState={gameState}
+            gameState={{
+              ...gameState,
+              ownedCars: gameState.ownedCars,
+              selectedStarterCar: gameState.selectedStarterCar
+            }}
             onEarnCoins={earnCoins}
             onActivateBoost={activateBoost}
             canClick={canClick}
@@ -124,7 +128,11 @@ function App() {
       default:
         return (
           <Home
-            gameState={gameState}
+            gameState={{
+              ...gameState,
+              ownedCars: gameState.ownedCars,
+              selectedStarterCar: gameState.selectedStarterCar
+            }}
             onEarnCoins={earnCoins}
             onActivateBoost={activateBoost}
             canClick={canClick}
