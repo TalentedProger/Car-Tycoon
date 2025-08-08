@@ -16,6 +16,7 @@ interface GameState {
   lastProfitClaim: number;
   dailyStreak: number;
   selectedStarterCar?: any;
+  ownedCars: any[];
 }
 
 const INITIAL_STATE: GameState = {
@@ -34,6 +35,7 @@ const INITIAL_STATE: GameState = {
   lastProfitClaim: 0,
   dailyStreak: 0,
   selectedStarterCar: undefined,
+  ownedCars: [],
 };
 
 // Вспомогательные функции
@@ -196,11 +198,13 @@ export function useGameState() {
   const completeIntro = useCallback((selectedCar?: any) => {
     const updates: Partial<GameState> = { introShown: true };
     
-    // If a car was selected, store it and adjust initial coins
+    // If a car was selected, store it as owned car (no money given)
     if (selectedCar) {
       updates.selectedStarterCar = selectedCar;
-      // Give some starting coins based on car value
-      updates.coins = Math.floor(selectedCar.price * 0.1);
+      // Add the car to owned cars array
+      updates.ownedCars = [selectedCar];
+      // Set starting coins to default amount (no car price bonus)
+      updates.coins = 100; // Small starting amount for game progression
     }
     
     updateGameState(updates);
@@ -282,6 +286,34 @@ export function useGameState() {
     updateGameState({ boostsUsedToday: 0 });
   }, [updateGameState]);
 
+  // Get current owned car (primary car for garage display)
+  const getCurrentCar = useCallback(() => {
+    // First check owned cars array
+    if (gameState.ownedCars && gameState.ownedCars.length > 0) {
+      return gameState.ownedCars[0]; // Return the first (primary) owned car
+    }
+    
+    // Fallback to selected starter car
+    if (gameState.selectedStarterCar) {
+      return gameState.selectedStarterCar;
+    }
+    
+    // Last fallback - check localStorage for legacy data
+    try {
+      const storedCar = localStorage.getItem('selectedStarterCar');
+      if (storedCar) {
+        const car = JSON.parse(storedCar);
+        // Migrate to owned cars array
+        updateGameState({ ownedCars: [car] });
+        return car;
+      }
+    } catch (error) {
+      console.error('Error retrieving stored car:', error);
+    }
+    
+    return null;
+  }, [gameState.ownedCars, gameState.selectedStarterCar, updateGameState]);
+
   // Периодические обновления
   useEffect(() => {
     const interval = setInterval(() => {
@@ -311,6 +343,7 @@ export function useGameState() {
     claimReward,
     canClaimDailyProfit,
     claimDailyProfit,
+    getCurrentCar,
     canClick,
     canBoost,
     levelProgress,

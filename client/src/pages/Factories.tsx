@@ -6,23 +6,75 @@ import { ChevronLeft, ChevronRight, ChevronRight as ArrowRight } from 'lucide-re
 
 interface GarageProps {
   onNavigate?: (tab: string) => void;
+  getCurrentCar?: () => any;
 }
 
-export default function Garage({ onNavigate }: GarageProps = {}) {
+export default function Garage({ onNavigate, getCurrentCar }: GarageProps = {}) {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
-  const carPhotos = [
-    '/car.svg',
+  // Get the current owned car or show default message
+  const currentCar = getCurrentCar ? getCurrentCar() : null;
+
+  // Helper functions to extract car characteristics
+  function getCarDrivetrain(car: any): string {
+    if (car.driveType) return car.driveType;
+    if (car.category === 'economy') return 'Передний (FWD)';
+    return 'Передний привод';
+  }
+
+  function getCarWeight(car: any): string {
+    if (car.weight) return car.weight;
+    // Estimate weight based on car category and power
+    const power = car.horsepower || car.basePower || 100;
+    const estimatedWeight = Math.round(1000 + (power * 8)); // Rough estimate
+    return `${estimatedWeight} кг`;
+  }
+
+  function getCarMileage(car: any): string {
+    if (car.mileage) return car.mileage;
+    // Generate random but realistic mileage for the game
+    const randomMileage = Math.floor(Math.random() * 80000) + 10000;
+    return `${randomMileage.toLocaleString()} км`;
+  }
+
+  function getColorName(color: string): string {
+    const colorMap: { [key: string]: string } = {
+      '#FFFFFF': 'Белый',
+      '#000000': 'Чёрный', 
+      '#0000FF': 'Синий',
+      '#FF0000': 'Красный',
+      '#808080': 'Серый'
+    };
+    return colorMap[color] || 'Неизвестный';
+  }
+
+  // Create dynamic car photos based on owned car
+  const carPhotos = currentCar ? [
+    '/car.svg', // We can add proper car images later
     '/car.svg', 
     '/car.svg',
     '/car.svg'
-  ];
+  ] : ['/car.svg'];
 
-  const carData = {
-    name: 'BMW M3 Competition',
-    drivetrain: 'Полный привод',
-    weight: '1,730 кг',
-    mileage: '45,230 км'
+  // Map car data from the won car, or show fallback data
+  const carData = currentCar ? {
+    name: currentCar.name || 'Неизвестный автомобиль',
+    drivetrain: getCarDrivetrain(currentCar),
+    weight: getCarWeight(currentCar),
+    mileage: getCarMileage(currentCar),
+    horsepower: currentCar.horsepower || currentCar.basePower || '100',
+    acceleration: currentCar.acceleration || currentCar.baseAcceleration || '12.0',
+    maxSpeed: currentCar.maxSpeed || currentCar.baseMaxSpeed || '180',
+    color: currentCar.color || '#FFFFFF'
+  } : {
+    name: 'Автомобиль не найден',
+    drivetrain: '-',
+    weight: '-',
+    mileage: '-',
+    horsepower: '-',
+    acceleration: '-',
+    maxSpeed: '-',
+    color: '#808080'
   };
 
   const nextPhoto = () => {
@@ -102,7 +154,16 @@ export default function Garage({ onNavigate }: GarageProps = {}) {
 
       {/* Car Name */}
       <div className="text-center mb-4">
-        <h2 className="text-xl font-semibold car-name-simple">{carData.name}</h2>
+        <div className="flex items-center justify-center gap-3">
+          <h2 className="text-xl font-semibold car-name-simple">{carData.name}</h2>
+          {currentCar && carData.color && (
+            <div 
+              className="w-4 h-4 rounded-full border-2 border-white/30 shadow-lg"
+              style={{ backgroundColor: carData.color }}
+              title={`Цвет: ${getColorName(carData.color)}`}
+            />
+          )}
+        </div>
       </div>
 
       {/* Car Photo Container - Full width square */}
@@ -164,19 +225,19 @@ export default function Garage({ onNavigate }: GarageProps = {}) {
         <Card className="car-info-card border-0 shadow-none">
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-2">Мощность</div>
-            <div className="text-sm font-semibold text-purple-400">510 л.с.</div>
+            <div className="text-sm font-semibold text-purple-400">{carData.horsepower} л.с.</div>
           </CardContent>
         </Card>
         <Card className="car-info-card border-0 shadow-none">
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-2">0-100 км/ч</div>
-            <div className="text-sm font-semibold text-orange-400">3.9 сек</div>
+            <div className="text-sm font-semibold text-orange-400">{carData.acceleration} сек</div>
           </CardContent>
         </Card>
         <Card className="car-info-card border-0 shadow-none">
           <CardContent className="p-4 text-center">
             <div className="text-xs text-muted-foreground mb-2">Макс. скорость</div>
-            <div className="text-sm font-semibold text-cyan-400">280 км/ч</div>
+            <div className="text-sm font-semibold text-cyan-400">{carData.maxSpeed} км/ч</div>
           </CardContent>
         </Card>
       </div>

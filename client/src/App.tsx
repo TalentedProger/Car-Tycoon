@@ -30,6 +30,7 @@ function App() {
     claimReward,
     canClaimDailyProfit,
     claimDailyProfit,
+    getCurrentCar,
     updateGameState,
     resetIntroForAllUsers
   } = useGameState();
@@ -100,7 +101,7 @@ function App() {
           />
         );
       case 'factories':
-        return <Garage onNavigate={setActiveTab} />;
+        return <Garage onNavigate={setActiveTab} getCurrentCar={getCurrentCar} />;
       case 'autosalon':
         return <AutoSalon gameState={gameState} />;
       case 'detailing':
