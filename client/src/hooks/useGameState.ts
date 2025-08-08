@@ -18,6 +18,9 @@ interface GameState {
   selectedStarterCar?: any;
   ownedCars: any[];
   carMileage: number;  // Пробег автомобиля в км
+  timeInGame: number;  // Время в игре в минутах
+  totalUpgradeSpent: number;  // Общая сумма потраченная на улучшения
+  sessionStartTime: number;  // Время начала текущей сессии
 }
 
 const INITIAL_STATE: GameState = {
@@ -38,6 +41,9 @@ const INITIAL_STATE: GameState = {
   selectedStarterCar: undefined,
   ownedCars: [],
   carMileage: 0,  // Начальный пробег = 0
+  timeInGame: 0,  // Время в игре = 0
+  totalUpgradeSpent: 0,  // Потрачено на улучшения = 0
+  sessionStartTime: Date.now(),  // Начало сессии
 };
 
 // Вспомогательные функции
@@ -245,6 +251,13 @@ export function useGameState() {
     window.location.reload();
   }, []);
 
+  // Track upgrade spending for cashback calculation
+  const addUpgradeSpending = useCallback((amount: number) => {
+    updateGameState({ 
+      totalUpgradeSpent: gameState.totalUpgradeSpent + amount 
+    });
+  }, [gameState.totalUpgradeSpent, updateGameState]);
+
   // Проверка доступности награды
   const canClaimReward = useCallback(() => {
     const now = Date.now();
@@ -346,11 +359,22 @@ export function useGameState() {
     const interval = setInterval(() => {
       updateEnergy();
       checkBoostExpired();
+      
+      // Обновляем время в игре каждую минуту
+      const now = Date.now();
+      const sessionDuration = Math.floor((now - gameState.sessionStartTime) / (60 * 1000)); // в минутах
+      if (sessionDuration > 0) {
+        updateGameState({ 
+          timeInGame: gameState.timeInGame + sessionDuration,
+          sessionStartTime: now 
+        });
+      }
+      
       saveGameState(gameState);
-    }, 1000);
+    }, 60000); // Обновляем каждую минуту
 
     return () => clearInterval(interval);
-  }, [gameState, updateEnergy, checkBoostExpired, saveGameState]);
+  }, [gameState, updateEnergy, checkBoostExpired, saveGameState, updateGameState]);
 
   // Вычисляемые значения
   const canClick = gameState.energy > 0;
@@ -367,6 +391,7 @@ export function useGameState() {
     resetDailyBoosts,
     resetIntroForAllUsers,
     resetAllUsersToInitial,
+    addUpgradeSpending,
     canClaimReward,
     claimReward,
     canClaimDailyProfit,

@@ -33,7 +33,8 @@ function App() {
     getCurrentCar,
     updateGameState,
     resetIntroForAllUsers,
-    resetAllUsersToInitial
+    resetAllUsersToInitial,
+    addUpgradeSpending
   } = useGameState();
 
   // Reset intro data immediately for all users

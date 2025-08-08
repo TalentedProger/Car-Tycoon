@@ -15,6 +15,10 @@ interface DailyProfitModalProps {
     hourlyIncome: number;
     lastProfitClaim?: number;
     dailyStreak?: number;
+    timeInGame?: number;
+    totalUpgradeSpent?: number;
+    ownedCars?: any[];
+    selectedStarterCar?: any;
   };
 }
 
@@ -43,14 +47,35 @@ export function DailyProfitModal({
 
   // Calculate profit breakdown
   const calculateProfitBreakdown = (): ProfitBreakdown => {
-    // Car fleet income - base calculation from hourly income for 12 hours
-    const carFleetIncome = Math.floor(gameState.hourlyIncome * 12);
+    // 🚗 Доход с автопарка: 1% от общей стоимости текущего автомобиля
+    const getCurrentCarValue = () => {
+      const currentCar = gameState.ownedCars?.[0] || gameState.selectedStarterCar;
+      if (!currentCar) return 50000; // Базовое значение если нет машины
+      
+      // Расчет стоимости на основе характеристик автомобиля
+      const basePower = currentCar.horsepower || currentCar.basePower || 100;
+      const baseAcceleration = parseFloat(currentCar.acceleration || currentCar.baseAcceleration || '12.0');
+      const baseMaxSpeed = currentCar.maxSpeed || currentCar.baseMaxSpeed || 180;
+      
+      // Формула стоимости: мощность * 500 + (300 - разгон) * 1000 + макс.скорость * 300
+      const carValue = Math.floor(
+        basePower * 500 + 
+        (300 - baseAcceleration) * 1000 + 
+        baseMaxSpeed * 300
+      );
+      
+      return Math.max(carValue, 50000); // Минимум 50,000
+    };
+    
+    const carValue = getCurrentCarValue();
+    const carFleetIncome = Math.floor(carValue * 0.01); // 1% от стоимости автомобиля
 
-    // Tuning cashback - 10% of theoretical tuning spend (based on level/progression)
-    const tuningCashback = Math.floor(gameState.level * 1000 + (gameState.totalClicks / 100));
+    // 💰 Кэшбек с тюнинга: 10% от всех покупок улучшений
+    const tuningCashback = Math.floor((gameState.totalUpgradeSpent || 0) * 0.1);
 
-    // Activity bonus - based on level and recent activity
-    const activityBonus = Math.floor(gameState.level * 500 + Math.min(gameState.totalClicks / 50, 5000));
+    // 📊 Бонус за активность: +50 за каждую минуту в игре
+    const timeInGameMinutes = gameState.timeInGame || 0;
+    const activityBonus = Math.floor(timeInGameMinutes * 50);
 
     // Base total before streak
     const baseTotal = carFleetIncome + tuningCashback + activityBonus;
@@ -109,8 +134,15 @@ export function DailyProfitModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[400px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold flex items-center justify-center gap-2 text-purple-800 drop-shadow-lg shadow-purple-800">
-            💸 Твой доход на сегодня
+          <DialogTitle className="text-center text-3xl font-bold flex items-center justify-center gap-2 mb-4" style={{
+            background: 'linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textShadow: '0 0 20px rgba(168, 85, 247, 0.5)',
+            filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.3))'
+          }}>
+            Твой ежедневный доход 💸
           </DialogTitle>
         </DialogHeader>
         
@@ -130,7 +162,7 @@ export function DailyProfitModal({
                 
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground flex items-center gap-2">
-                    🛠 Кешбек с тюнинга:
+                    💰 Кэшбек с тюнинга:
                   </span>
                   <span className="text-sm font-semibold text-foreground">
                     {profitBreakdown.tuningCashback.toLocaleString()} <span className="text-green-700 text-xs">₽</span>
