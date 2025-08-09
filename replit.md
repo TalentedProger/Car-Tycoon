@@ -9,6 +9,12 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 - **Date: August 9, 2025** - Successfully completed migration from Replit Agent to standard Replit environment
 - Fixed missing tsx dependency causing startup failures
+- Created PostgreSQL database with proper schema setup and migrations
+- Completely reworked hourly income system based on 0.025% of car price including configuration:
+  - Updated frontend calculation logic in AutoSalon and Home pages
+  - Implemented backend API endpoint for hourly income updates
+  - Examples: Audi 100 at 140,000 (Base) = 350 ₽/hour, Sport configuration at 350,000 = 875 ₽/hour
+  - Dynamic calculation based on selected car and trim configuration
 - Implemented comprehensive image preloading system:
   - Added ImagePreloader singleton class for efficient image caching
   - Created preloading screen with progress bar and loading animation

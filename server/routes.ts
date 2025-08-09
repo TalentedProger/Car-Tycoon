@@ -75,6 +75,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update user's hourly income based on car configuration
+  app.post('/api/update-hourly-income', async (req, res) => {
+    try {
+      const { userId, carPrice, upgradeCardBonus } = req.body;
+      
+      if (!userId || !carPrice) {
+        return res.status(400).json({ error: 'userId and carPrice are required' });
+      }
+
+      await storage.updateUserHourlyIncome(userId, carPrice, upgradeCardBonus || 0);
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error updating hourly income:', error);
+      res.status(500).json({ error: 'Failed to update hourly income' });
+    }
+  });
+
   // Initialize default cards (run once)
   app.post('/api/init-cards', async (req, res) => {
     try {

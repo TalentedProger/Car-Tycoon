@@ -75,19 +75,45 @@ export default function Home({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Calculate dynamic hourly income based on current car and upgrade cards
+  // Calculate dynamic hourly income based on current car price and configuration (0.025%)
   const calculateHourlyIncome = () => {
-    // Get base car income
+    // Get selected car data from localStorage
     const selectedCar = gameState.selectedStarterCar;
-    const carIncomeRates: { [key: string]: number } = {
-      'vaz-2107': 50,
-      'mercedes-benz': 100,
-      'bmw': 120,
-      'audi': 110,
-      'default': 50
+    
+    // Car base prices and configurations
+    const carData: { [key: string]: { basePrice: number, configuration?: string } } = {
+      'vaz-2107': { basePrice: 85000, configuration: 'Base' },
+      'mercedes-benz': { basePrice: 300000, configuration: 'Base' },
+      'bmw': { basePrice: 280000, configuration: 'Base' },
+      'audi': { basePrice: 140000, configuration: 'Base' },
+      'hyundai-sonata': { basePrice: 135000, configuration: 'Base' }
     };
     
-    const baseIncome = carIncomeRates[selectedCar] || carIncomeRates.default;
+    // Get car configuration from localStorage if available
+    const carTrimsData = localStorage.getItem('carTrims');
+    let selectedConfiguration = 'Base';
+    
+    if (carTrimsData) {
+      const trims = JSON.parse(carTrimsData);
+      // Find the selected car's trim
+      selectedConfiguration = Object.values(trims)[0] as string || 'Base';
+    }
+    
+    // Configuration multipliers
+    const trimMultipliers: { [key: string]: number } = {
+      'Base': 1,
+      'Comfort': 1.3,
+      'Elegance': 1.6,
+      'Premium': 2.0,
+      'Sport': 2.5
+    };
+    
+    const carInfo = carData[selectedCar] || carData['vaz-2107'];
+    const multiplier = trimMultipliers[selectedConfiguration] || 1;
+    const finalPrice = carInfo.basePrice * multiplier;
+    
+    // Calculate 0.025% of final price
+    const baseIncome = Math.round(finalPrice * 0.00025);
     
     // Add any purchased upgrade cards bonus
     const upgradeBonus = gameState.hourlyIncome || 0;

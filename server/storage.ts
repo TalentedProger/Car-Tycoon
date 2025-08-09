@@ -17,6 +17,7 @@ export interface IStorage {
   purchaseCard(userId: string, cardId: number): Promise<UserCard>;
   createUpgradeCard(card: InsertUpgradeCard): Promise<UpgradeCard>;
   calculateOfflineIncome(userId: string): Promise<{ hours: number; income: number } | null>;
+  updateUserHourlyIncome(userId: string, carPrice: number, upgradeCardBonus?: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -130,6 +131,17 @@ export class DatabaseStorage implements IStorage {
     
     return { hours: cappedHours, income: offlineIncome };
   }
+
+  async updateUserHourlyIncome(userId: string, carPrice: number, upgradeCardBonus: number = 0): Promise<void> {
+    // Calculate hourly income: 0.025% of car price + upgrade cards bonus
+    const baseHourlyIncome = Math.round(carPrice * 0.00025);
+    const totalHourlyIncome = baseHourlyIncome + upgradeCardBonus;
+    
+    await db
+      .update(gameProfiles)
+      .set({ hourlyIncome: totalHourlyIncome })
+      .where(eq(gameProfiles.userId, userId));
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -188,6 +200,12 @@ export class MemStorage implements IStorage {
 
   async calculateOfflineIncome(userId: string): Promise<{ hours: number; income: number } | null> {
     return null;
+  }
+
+  async updateUserHourlyIncome(userId: string, carPrice: number, upgradeCardBonus: number = 0): Promise<void> {
+    // In-memory storage implementation - would need to store this data somewhere
+    // For now this is just a stub implementation
+    return;
   }
 }
 
