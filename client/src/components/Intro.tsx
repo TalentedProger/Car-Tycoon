@@ -2,6 +2,66 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import carIntroImage from '@assets/Flux_Dev_a_lush_3d_render_of_Create_an_isolated_composition_of_3 (1)-Photoroom_1754120888358.png';
 
+// Image preloading utility
+class ImagePreloader {
+  private static instance: ImagePreloader;
+  private preloadedImages: Map<string, HTMLImageElement> = new Map();
+  private preloadPromises: Map<string, Promise<HTMLImageElement>> = new Map();
+
+  static getInstance(): ImagePreloader {
+    if (!ImagePreloader.instance) {
+      ImagePreloader.instance = new ImagePreloader();
+    }
+    return ImagePreloader.instance;
+  }
+
+  preloadImage(src: string): Promise<HTMLImageElement> {
+    // Return cached promise if already preloading/preloaded
+    if (this.preloadPromises.has(src)) {
+      return this.preloadPromises.get(src)!;
+    }
+
+    // Return cached image if already loaded
+    if (this.preloadedImages.has(src)) {
+      return Promise.resolve(this.preloadedImages.get(src)!);
+    }
+
+    const promise = new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      
+      img.onload = () => {
+        this.preloadedImages.set(src, img);
+        resolve(img);
+      };
+
+      img.onerror = () => {
+        this.preloadPromises.delete(src); // Remove failed promise to allow retry
+        reject(new Error(`Failed to load image: ${src}`));
+      };
+
+      // Set high priority loading attributes
+      img.loading = 'eager';
+      img.decoding = 'sync';
+      img.src = src;
+    });
+
+    this.preloadPromises.set(src, promise);
+    return promise;
+  }
+
+  preloadImages(sources: string[]): Promise<HTMLImageElement[]> {
+    return Promise.all(sources.map(src => this.preloadImage(src)));
+  }
+
+  isImageLoaded(src: string): boolean {
+    return this.preloadedImages.has(src);
+  }
+
+  getLoadedImage(src: string): HTMLImageElement | null {
+    return this.preloadedImages.get(src) || null;
+  }
+}
+
 interface IntroProps {
   onComplete: (selectedCar?: any) => void;
 }
@@ -61,10 +121,20 @@ const gameMechanics = [
   }
 ];
 
-type IntroState = 'welcome' | 'mechanics' | 'carIntro' | 'wheelSpin' | 'colorSelection' | 'celebration';
+type IntroState = 'preloading' | 'welcome' | 'mechanics' | 'carIntro' | 'wheelSpin' | 'colorSelection' | 'celebration';
+
+// Hero images that need preloading
+const HERO_IMAGES = [
+  '/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png',
+  carIntroImage,
+  '/attached_assets/Leonardo_Phoenix_10_A_vibrant_cartoonstyle_3D_render_of_a_clos_3-Photoroom (1)_1754150180830.png',
+];
+
+// Car logo images that need preloading
+const CAR_LOGO_IMAGES = wheelCars.map(car => `/assets/cars/${car.id}/logotype.png`);
 
 export default function Intro({ onComplete }: IntroProps) {
-  const [state, setState] = useState<IntroState>('welcome');
+  const [state, setState] = useState<IntroState>('preloading');
   const [currentMechanic, setCurrentMechanic] = useState(0);
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [selectedColor, setSelectedColor] = useState<string>('');
@@ -73,6 +143,8 @@ export default function Intro({ onComplete }: IntroProps) {
   const [textVisible, setTextVisible] = useState(true);
   const [showColorSelection, setShowColorSelection] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [preloadingProgress, setPreloadingProgress] = useState(0);
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   
   // Case opening hooks - moved to top level to avoid conditional hooks
   const [casePhase, setCasePhase] = useState<'closed' | 'opening' | 'scrolling' | 'result'>('closed');
@@ -140,6 +212,45 @@ export default function Intro({ onComplete }: IntroProps) {
   const wheelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const introMusicRef = useRef<HTMLAudioElement>(null);
+
+  // Preloading effect
+  useEffect(() => {
+    const preloader = ImagePreloader.getInstance();
+    const allImages = [...HERO_IMAGES, ...CAR_LOGO_IMAGES];
+    
+    let loadedCount = 0;
+    const totalImages = allImages.length;
+
+    // Start preloading all images
+    const loadPromises = allImages.map((src, index) => 
+      preloader.preloadImage(src)
+        .then(() => {
+          loadedCount++;
+          const progress = (loadedCount / totalImages) * 100;
+          setPreloadingProgress(progress);
+          console.log(`🖼️ Loaded image ${loadedCount}/${totalImages}: ${src}`);
+        })
+        .catch((error) => {
+          loadedCount++; // Count failed images to prevent hanging
+          const progress = (loadedCount / totalImages) * 100;
+          setPreloadingProgress(progress);
+          console.warn(`⚠️ Failed to load image: ${src}`, error);
+        })
+    );
+
+    // Wait for all images to complete (either load or fail)
+    Promise.allSettled(loadPromises).then(() => {
+      setAllImagesLoaded(true);
+      console.log('✅ All hero images preloading completed');
+      
+      // Small delay to ensure UI update, then transition to welcome
+      setTimeout(() => {
+        setState('welcome');
+        setTextVisible(true);
+        setImageLoaded(true);
+      }, 300);
+    });
+  }, []);
 
   // Start intro music on component mount
   useEffect(() => {
@@ -290,6 +401,64 @@ export default function Intro({ onComplete }: IntroProps) {
     onComplete(selectedCar);
   };
 
+  // Preloading Screen
+  if (state === 'preloading') {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-white relative overflow-hidden"
+           style={{ backgroundColor: '#0C011C' }}>
+        
+        {/* Animated background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5" />
+        
+        <div className="text-center z-10 max-w-md mx-auto px-6">
+          {/* Logo or title */}
+          <h1 className="text-4xl font-bold mb-8 intro-title"
+              style={{
+                color: '#00FFFF',
+                textShadow: '0 0 20px rgba(0, 255, 255, 0.5)',
+              }}>
+            AUTO ARENA
+          </h1>
+          
+          {/* Loading text */}
+          <p className="text-lg mb-6 text-gray-300 intro-text">
+            Загрузка ресурсов...
+          </p>
+          
+          {/* Progress bar */}
+          <div className="w-full bg-gray-800/50 rounded-full h-3 mb-4 overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full transition-all duration-300 ease-out"
+              style={{ 
+                width: `${preloadingProgress}%`,
+                boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)'
+              }}
+            />
+          </div>
+          
+          {/* Progress percentage */}
+          <p className="text-sm text-gray-400 intro-text">
+            {Math.round(preloadingProgress)}%
+          </p>
+          
+          {/* Loading dots animation */}
+          <div className="flex justify-center space-x-1 mt-6">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                style={{
+                  animationDelay: `${i * 0.2}s`,
+                  animationDuration: '1.5s'
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Welcome Screen
   if (state === 'welcome') {
     return (
@@ -315,17 +484,12 @@ export default function Intro({ onComplete }: IntroProps) {
               <img 
                 src="/attached_assets/Flux_Dev_a_lush_3d_render_of_A_futuristic_sports_car_rendered__3-Photoroom-min_1754136948792.png"
                 alt="Futuristic Sports Car"
-                className="max-w-lg max-h-80 mx-auto object-contain transition-opacity duration-300"
+                className="max-w-lg max-h-80 mx-auto object-contain"
                 style={{ 
                   filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 60px rgba(138, 43, 226, 0.4))',
                   opacity: 1,
                   minHeight: '200px',
                 }}
-                onError={(e) => {
-                  console.error('Image failed to load:', (e.target as HTMLImageElement).src);
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-                onLoad={() => console.log('Image loaded successfully')}
                 loading="eager"
                 decoding="sync"
               />
@@ -461,13 +625,13 @@ export default function Intro({ onComplete }: IntroProps) {
           <img 
             src={carIntroImage} 
             alt="Car with neon effects" 
-            className="max-w-lg max-h-96 object-contain transition-opacity duration-500"
+            className="max-w-lg max-h-96 object-contain"
             style={{ 
               filter: 'drop-shadow(0 0 20px rgba(255, 20, 147, 0.8))',
-              opacity: imageLoaded ? 1 : 0
+              opacity: 1
             }}
-            onLoad={() => setImageLoaded(true)}
             loading="eager"
+            decoding="sync"
           />
         </div>
         
@@ -627,6 +791,8 @@ export default function Intro({ onComplete }: IntroProps) {
                   filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.5)) drop-shadow(0 0 60px rgba(255, 0, 255, 0.3))',
                   animation: 'breathing 3s ease-in-out infinite'
                 }}
+                loading="eager"
+                decoding="sync"
               />
               
               {/* Neon glow around case */}
@@ -669,6 +835,8 @@ export default function Intro({ onComplete }: IntroProps) {
                 style={{ 
                   filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.5))',
                 }}
+                loading="eager"
+                decoding="sync"
               />
             </div>
           </div>

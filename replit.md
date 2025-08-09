@@ -9,6 +9,12 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 - **Date: August 9, 2025** - Successfully completed migration from Replit Agent to standard Replit environment
 - Fixed missing tsx dependency causing startup failures
+- Implemented comprehensive image preloading system:
+  - Added ImagePreloader singleton class for efficient image caching
+  - Created preloading screen with progress bar and loading animation
+  - Preloads all hero images before app starts to prevent loading delays
+  - Optimized image loading with eager loading and sync decoding
+  - Ensures smooth transitions between intro states with instant image display
 - Removed neon glow effects from intro screen texts:
   - Welcome screen main text: removed neon glow, preserved golden color
   - Car intro screen title: removed pink neon glow, changed to clean white
