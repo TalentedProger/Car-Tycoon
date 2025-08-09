@@ -304,7 +304,7 @@ export default function Intro({ onComplete }: IntroProps) {
               className="text-2xl font-bold mb-6 leading-tight intro-text"
               style={{
                 color: '#FFD700',
-                textShadow: '0 0 8px rgba(255, 215, 0, 0.3), 0 0 15px rgba(255, 215, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15)',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
               }}
             >
               Ты оказался в мире, где каждая машина — это не просто транспорт, а путь к успеху
