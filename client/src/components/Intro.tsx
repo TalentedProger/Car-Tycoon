@@ -448,8 +448,8 @@ export default function Intro({ onComplete }: IntroProps) {
           <h1 
             className="text-4xl font-bold mb-8 hero-title-montserrat intro-title"
             style={{
-              color: '#F5F5F5',
-              textShadow: '0px 4px 12px rgba(255, 105, 180, 0.25), 0 0 30px rgba(255, 105, 180, 0.5)',
+              color: '#FFFFFF',
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
             }}
           >
             Твоя первая машина уже ждёт тебя !

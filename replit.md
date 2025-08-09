@@ -9,7 +9,9 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 - **Date: August 9, 2025** - Successfully completed migration from Replit Agent to standard Replit environment
 - Fixed missing tsx dependency causing startup failures
-- Removed neon glow effect from welcome screen main text while preserving golden color
+- Removed neon glow effects from intro screen texts:
+  - Welcome screen main text: removed neon glow, preserved golden color
+  - Car intro screen title: removed pink neon glow, changed to clean white
 - Improved UI consistency in color selection screen:
   - Standardized 5-color palette (White, Black, Blue, Red, Gray) for all cars
   - Fixed color selection behavior to work as radio buttons (selection only highlights, confirm button proceeds)
