@@ -77,8 +77,23 @@ export default function Home({
 
   // Calculate dynamic hourly income using shared car data structure
   const calculateHourlyIncome = () => {
-    // Get selected car data from localStorage - same logic as AutoSalon
-    const selectedCar = gameState.selectedStarterCar;
+    // Handle both object and string format for selectedStarterCar
+    let selectedCarKey = 'hyundai-sonata'; // Default
+    const selectedCarData = gameState.selectedStarterCar;
+    
+    if (typeof selectedCarData === 'string') {
+      selectedCarKey = selectedCarData;
+    } else if (selectedCarData && selectedCarData.name) {
+      // Map car names to keys
+      const carNameToKey: { [key: string]: string } = {
+        'ВАЗ 2107': 'vaz-2107',
+        'Mercedes-Benz': 'mercedes-benz',
+        'BMW': 'bmw',
+        'Audi 100': 'audi',
+        'Hyundai Sonata IV': 'hyundai-sonata'
+      };
+      selectedCarKey = carNameToKey[selectedCarData.name] || 'hyundai-sonata';
+    }
     
     // Car base prices - must match AutoSalon exactly
     const carDatabase: { [key: string]: { basePrice: number } } = {
@@ -97,10 +112,10 @@ export default function Home({
       const trims = JSON.parse(carTrimsData);
       // Find the trim for the selected car specifically
       let carId = 1; // Default VAZ 2107
-      if (selectedCar === 'hyundai-sonata') carId = 4; // Hyundai Sonata IV has ID 4
-      else if (selectedCar === 'audi') carId = 3; // Audi 100 has ID 3  
-      else if (selectedCar === 'bmw') carId = 15; // BMW 5 серии has ID 15
-      else if (selectedCar === 'mercedes-benz') carId = 16; // Mercedes E-класс has ID 16
+      if (selectedCarKey === 'hyundai-sonata') carId = 4; // Hyundai Sonata IV has ID 4
+      else if (selectedCarKey === 'audi') carId = 3; // Audi 100 has ID 3  
+      else if (selectedCarKey === 'bmw') carId = 15; // BMW 5 серии has ID 15
+      else if (selectedCarKey === 'mercedes-benz') carId = 16; // Mercedes E-класс has ID 16
       
       selectedConfiguration = trims[carId] || 'Base';
     }
@@ -114,7 +129,7 @@ export default function Home({
       'Sport': 2.5
     };
     
-    const carInfo = carDatabase[selectedCar] || carDatabase['vaz-2107'];
+    const carInfo = carDatabase[selectedCarKey] || carDatabase['hyundai-sonata'];
     const multiplier = trimMultipliers[selectedConfiguration] || 1;
     const finalPrice = Math.round(carInfo.basePrice * multiplier);
     
