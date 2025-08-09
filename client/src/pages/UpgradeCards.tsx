@@ -19,35 +19,35 @@ interface UserCard {
 
 const rarityConfig = {
   common: {
-    bgColor: 'bg-gray-700/80',
+    bgColor: 'bg-gray-700/40',
     borderColor: 'border-gray-400',
     textColor: 'text-gray-100',
     glowColor: 'shadow-gray-400/20',
     icon: '⚪',
   },
   rare: {
-    bgColor: 'bg-blue-700/80',
+    bgColor: 'bg-blue-700/40',
     borderColor: 'border-blue-400',
     textColor: 'text-blue-100',
     glowColor: 'shadow-blue-400/30',
     icon: '🔵',
   },
   epic: {
-    bgColor: 'bg-purple-700/80',
+    bgColor: 'bg-purple-700/40',
     borderColor: 'border-purple-400',
     textColor: 'text-purple-100',
     glowColor: 'shadow-purple-400/30',
     icon: '🟣',
   },
   legendary: {
-    bgColor: 'bg-yellow-600/80',
+    bgColor: 'bg-yellow-600/40',
     borderColor: 'border-yellow-400',
     textColor: 'text-yellow-100',
     glowColor: 'shadow-yellow-400/40',
     icon: '🟡',
   },
   mythic: {
-    bgColor: 'bg-red-700/80',
+    bgColor: 'bg-red-700/40',
     borderColor: 'border-red-400',
     textColor: 'text-red-100',
     glowColor: 'shadow-red-400/40',
@@ -62,7 +62,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
 
   useEffect(() => {
     // Get user data from localStorage
-    const gameState = localStorage.getItem('gameState');
+    const gameState = localStorage.getItem('carTycoonGame');
     if (gameState) {
       const parsed = JSON.parse(gameState);
       setCoins(parsed.coins || 0);
@@ -71,6 +71,27 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
     const userIdFromStorage = localStorage.getItem('userId') || 'telegram_user_1';
     setUserId(userIdFromStorage);
   }, []);
+
+  // Get base car income
+  const getBaseCarIncome = () => {
+    const gameState = localStorage.getItem('carTycoonGame');
+    if (gameState) {
+      const parsed = JSON.parse(gameState);
+      const selectedCar = parsed.selectedStarterCar;
+      
+      // Car-specific base income rates
+      const carIncomeRates: { [key: string]: number } = {
+        'vaz-2107': 50,
+        'mercedes-benz': 100,
+        'bmw': 120,
+        'audi': 110,
+        'default': 50
+      };
+      
+      return carIncomeRates[selectedCar] || carIncomeRates.default;
+    }
+    return 50; // Default for VAZ 2107
+  };
 
   // Fetch all available upgrade cards
   const { data: upgradeCards = [], isLoading: cardsLoading } = useQuery<UpgradeCard[]>({
@@ -109,16 +130,19 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
       if (!response.ok) throw new Error('Failed to purchase card');
       return response.json();
     },
-    onSuccess: (_, { price }) => {
+    onSuccess: (result, { price }) => {
       // Update coins in localStorage and state
       const newCoins = coins - price;
       setCoins(newCoins);
       
-      const gameState = localStorage.getItem('gameState');
+      const gameState = localStorage.getItem('carTycoonGame');
       if (gameState) {
         const parsed = JSON.parse(gameState);
         parsed.coins = newCoins;
-        localStorage.setItem('gameState', JSON.stringify(parsed));
+        // Update hourly income in game state
+        const cardBoost = upgradeCards.find(c => c.id === result.cardId)?.incomeBoost || 0;
+        parsed.hourlyIncome = (parsed.hourlyIncome || getBaseCarIncome()) + cardBoost;
+        localStorage.setItem('carTycoonGame', JSON.stringify(parsed));
       }
 
       // Refetch user cards
@@ -143,7 +167,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
     return userCard?.quantity || 0;
   };
 
-  const totalIncome = userCards.reduce((total, userCard) => {
+  const totalIncome = getBaseCarIncome() + userCards.reduce((total, userCard) => {
     return total + (userCard.card.incomeBoost * userCard.quantity);
   }, 0);
 
@@ -156,9 +180,9 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
+      <div className="flex items-start p-4 border-b border-gray-700/50">
         <Button 
           onClick={onBack}
           variant="ghost" 
@@ -168,14 +192,11 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Назад
         </Button>
-        
-        <h1 className="text-xl font-bold">Карточки улучшений</h1>
-        
-        <div className="text-right">
-          <div className="text-2xl font-bold text-green-400">
-            {coins.toLocaleString()} ₽
-          </div>
-        </div>
+      </div>
+      
+      {/* Title */}
+      <div className="text-center py-4">
+        <h1 className="text-xl font-bold text-white">Карточки улучшений</h1>
       </div>
 
       {/* Income Summary */}
@@ -232,7 +253,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="text-lg font-bold">
+                  <div className="text-lg font-bold text-green-400">
                     {card.price.toLocaleString()} ₽
                   </div>
                   <Button

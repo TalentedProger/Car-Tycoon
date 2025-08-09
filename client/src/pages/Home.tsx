@@ -75,22 +75,24 @@ export default function Home({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Calculate dynamic hourly income based on current car characteristics
+  // Calculate dynamic hourly income based on current car and upgrade cards
   const calculateHourlyIncome = () => {
-    const currentCar = gameState.ownedCars?.[0] || gameState.selectedStarterCar;
-    if (!currentCar) return 79; // Default fallback
+    // Get base car income
+    const selectedCar = gameState.selectedStarterCar;
+    const carIncomeRates: { [key: string]: number } = {
+      'vaz-2107': 50,
+      'mercedes-benz': 100,
+      'bmw': 120,
+      'audi': 110,
+      'default': 50
+    };
     
-    // Base calculation using car characteristics
-    const basePower = currentCar.horsepower || currentCar.basePower || 100;
-    const baseAcceleration = parseFloat(currentCar.acceleration || currentCar.baseAcceleration || '12.0');
-    const baseMaxSpeed = currentCar.maxSpeed || currentCar.baseMaxSpeed || 180;
+    const baseIncome = carIncomeRates[selectedCar] || carIncomeRates.default;
     
-    // Hourly income formula: (power + max_speed + (15 - acceleration) * 10) / 20
-    const hourlyIncome = Math.floor(
-      (basePower + baseMaxSpeed + (15 - baseAcceleration) * 10) / 20
-    );
+    // Add any purchased upgrade cards bonus
+    const upgradeBonus = gameState.hourlyIncome || 0;
     
-    return Math.max(hourlyIncome, 50); // Minimum 50 per hour
+    return baseIncome + upgradeBonus;
   };
 
   return (
@@ -130,16 +132,16 @@ export default function Home({
           <Settings className="h-5 w-5" />
           <span className="text-xs">Гараж</span>
         </Button>
-        <Button className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1">
-          <Store className="h-5 w-5" />
-          <span className="text-xs">Автосалон</span>
-        </Button>
         <Button 
           className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1"
           onClick={() => setCurrentView?.('upgrade-cards')}
         >
+          <Store className="h-5 w-5" />
+          <span className="text-xs">Автосалон</span>
+        </Button>
+        <Button className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1">
           <div className="text-lg">🎁</div>
-          <span className="text-xs">Карточки</span>
+          <span className="text-xs">Подарки</span>
         </Button>
         <Button 
           className={`glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1 ${canClaimReward ? 'animate-pulse bg-green-600/20' : ''}`}
