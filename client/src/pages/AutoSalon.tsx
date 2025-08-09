@@ -32,10 +32,11 @@ export default function AutoSalon({ gameState }: AutoSalonProps = {}) {
   };
   
   const calculateHourlyIncome = (price: number) => {
-    // New calculation: 0.025% of car price including configuration
-    // For example: Audi 100 at 140,000 base price = 350 ₽/hour
+    // New calculation: 0.25% (0.0025) of car price including configuration
+    // For example: VAZ 2107 at 85,000 = 212.5 → 213 ₽/hour
+    // For Audi 100 at 140,000 base price = 350 ₽/hour
     // For Sport configuration at 350,000 = 875 ₽/hour
-    return Math.round(price * 0.00025);
+    return Math.ceil(price * 0.0025);
   };
   
   const handleConfigurationSave = (carId: number, configuration: string, finalPrice: number) => {

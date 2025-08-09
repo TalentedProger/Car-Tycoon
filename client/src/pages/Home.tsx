@@ -112,8 +112,8 @@ export default function Home({
     const multiplier = trimMultipliers[selectedConfiguration] || 1;
     const finalPrice = carInfo.basePrice * multiplier;
     
-    // Calculate 0.025% of final price
-    const baseIncome = Math.round(finalPrice * 0.00025);
+    // Calculate 0.25% (0.0025) of final price, rounded up
+    const baseIncome = Math.ceil(finalPrice * 0.0025);
     
     // Add any purchased upgrade cards bonus
     const upgradeBonus = gameState.hourlyIncome || 0;

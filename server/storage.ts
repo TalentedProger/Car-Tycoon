@@ -133,8 +133,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUserHourlyIncome(userId: string, carPrice: number, upgradeCardBonus: number = 0): Promise<void> {
-    // Calculate hourly income: 0.025% of car price + upgrade cards bonus
-    const baseHourlyIncome = Math.round(carPrice * 0.00025);
+    // Calculate hourly income: 0.25% (0.0025) of car price + upgrade cards bonus
+    const baseHourlyIncome = Math.ceil(carPrice * 0.0025);
     const totalHourlyIncome = baseHourlyIncome + upgradeCardBonus;
     
     await db
