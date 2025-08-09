@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Shield, Eye, Settings } from 'lucide-react';
 import CarConfiguration from '@/components/CarConfiguration';
 import { getCarImages, getCarMainImage, getCarEmoji } from '@/utils/imageLoader';
+import { trimLevels, trimMultipliers, calculatePrice, calculateHourlyIncome } from '@/data/carData';
 
 interface AutoSalonProps {
   gameState?: {
@@ -21,23 +22,7 @@ export default function AutoSalon({ gameState }: AutoSalonProps = {}) {
   const [carTrims, setCarTrims] = useState<{ [key: number]: string }>({});
   const [selectedCarForConfig, setSelectedCarForConfig] = useState<number | null>(null);
   
-  const trimLevels = ['Base', 'Comfort', 'Elegance', 'Premium', 'Sport'];
-  const trimMultipliers = { 'Base': 1, 'Comfort': 1.3, 'Elegance': 1.6, 'Premium': 2.0, 'Sport': 2.5 };
-  
   const getCarTrim = (carId: number) => carTrims[carId] || 'Base';
-  
-  const calculatePrice = (basePrice: number, trim: string) => {
-    const multiplier = trimMultipliers[trim as keyof typeof trimMultipliers] || 1;
-    return Math.round(basePrice * multiplier);
-  };
-  
-  const calculateHourlyIncome = (price: number) => {
-    // New calculation: 0.25% (0.0025) of car price including configuration
-    // For example: VAZ 2107 at 85,000 = 212.5 → 213 ₽/hour
-    // For Audi 100 at 140,000 base price = 350 ₽/hour
-    // For Sport configuration at 350,000 = 875 ₽/hour
-    return Math.ceil(price * 0.0025);
-  };
   
   const handleConfigurationSave = (carId: number, configuration: string, finalPrice: number) => {
     setCarTrims(prev => ({ ...prev, [carId]: configuration }));

@@ -75,31 +75,39 @@ export default function Home({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Calculate dynamic hourly income based on current car price and configuration (0.025%)
+  // Calculate dynamic hourly income using shared car data structure
   const calculateHourlyIncome = () => {
-    // Get selected car data from localStorage
+    // Get selected car data from localStorage - same logic as AutoSalon
     const selectedCar = gameState.selectedStarterCar;
     
-    // Car base prices and configurations
-    const carData: { [key: string]: { basePrice: number, configuration?: string } } = {
-      'vaz-2107': { basePrice: 85000, configuration: 'Base' },
-      'mercedes-benz': { basePrice: 300000, configuration: 'Base' },
-      'bmw': { basePrice: 280000, configuration: 'Base' },
-      'audi': { basePrice: 140000, configuration: 'Base' },
-      'hyundai-sonata': { basePrice: 135000, configuration: 'Base' }
+    // Car base prices - must match AutoSalon exactly
+    const carDatabase: { [key: string]: { basePrice: number } } = {
+      'vaz-2107': { basePrice: 85000 },
+      'mercedes-benz': { basePrice: 300000 },
+      'bmw': { basePrice: 280000 },
+      'audi': { basePrice: 140000 },
+      'hyundai-sonata': { basePrice: 135000 }
     };
     
-    // Get car configuration from localStorage if available
+    // Get car configuration from localStorage - same as AutoSalon
     const carTrimsData = localStorage.getItem('carTrims');
     let selectedConfiguration = 'Base';
     
     if (carTrimsData) {
       const trims = JSON.parse(carTrimsData);
-      // Find the selected car's trim
-      selectedConfiguration = Object.values(trims)[0] as string || 'Base';
+      // Find the trim for the selected car specifically
+      const carData = carDatabase[selectedCar] || carDatabase['vaz-2107'];
+      // Try to find the car ID that matches AutoSalon exactly
+      let carId = 1; // Default VAZ 2107
+      if (selectedCar === 'hyundai-sonata') carId = 4; // Hyundai Sonata IV has ID 4
+      else if (selectedCar === 'audi') carId = 3; // Audi 100 has ID 3  
+      else if (selectedCar === 'bmw') carId = 15; // BMW 5 серии has ID 15
+      else if (selectedCar === 'mercedes-benz') carId = 16; // Mercedes E-класс has ID 16
+      
+      selectedConfiguration = trims[carId] || 'Base';
     }
     
-    // Configuration multipliers
+    // Configuration multipliers - same as AutoSalon
     const trimMultipliers: { [key: string]: number } = {
       'Base': 1,
       'Comfort': 1.3,
@@ -108,11 +116,11 @@ export default function Home({
       'Sport': 2.5
     };
     
-    const carInfo = carData[selectedCar] || carData['vaz-2107'];
+    const carInfo = carDatabase[selectedCar] || carDatabase['vaz-2107'];
     const multiplier = trimMultipliers[selectedConfiguration] || 1;
-    const finalPrice = carInfo.basePrice * multiplier;
+    const finalPrice = Math.round(carInfo.basePrice * multiplier);
     
-    // Calculate 0.25% (0.0025) of final price, rounded up
+    // Calculate 0.25% (0.0025) of final price, rounded up - same as AutoSalon
     const baseIncome = Math.ceil(finalPrice * 0.0025);
     
     // Add any purchased upgrade cards bonus
