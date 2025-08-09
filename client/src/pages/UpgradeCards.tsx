@@ -22,36 +22,33 @@ const rarityConfig = {
     bgColor: 'bg-gray-700/40',
     borderColor: 'border-gray-400',
     textColor: 'text-gray-100',
-    glowColor: 'shadow-gray-400/20',
+    glowColor: 'shadow-gray-400/30 shadow-lg',
     icon: '⚪',
+    neonGlow: 'drop-shadow-[0_0_10px_rgba(156,163,175,0.5)]',
   },
   rare: {
     bgColor: 'bg-blue-700/40',
     borderColor: 'border-blue-400',
     textColor: 'text-blue-100',
-    glowColor: 'shadow-blue-400/30',
+    glowColor: 'shadow-blue-400/50 shadow-xl',
     icon: '🔵',
+    neonGlow: 'drop-shadow-[0_0_15px_rgba(59,130,246,0.7)]',
   },
   epic: {
     bgColor: 'bg-purple-700/40',
     borderColor: 'border-purple-400',
     textColor: 'text-purple-100',
-    glowColor: 'shadow-purple-400/30',
+    glowColor: 'shadow-purple-400/50 shadow-xl',
     icon: '🟣',
+    neonGlow: 'drop-shadow-[0_0_20px_rgba(147,51,234,0.8)]',
   },
   legendary: {
     bgColor: 'bg-yellow-600/40',
     borderColor: 'border-yellow-400',
     textColor: 'text-yellow-100',
-    glowColor: 'shadow-yellow-400/40',
+    glowColor: 'shadow-yellow-400/60 shadow-2xl',
     icon: '🟡',
-  },
-  mythic: {
-    bgColor: 'bg-red-700/40',
-    borderColor: 'border-red-400',
-    textColor: 'text-red-100',
-    glowColor: 'shadow-red-400/40',
-    icon: '🔴',
+    neonGlow: 'drop-shadow-[0_0_25px_rgba(251,191,36,0.9)]',
   },
 };
 
@@ -72,25 +69,55 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
     setUserId(userIdFromStorage);
   }, []);
 
-  // Get base car income
+  // Get base car income - synchronized with Home page calculation
   const getBaseCarIncome = () => {
     const gameState = localStorage.getItem('carTycoonGame');
     if (gameState) {
       const parsed = JSON.parse(gameState);
       const selectedCar = parsed.selectedStarterCar;
       
-      // Car-specific base income rates
-      const carIncomeRates: { [key: string]: number } = {
-        'vaz-2107': 50,
-        'mercedes-benz': 100,
-        'bmw': 120,
-        'audi': 110,
-        'default': 50
+      // Car base prices - must match AutoSalon exactly
+      const carDatabase: { [key: string]: { basePrice: number } } = {
+        'vaz-2107': { basePrice: 85000 },
+        'mercedes-benz': { basePrice: 300000 },
+        'bmw': { basePrice: 280000 },
+        'audi': { basePrice: 140000 },
+        'hyundai-sonata': { basePrice: 135000 }
       };
       
-      return carIncomeRates[selectedCar] || carIncomeRates.default;
+      // Get car configuration from localStorage - same as Home page
+      const carTrimsData = localStorage.getItem('carTrims');
+      let selectedConfiguration = 'Base';
+      
+      if (carTrimsData) {
+        const trims = JSON.parse(carTrimsData);
+        // Find the trim for the selected car specifically
+        let carId = 1; // Default VAZ 2107
+        if (selectedCar === 'hyundai-sonata') carId = 4; // Hyundai Sonata IV has ID 4
+        else if (selectedCar === 'audi') carId = 3; // Audi 100 has ID 3  
+        else if (selectedCar === 'bmw') carId = 15; // BMW 5 серии has ID 15
+        else if (selectedCar === 'mercedes-benz') carId = 16; // Mercedes E-класс has ID 16
+        
+        selectedConfiguration = trims[carId] || 'Base';
+      }
+      
+      // Configuration multipliers - same as AutoSalon and Home
+      const trimMultipliers: { [key: string]: number } = {
+        'Base': 1,
+        'Comfort': 1.3,
+        'Elegance': 1.6,
+        'Premium': 2.0,
+        'Sport': 2.5
+      };
+      
+      const carInfo = carDatabase[selectedCar] || carDatabase['vaz-2107'];
+      const multiplier = trimMultipliers[selectedConfiguration] || 1;
+      const finalPrice = Math.round(carInfo.basePrice * multiplier);
+      
+      // Calculate 0.25% (0.0025) of final price, rounded up - same as AutoSalon and Home
+      return Math.ceil(finalPrice * 0.0025);
     }
-    return 50; // Default for VAZ 2107
+    return 213; // Default for VAZ 2107 Base
   };
 
   // Fetch all available upgrade cards
@@ -182,7 +209,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
       {/* Header */}
-      <div className="flex items-start p-4 border-b border-gray-700/50">
+      <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
         <Button 
           onClick={onBack}
           variant="ghost" 
@@ -192,11 +219,17 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Назад
         </Button>
-      </div>
-      
-      {/* Title */}
-      <div className="text-center py-4">
-        <h1 className="text-xl font-bold text-white">Карточки улучшений</h1>
+        
+        {/* Current Balance */}
+        <div className="glass-dark rounded-2xl p-3 px-4">
+          <div className="text-center">
+            <div className="text-xs text-muted-foreground mb-1">Баланс</div>
+            <div className="text-lg font-bold text-green-400 flex items-center gap-1">
+              <span>{coins.toLocaleString()}</span>
+              <span className="text-sm">₽</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Income Summary */}
@@ -224,7 +257,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
             return (
               <div
                 key={card.id}
-                className={`p-4 rounded-xl border-2 ${rarity.borderColor} ${rarity.bgColor} backdrop-blur-sm transition-all duration-300 hover:scale-105 ${rarity.glowColor} shadow-lg`}
+                className={`p-4 rounded-xl border-2 ${rarity.borderColor} ${rarity.bgColor} backdrop-blur-sm transition-all duration-300 hover:scale-105 ${rarity.glowColor} ${rarity.neonGlow}`}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">

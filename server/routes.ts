@@ -35,9 +35,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'userId and cardId are required' });
       }
 
-      // Check if user has enough coins (this would need game profile data)
+      // Get the card details to check price
+      const allCards = await storage.getAllUpgradeCards();
+      const card = allCards.find(c => c.id === parseInt(cardId));
+      
+      if (!card) {
+        return res.status(404).json({ error: 'Card not found' });
+      }
+
+      // Purchase the card (balance is handled on frontend for localStorage approach)
       const userCard = await storage.purchaseCard(userId, parseInt(cardId));
-      res.json(userCard);
+      
+      // Return the user card with card details
+      res.json({ ...userCard, cardId: parseInt(cardId) });
     } catch (error) {
       console.error('Error purchasing card:', error);
       res.status(500).json({ error: 'Failed to purchase card' });
