@@ -24,6 +24,7 @@ interface HomeProps {
   boostTimeLeft: number;
   onOpenReward: () => void;
   canClaimReward: boolean;
+  setCurrentView?: (view: 'home' | 'upgrade-cards') => void;
 }
 
 export default function Home({ 
@@ -35,7 +36,8 @@ export default function Home({
   levelProgress, 
   boostTimeLeft,
   onOpenReward,
-  canClaimReward
+  canClaimReward,
+  setCurrentView
 }: HomeProps) {
   const handleCarClick = () => {
     if (!canClick) return;
@@ -132,9 +134,12 @@ export default function Home({
           <Store className="h-5 w-5" />
           <span className="text-xs">Автосалон</span>
         </Button>
-        <Button className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1">
+        <Button 
+          className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1"
+          onClick={() => setCurrentView?.('upgrade-cards')}
+        >
           <div className="text-lg">🎁</div>
-          <span className="text-xs">ЕКХ</span>
+          <span className="text-xs">Карточки</span>
         </Button>
         <Button 
           className={`glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1 ${canClaimReward ? 'animate-pulse bg-green-600/20' : ''}`}
