@@ -55,6 +55,7 @@ const rarityConfig = {
 export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
   const [coins, setCoins] = useState(0);
   const [userId, setUserId] = useState<string>('');
+  const [purchasingCardId, setPurchasingCardId] = useState<number | null>(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -148,6 +149,8 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
         throw new Error('Недостаточно монет');
       }
 
+      setPurchasingCardId(cardId);
+
       const response = await fetch('/api/purchase-card', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -157,7 +160,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
       if (!response.ok) throw new Error('Failed to purchase card');
       return response.json();
     },
-    onSuccess: (result, { price }) => {
+    onSuccess: (result, { cardId, price }) => {
       // Update coins in localStorage and state
       const newCoins = coins - price;
       setCoins(newCoins);
@@ -166,9 +169,11 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
       if (gameState) {
         const parsed = JSON.parse(gameState);
         parsed.coins = newCoins;
-        // Update hourly income in game state
-        const cardBoost = upgradeCards.find(c => c.id === result.cardId)?.incomeBoost || 0;
-        parsed.hourlyIncome = (parsed.hourlyIncome || getBaseCarIncome()) + cardBoost;
+        // Update hourly income in game state - get actual base income first
+        const baseIncome = getBaseCarIncome();
+        const cardBoost = upgradeCards.find(c => c.id === cardId)?.incomeBoost || 0;
+        // Accumulate the upgrade card bonuses
+        parsed.hourlyIncome = (parsed.hourlyIncome || 0) + cardBoost;
         localStorage.setItem('carTycoonGame', JSON.stringify(parsed));
       }
 
@@ -177,9 +182,12 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
       
       // Invalidate and refetch related queries
       queryClient.invalidateQueries({ queryKey: ['/api/user-cards', userId] });
+      
+      setPurchasingCardId(null);
     },
     onError: (error: Error) => {
       alert(error.message);
+      setPurchasingCardId(null);
     },
   });
 
@@ -291,7 +299,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
                   </div>
                   <Button
                     onClick={() => handlePurchase(card)}
-                    disabled={!affordable || purchaseCardMutation.isPending}
+                    disabled={!affordable || purchasingCardId === card.id}
                     className={`${
                       affordable 
                         ? 'bg-green-600 hover:bg-green-700 text-white' 
@@ -299,7 +307,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
                     } transition-colors`}
                     size="sm"
                   >
-                    {purchaseCardMutation.isPending ? 'Покупка...' : 'Купить'}
+                    {purchasingCardId === card.id ? 'Покупка...' : 'Купить'}
                   </Button>
                 </div>
               </div>

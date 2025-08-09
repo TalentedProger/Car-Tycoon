@@ -96,8 +96,6 @@ export default function Home({
     if (carTrimsData) {
       const trims = JSON.parse(carTrimsData);
       // Find the trim for the selected car specifically
-      const carData = carDatabase[selectedCar] || carDatabase['vaz-2107'];
-      // Try to find the car ID that matches AutoSalon exactly
       let carId = 1; // Default VAZ 2107
       if (selectedCar === 'hyundai-sonata') carId = 4; // Hyundai Sonata IV has ID 4
       else if (selectedCar === 'audi') carId = 3; // Audi 100 has ID 3  
@@ -123,7 +121,7 @@ export default function Home({
     // Calculate 0.25% (0.0025) of final price, rounded up - same as AutoSalon
     const baseIncome = Math.ceil(finalPrice * 0.0025);
     
-    // Add any purchased upgrade cards bonus
+    // Add any purchased upgrade cards bonus from localStorage
     const upgradeBonus = gameState.hourlyIncome || 0;
     
     return baseIncome + upgradeBonus;
