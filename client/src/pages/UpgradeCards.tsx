@@ -243,7 +243,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
 
   return (
     <div className="min-h-screen text-white" style={{ backgroundColor: '#310046' }}>
-      {/* Header with Back, Balance and Hourly Income in one line */}
+      {/* Header with Back Button and Balance */}
       <div className="flex items-center justify-between p-4 border-b border-purple-400/30">
         <Button 
           onClick={onBack}
@@ -255,24 +255,26 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
           Назад
         </Button>
         
-        {/* Balance and Hourly Income in one line */}
-        <div className="flex items-center gap-4">
-          {/* Current Balance */}
-          <div className="flex items-center gap-2">
-            <div className="text-xs text-gray-300">Баланс:</div>
-            <div className="text-lg font-bold text-green-400 flex items-center gap-1">
-              <span>{coins.toLocaleString()}</span>
-              <span className="text-sm">₽</span>
-            </div>
+        {/* Current Balance */}
+        <div className="flex items-center gap-2">
+          <div className="text-xs text-gray-300">Баланс:</div>
+          <div className="text-lg font-bold text-green-400 flex items-center gap-1">
+            <span>{coins.toLocaleString()}</span>
+            <span className="text-sm">₽</span>
           </div>
-          
-          {/* Hourly Income */}
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-green-400" />
-            <div className="text-xs text-gray-300">Доход:</div>
-            <div className="text-lg font-bold text-green-400">
-              {totalIncome} ₽/час
-            </div>
+        </div>
+      </div>
+
+      {/* Hourly Income Section */}
+      <div className="px-4 py-3 border-b border-purple-400/20">
+        <div className="flex items-center gap-2">
+          <TrendingUp className="h-4 w-4 text-green-400" />
+          <div className="text-xs text-gray-300">Доход в час:</div>
+          <div className="text-lg font-bold text-green-400">
+            {totalIncome} ₽/час
+          </div>
+          <div className="text-sm text-gray-400 ml-auto">
+            {userCards.length} карт куплено
           </div>
         </div>
       </div>
