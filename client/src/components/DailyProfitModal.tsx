@@ -154,7 +154,7 @@ export function DailyProfitModal({
             <CardContent className="p-4">
               {/* Profit Breakdown */}
               <div className="space-y-3 mb-4">
-                <div className="flex justify-between items-center">
+                <div className="text-[22px]">
                   <span className="text-sm text-muted-foreground flex items-center gap-2">
                     🚗 Доход с автопарка:
                   </span>
