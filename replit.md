@@ -26,6 +26,9 @@ Preferred communication style: Simple, everyday language.
   - Redesigned achievement category buttons layout to 2 columns × 3 rows format
   - Removed green background from achievement progress indicators ("0/x") for cleaner UI
   - All buttons now occupy 50% width with proper spacing and consistent sizing
+  - Optimized UI spacing: reduced main income title to 22px, unified income display layout
+  - Cleaned achievement headers by removing count numbers and button icons
+  - Maximized category button width with minimal padding for better mobile experience
 - **Date: August 9, 2025** - Previous migration work completed
 - Fixed missing tsx dependency causing startup failures
 - Created PostgreSQL database with proper schema setup and migrations

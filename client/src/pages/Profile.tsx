@@ -198,7 +198,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
             <Card className="border-green-500/50 bg-green-950/20">
               <CardContent className="p-4">
                 <h3 className="text-lg font-bold text-green-400 mb-2 flex items-center gap-2">
-                  🎁 Готово к получению ({stats.availableToClaim})
+                  🎁 Готово к получению
                 </h3>
                 <div className="grid gap-3">
                   {achievements
@@ -227,7 +227,7 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
                 <h3 className="text-lg font-bold mb-6 text-center">Категории достижений</h3>
                 
                 {/* Category Tabs - 2 columns with 3 rows */}
-                <TabsList className="grid grid-cols-2 gap-3 bg-transparent h-auto p-0 px-4">
+                <TabsList className="grid grid-cols-2 gap-1 bg-transparent h-auto p-1">
                   <TabsTrigger value="tuning" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white bg-background/50">🔧 Тюнинг</TabsTrigger>
                   <TabsTrigger value="earnings" className="data-[state=active]:bg-green-600 data-[state=active]:text-white bg-background/50">💰 Доход</TabsTrigger>
                   

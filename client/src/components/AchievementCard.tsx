@@ -141,7 +141,7 @@ export function AchievementCard({ achievement, onClaim }: AchievementCardProps) 
                 className="w-full bg-green-600/80 hover:bg-green-600 text-white font-bold shadow-lg shadow-green-500/40 animate-pulse border border-green-500/50 h-8 text-xs"
                 size="sm"
               >
-                Получить награду ▶
+                Получить награду
               </Button>
             ) : (
               <Button 

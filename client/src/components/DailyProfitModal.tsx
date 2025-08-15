@@ -134,7 +134,7 @@ export function DailyProfitModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[400px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="tracking-tight text-center font-bold flex items-center justify-center gap-2 mb-4 text-[26px]">
+          <DialogTitle className="tracking-tight text-center font-bold flex items-center justify-center gap-2 mb-4 text-[22px]">
             <span style={{
               background: 'linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC)',
               WebkitBackgroundClip: 'text',
@@ -154,7 +154,7 @@ export function DailyProfitModal({
             <CardContent className="p-4">
               {/* Profit Breakdown */}
               <div className="space-y-3 mb-4">
-                <div className="text-[22px]">
+                <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground flex items-center gap-2">
                     🚗 Доход с автопарка:
                   </span>
