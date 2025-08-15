@@ -184,7 +184,7 @@ export default function Home({
           onClick={() => setCurrentView?.('upgrade-cards')}
         >
           <Store className="h-5 w-5" />
-          <span className="text-xs">Автосалон</span>
+          <span className="text-xs">Карточки</span>
         </Button>
         <Button className="glass-button rounded-2xl p-4 h-16 flex flex-col items-center gap-1">
           <div className="text-lg">🎁</div>

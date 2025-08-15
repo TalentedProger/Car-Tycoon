@@ -7,7 +7,21 @@ Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScri
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
-- **Date: August 9, 2025** - Successfully completed migration from Replit Agent to standard Replit environment
+- **Date: August 15, 2025** - Successfully completed migration from Replit Agent to standard Replit environment and implemented upgrade cards system:
+  - Fixed missing tsx dependency and reinstalled all packages
+  - Created PostgreSQL database with proper schema setup
+  - Updated button label from "Автосалон" to "Карточки" to match functionality
+  - Redesigned UpgradeCards page with dark purple neon background (#310046)
+  - Moved hourly income display to header alongside balance in single line
+  - Implemented complete upgrade cards system with 15 cards across 5 rarity levels:
+    - Обычная (3 cards): +1-3 income boost, prices 1,322-5,222 ₽
+    - Необычная (3 cards): +4-6 income boost, prices 7,481-12,419 ₽  
+    - Редкая (3 cards): +7-10 income boost, prices 15,058-23,518 ₽
+    - Эпическая (3 cards): +11-15 income boost, prices 26,493-39,040 ₽
+    - Легендарная (3 cards): +16-20 income boost, prices 42,320-55,935 ₽
+  - Cards feature dynamic pricing logic with rarity-based cost multipliers
+  - Added proper rarity-based visual styling with neon glow effects
+- **Date: August 9, 2025** - Previous migration work completed
 - Fixed missing tsx dependency causing startup failures
 - Created PostgreSQL database with proper schema setup and migrations
 - Completely reworked hourly income system based on 0.025% of car price including configuration:

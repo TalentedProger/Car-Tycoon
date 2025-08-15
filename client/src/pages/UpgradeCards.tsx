@@ -18,7 +18,7 @@ interface UserCard {
 }
 
 const rarityConfig = {
-  common: {
+  'Обычная': {
     bgColor: 'bg-gray-700/40',
     borderColor: 'border-gray-400',
     textColor: 'text-gray-100',
@@ -26,7 +26,15 @@ const rarityConfig = {
     icon: '⚪',
     neonGlow: 'drop-shadow-[0_0_10px_rgba(156,163,175,0.5)]',
   },
-  rare: {
+  'Необычная': {
+    bgColor: 'bg-green-700/40',
+    borderColor: 'border-green-400',
+    textColor: 'text-green-100',
+    glowColor: 'shadow-green-400/50 shadow-xl',
+    icon: '🟢',
+    neonGlow: 'drop-shadow-[0_0_15px_rgba(34,197,94,0.7)]',
+  },
+  'Редкая': {
     bgColor: 'bg-blue-700/40',
     borderColor: 'border-blue-400',
     textColor: 'text-blue-100',
@@ -34,7 +42,7 @@ const rarityConfig = {
     icon: '🔵',
     neonGlow: 'drop-shadow-[0_0_15px_rgba(59,130,246,0.7)]',
   },
-  epic: {
+  'Эпическая': {
     bgColor: 'bg-purple-700/40',
     borderColor: 'border-purple-400',
     textColor: 'text-purple-100',
@@ -42,9 +50,9 @@ const rarityConfig = {
     icon: '🟣',
     neonGlow: 'drop-shadow-[0_0_20px_rgba(147,51,234,0.8)]',
   },
-  legendary: {
-    bgColor: 'bg-yellow-600/40',
-    borderColor: 'border-yellow-400',
+  'Легендарная': {
+    bgColor: 'bg-gradient-to-br from-yellow-600/40 to-orange-600/40',
+    borderColor: 'border-gradient-to-r border-yellow-400',
     textColor: 'text-yellow-100',
     glowColor: 'shadow-yellow-400/60 shadow-2xl',
     icon: '🟡',
@@ -234,9 +242,9 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
+    <div className="min-h-screen text-white" style={{ backgroundColor: '#310046' }}>
+      {/* Header with Back, Balance and Hourly Income in one line */}
+      <div className="flex items-center justify-between p-4 border-b border-purple-400/30">
         <Button 
           onClick={onBack}
           variant="ghost" 
@@ -247,28 +255,24 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
           Назад
         </Button>
         
-        {/* Current Balance */}
-        <div className="glass-dark rounded-2xl p-3 px-4">
-          <div className="text-center">
-            <div className="text-xs text-muted-foreground mb-1">Баланс</div>
+        {/* Balance and Hourly Income in one line */}
+        <div className="flex items-center gap-4">
+          {/* Current Balance */}
+          <div className="flex items-center gap-2">
+            <div className="text-xs text-gray-300">Баланс:</div>
             <div className="text-lg font-bold text-green-400 flex items-center gap-1">
               <span>{coins.toLocaleString()}</span>
               <span className="text-sm">₽</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Income Summary */}
-      <div className="px-4 py-3 bg-gradient-to-r from-blue-900/50 to-purple-900/50 border-b border-gray-700">
-        <div className="flex items-center justify-between">
+          
+          {/* Hourly Income */}
           <div className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-green-400" />
-            <span className="text-lg">Доход в час: </span>
-            <span className="text-xl font-bold text-green-400">{totalIncome} ₽</span>
-          </div>
-          <div className="text-sm text-gray-300">
-            {userCards.length} карт куплено
+            <TrendingUp className="h-4 w-4 text-green-400" />
+            <div className="text-xs text-gray-300">Доход:</div>
+            <div className="text-lg font-bold text-green-400">
+              {totalIncome} ₽/час
+            </div>
           </div>
         </div>
       </div>
@@ -277,7 +281,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
       <div className="p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {upgradeCards.map((card) => {
-            const rarity = rarityConfig[card.rarity as keyof typeof rarityConfig] || rarityConfig.common;
+            const rarity = rarityConfig[card.rarity as keyof typeof rarityConfig] || rarityConfig['Обычная'];
             const quantity = getCardQuantity(card.id);
             const affordable = canAfford(card.price);
 
