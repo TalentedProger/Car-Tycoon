@@ -146,6 +146,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get user profile photo from Telegram
+  app.get('/api/user-photo/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // For development/testing, return a demo avatar for demonstration
+      if (userId === 'anon' || userId === 'dev-user-123' || userId.startsWith('telegram_user_')) {
+        // Return a demo avatar URL for testing purposes
+        const demoAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face';
+        return res.json({ photoUrl: demoAvatarUrl });
+      }
+
+      // In a real implementation, you would use Telegram Bot API here:
+      // const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${userId}`);
+      // const data = await response.json();
+      // if (data.ok && data.result.total_count > 0) {
+      //   const fileId = data.result.photos[0][0].file_id;
+      //   const fileResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getFile?file_id=${fileId}`);
+      //   const fileData = await fileResponse.json();
+      //   if (fileData.ok) {
+      //     const photoUrl = `https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${fileData.result.file_path}`;
+      //     return res.json({ photoUrl });
+      //   }
+      // }
+
+      res.json({ photoUrl: null });
+    } catch (error) {
+      console.error('Error fetching user photo:', error);
+      res.status(500).json({ error: 'Failed to fetch user photo' });
+    }
+  });
+
   // Admin endpoint to reset all users (for testing)
   app.post('/api/admin/reset-users', (req, res) => {
     try {

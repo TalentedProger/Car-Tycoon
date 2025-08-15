@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -22,7 +23,8 @@ interface ProfileProps {
 }
 
 export default function Profile({ userId, gameState, updateGameState }: ProfileProps) {
-  const { userName, sendDataToBot } = useTelegram();
+  const { userName, userPhoto, sendDataToBot } = useTelegram();
+  const [finalUserPhoto, setFinalUserPhoto] = useState<string>('');
   const { 
     achievements, 
     totalXPEarned, 
@@ -30,6 +32,31 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
     getAchievementsByCategory, 
     getAchievementStats 
   } = useAchievements();
+
+  // Try to get user photo from Telegram WebApp first, then fallback to API
+  useEffect(() => {
+    const fetchUserPhoto = async () => {
+      if (userPhoto) {
+        // Use WebApp photo if available
+        setFinalUserPhoto(userPhoto);
+      } else {
+        // Fallback to API
+        try {
+          const response = await fetch(`/api/user-photo/${userId}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.photoUrl) {
+              setFinalUserPhoto(data.photoUrl);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching user photo:', error);
+        }
+      }
+    };
+
+    fetchUserPhoto();
+  }, [userPhoto, userId]);
 
   const stats = getAchievementStats();
 
@@ -66,8 +93,28 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
           <Card>
             <CardContent className="pt-6">
               <div className="text-center mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white text-2xl">👤</span>
+                <div className="w-20 h-20 bg-gradient-to-r from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden relative">
+                  {finalUserPhoto ? (
+                    <>
+                      <img 
+                        src={finalUserPhoto} 
+                        alt={`${userName} аватар`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback to emoji if image fails to load
+                          const target = e.currentTarget as HTMLImageElement;
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.querySelector('.fallback-emoji')?.classList.remove('hidden');
+                            target.style.display = 'none';
+                          }
+                        }}
+                      />
+                      <span className="fallback-emoji text-white text-2xl absolute inset-0 flex items-center justify-center hidden">👤</span>
+                    </>
+                  ) : (
+                    <span className="text-white text-2xl">👤</span>
+                  )}
                 </div>
                 <h2 className="text-xl font-bold text-dark">{userName}</h2>
                 <p className="text-gray-500 text-sm">ID: {userId}</p>

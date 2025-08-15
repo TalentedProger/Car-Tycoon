@@ -26,6 +26,7 @@ interface TelegramWebApp {
       first_name?: string;
       last_name?: string;
       username?: string;
+      photo_url?: string;
     };
   };
 }
@@ -44,6 +45,7 @@ declare global {
 export function useTelegram() {
   const [userId, setUserId] = useState<string>('anon');
   const [userName, setUserName] = useState<string>('Игрок');
+  const [userPhoto, setUserPhoto] = useState<string>('');
   const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
 
   useEffect(() => {
@@ -68,8 +70,11 @@ export function useTelegram() {
         // Get user data
         const user = tgWebApp.initDataUnsafe?.user;
         if (user) {
+          console.log('Telegram user data:', user);
           setUserId(String(user.id));
           setUserName(user.first_name || user.username || 'Игрок');
+          setUserPhoto(user.photo_url || '');
+          console.log('User photo URL:', user.photo_url);
         }
       } catch (error) {
         console.error('Ошибка инициализации Telegram WebApp:', error);
@@ -111,6 +116,7 @@ export function useTelegram() {
   return { 
     userId, 
     userName,
+    userPhoto,
     webApp, 
     sendDataToBot, 
     closeApp, 
