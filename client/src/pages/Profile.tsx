@@ -223,11 +223,11 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
           <Tabs defaultValue="tuning" className="w-full">
             {/* Category Selection Card */}
             <Card className="bg-muted/30 border-muted">
-              <CardContent className="p-8 pt-[32px] pb-[32px] pl-[0px] pr-[0px]">
-                <h3 className="text-lg font-bold mb-4 text-center">Категории достижений</h3>
+              <CardContent className="p-8 pt-[32px] pb-[32px] px-6">
+                <h3 className="text-lg font-bold mb-6 text-center">Категории достижений</h3>
                 
                 {/* Category Tabs - 2 columns with 3 rows */}
-                <TabsList className="grid grid-cols-2 gap-3 bg-transparent h-auto p-0">
+                <TabsList className="grid grid-cols-2 gap-3 bg-transparent h-auto p-0 px-4">
                   <TabsTrigger value="tuning" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white bg-background/50">🔧 Тюнинг</TabsTrigger>
                   <TabsTrigger value="earnings" className="data-[state=active]:bg-green-600 data-[state=active]:text-white bg-background/50">💰 Доход</TabsTrigger>
                   
@@ -241,10 +241,10 @@ export default function Profile({ userId, gameState, updateGameState }: ProfileP
             </Card>
 
             {/* Achievement Cards Content */}
-            <div className="mt-3">
+            <div className="mt-6">
               {Object.entries(achievementCategories).map(([categoryKey, categoryName]) => (
                 <TabsContent key={categoryKey} value={categoryKey} className="space-y-3">
-                  <h3 className="text-lg font-bold mb-3">{categoryName}</h3>
+                  <h3 className="text-lg font-bold mb-3 text-center">{categoryName}</h3>
                   <div className="grid gap-3">
                     {getAchievementsByCategory(categoryKey).map(achievement => (
                       <AchievementCard
