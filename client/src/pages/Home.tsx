@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -136,11 +137,38 @@ export default function Home({
     // Calculate 0.25% (0.0025) of final price, rounded up - same as AutoSalon
     const baseIncome = Math.ceil(finalPrice * 0.0025);
     
-    // Add any purchased upgrade cards bonus from localStorage
-    const upgradeBonus = gameState.hourlyIncome || 0;
-    
-    return baseIncome + upgradeBonus;
+    // Calculate dynamic upgrade cards bonus by fetching user cards
+    return baseIncome;
   };
+
+  // Add real-time upgrade cards calculation (same as UpgradeCards page)
+  const [totalHourlyIncome, setTotalHourlyIncome] = useState(calculateHourlyIncome());
+  
+  useEffect(() => {
+    const fetchUserCards = async () => {
+      try {
+        const userId = localStorage.getItem('userId') || 'telegram_user_1';
+        const response = await fetch(`/api/user-cards/${userId}`);
+        if (response.ok) {
+          const userCards = await response.json();
+          const upgradeCardsBonus = userCards.reduce((total: number, userCard: any) => {
+            return total + (userCard.card.incomeBoost * userCard.quantity);
+          }, 0);
+          const baseIncome = calculateHourlyIncome();
+          setTotalHourlyIncome(baseIncome + upgradeCardsBonus);
+        }
+      } catch (error) {
+        console.error('Error fetching user cards:', error);
+      }
+    };
+
+    fetchUserCards();
+    
+    // Poll for updates every 5 seconds to keep in sync with purchases
+    const interval = setInterval(fetchUserCards, 5000);
+    
+    return () => clearInterval(interval);
+  }, [gameState.selectedStarterCar]);
 
   return (
     <div className="min-h-screen bg-background p-4 pb-20">
@@ -159,7 +187,7 @@ export default function Home({
         <div className="flex items-center gap-3">
           <div className="glass-dark rounded-2xl p-3 flex items-center gap-2">
             <span className="hourly-income text-sm font-bold flex items-center gap-1">
-              <span>+{calculateHourlyIncome()}</span>
+              <span>+{totalHourlyIncome}</span>
               <span className="text-green-700 text-sm">₽</span>
               <span>/час</span>
             </span>
