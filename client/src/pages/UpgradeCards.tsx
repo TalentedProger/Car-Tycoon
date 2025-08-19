@@ -283,7 +283,16 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
       <div className="p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {upgradeCards.map((card) => {
-            const rarity = rarityConfig[card.rarity as keyof typeof rarityConfig] || rarityConfig['Обычная'];
+            // Map English rarity names from backend to Russian names for frontend
+            const rarityMapping: { [key: string]: string } = {
+              'common': 'Обычная',
+              'uncommon': 'Необычная',
+              'rare': 'Редкая', 
+              'epic': 'Эпическая',
+              'legendary': 'Легендарная'
+            };
+            const russianRarity = rarityMapping[card.rarity] || 'Обычная';
+            const rarity = rarityConfig[russianRarity as keyof typeof rarityConfig] || rarityConfig['Обычная'];
             const quantity = getCardQuantity(card.id);
             const affordable = canAfford(card.price);
 
@@ -297,7 +306,7 @@ export default function UpgradeCards({ onBack }: UpgradeCardsProps) {
                     <span className="text-2xl">{rarity.icon}</span>
                     <div>
                       <h3 className="font-bold text-lg">{card.name}</h3>
-                      <p className="text-xs capitalize opacity-80">{card.rarity}</p>
+                      <p className="text-xs capitalize opacity-80">{russianRarity}</p>
                     </div>
                   </div>
                   {quantity > 0 && (
