@@ -441,7 +441,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         {/* Content */}
         <div className="flex-1 flex flex-col justify-between p-4">
           {/* Top title */}
-          <div className="text-center pt-8">
+          <div className="text-center pt-20">
             <h2 className="text-3xl font-bold text-green-400">Ваш номер готов!</h2>
           </div>
 
