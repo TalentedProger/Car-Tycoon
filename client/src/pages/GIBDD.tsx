@@ -367,30 +367,62 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         </div>
 
         {/* Content */}
-        <div className="p-4 flex flex-col items-center justify-center min-h-[60vh]">
-          <div className="text-center mb-8">
-            <h2 className="text-xl font-bold mb-2">Подтвердите покупку</h2>
-            <p className="text-gray-300 mb-4">
-              Регион: {regionName} ({selectedRegion})
-            </p>
-            <div className="text-3xl font-bold text-yellow-400 mb-4">
-              2,500 ₽
+        <div className="flex-1 flex flex-col justify-between p-4">
+          {/* Top section with title, price and license plate preview */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold mb-2">Подтвердите покупку</h2>
+              <p className="text-gray-300 mb-4">
+                Регион: {regionName} ({selectedRegion})
+              </p>
+              <div className="text-3xl font-bold text-yellow-400 mb-8">
+                2,500 ₽
+              </div>
+            </div>
+
+            {/* License plate preview with question marks and neon glow */}
+            <div className="mx-auto max-w-lg mb-8">
+              <div 
+                className="bg-white text-black rounded-lg p-4 border-2 border-gray-400 shadow-lg relative"
+                style={{
+                  boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1)'
+                }}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex-1 text-center">
+                    <div className="text-4xl font-black tracking-wider text-gray-400">
+                      ??? ???
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center ml-4">
+                    <div className="text-3xl font-black mb-1">
+                      {selectedRegion}
+                    </div>
+                    <div className="text-xs font-bold">
+                      RUS
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <Button
-            onClick={handlePurchase}
-            disabled={!canAfford || generatePlateMutation.isPending}
-            className={`text-lg px-8 py-4 ${
-              canAfford 
-                ? 'bg-green-600 hover:bg-green-700 text-white' 
-                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-            }`}
-            size="lg"
-          >
-            {generatePlateMutation.isPending ? 'Генерация...' : 
-             canAfford ? 'Купить' : 'Недостаточно средств'}
-          </Button>
+          {/* Bottom button */}
+          <div className="pb-4">
+            <Button
+              onClick={handlePurchase}
+              disabled={!canAfford || generatePlateMutation.isPending}
+              className={`w-full text-lg py-4 ${
+                canAfford 
+                  ? 'bg-green-600 hover:bg-green-700 text-white' 
+                  : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              }`}
+              size="lg"
+            >
+              {generatePlateMutation.isPending ? 'Генерация...' : 
+               canAfford ? 'Купить' : 'Недостаточно средств'}
+            </Button>
+          </div>
         </div>
       </div>
     );
