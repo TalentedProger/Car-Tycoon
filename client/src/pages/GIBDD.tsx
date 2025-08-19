@@ -381,29 +381,27 @@ export default function GIBDD({ onBack }: GIBDDProps) {
             </div>
 
             {/* License plate preview with question marks and neon glow */}
-            <div className="flex justify-center mb-8">
-              <div className="w-4/5">
-                <div 
-                  className="bg-white text-black rounded-lg px-4 py-3 border-2 border-gray-400 shadow-lg relative"
-                  style={{
-                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1)'
-                  }}
-                >
-                  <div className="flex items-center justify-between w-full">
-                    <div className="flex-1 text-center">
-                      <div className="flex items-center justify-center space-x-1 text-gray-400 font-black">
-                        <span className="text-2xl">?</span>
-                        <span className="text-3xl">???</span>
-                        <span className="text-2xl">??</span>
-                      </div>
+            <div className="w-4/5 mb-8">
+              <div 
+                className="bg-white text-black rounded-lg px-4 py-3 border-2 border-gray-400 shadow-lg relative"
+                style={{
+                  boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1)'
+                }}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex-1 text-center">
+                    <div className="flex items-center justify-center space-x-1 text-gray-400 font-black">
+                      <span className="text-2xl">?</span>
+                      <span className="text-3xl">???</span>
+                      <span className="text-2xl">??</span>
                     </div>
-                    <div className="border-l-2 border-gray-300 pl-3 flex flex-col items-center">
-                      <div className="text-2xl font-black mb-1">
-                        {selectedRegion}
-                      </div>
-                      <div className="text-xs font-bold">
-                        RUS
-                      </div>
+                  </div>
+                  <div className="border-l-2 border-gray-300 pl-3 flex flex-col items-center">
+                    <div className="text-2xl font-black mb-1">
+                      {selectedRegion}
+                    </div>
+                    <div className="text-xs font-bold">
+                      RUS
                     </div>
                   </div>
                 </div>
