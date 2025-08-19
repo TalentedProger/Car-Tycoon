@@ -148,8 +148,21 @@ const REGIONS_DATA = {
   "799": "Москва"
 };
 
-// Keep regions in the exact order as defined - no sorting
-const REGIONS = REGIONS_DATA;
+// Create ordered regions with 01-09 first, then the rest
+const REGIONS = Object.fromEntries([
+  // First: regions 01-09
+  ["01", REGIONS_DATA["01"]],
+  ["02", REGIONS_DATA["02"]],
+  ["03", REGIONS_DATA["03"]],
+  ["04", REGIONS_DATA["04"]],
+  ["05", REGIONS_DATA["05"]],
+  ["06", REGIONS_DATA["06"]],
+  ["07", REGIONS_DATA["07"]],
+  ["08", REGIONS_DATA["08"]],
+  ["09", REGIONS_DATA["09"]],
+  // Then: all other regions in original order
+  ...Object.entries(REGIONS_DATA).filter(([code]) => !code.startsWith("0") || code === "80" || code === "81" || code === "82" || code === "83" || code === "84" || code === "85" || code === "86" || code === "87" || code === "89")
+]);
 
 interface LicensePlate {
   id: number;
