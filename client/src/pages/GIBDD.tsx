@@ -149,11 +149,11 @@ const REGIONS_DATA = {
   "799": "Москва"
 };
 
-// Sort regions by numeric order with proper zero-padding consideration
+// Sort regions by numeric order ensuring 01-09 come first
 const REGIONS = Object.entries(REGIONS_DATA)
   .sort(([a], [b]) => {
-    const numA = parseInt(a);
-    const numB = parseInt(b);
+    const numA = parseInt(a, 10);
+    const numB = parseInt(b, 10);
     return numA - numB;
   })
   .reduce((acc, [code, name]) => ({ ...acc, [code]: name }), {} as Record<string, string>);

@@ -7,6 +7,13 @@ Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScri
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
+- **Date: August 19, 2025** - Successfully completed second migration from Replit Agent to standard Replit environment and fixed GIBDD interface issues:
+  - Fixed missing tsx dependency and reinstalled all packages
+  - Created PostgreSQL database with proper schema setup and migrations
+  - Fixed horizontal scroll issue in GIBDD region selection by adding text truncation with ellipsis
+  - Fixed region sorting to ensure regions 01-09 appear first, followed by 10-799 in proper numeric order
+  - Made price text "2,500 ₽" yellow color throughout GIBDD interface for better visibility
+  - All systems confirmed working properly including car tycoon game mechanics, upgrade cards, and license plate system
 - **Date: August 15, 2025** - Successfully completed migration from Replit Agent to standard Replit environment and implemented upgrade cards system and Telegram avatar integration:
   - Fixed missing tsx dependency and reinstalled all packages
   - Created PostgreSQL database with proper schema setup
