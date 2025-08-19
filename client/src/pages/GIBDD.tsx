@@ -133,7 +133,6 @@ const REGIONS_DATA = {
   "185": "Запорожская область",
   "186": "Ханты-Мансийский автономный округ — Югра",
   "190": "Московская область",
-  "193": "Краснодарский край",
   "196": "Свердловская область",
   "197": "Москва",
   "198": "Санкт-Петербург",
@@ -149,14 +148,8 @@ const REGIONS_DATA = {
   "799": "Москва"
 };
 
-// Sort regions by numeric order ensuring 01-09 come first
-const REGIONS = Object.entries(REGIONS_DATA)
-  .sort(([a], [b]) => {
-    const numA = parseInt(a, 10);
-    const numB = parseInt(b, 10);
-    return numA - numB;
-  })
-  .reduce((acc, [code, name]) => ({ ...acc, [code]: name }), {} as Record<string, string>);
+// Keep regions in the exact order as defined - no sorting
+const REGIONS = REGIONS_DATA;
 
 interface LicensePlate {
   id: number;
