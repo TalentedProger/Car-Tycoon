@@ -7,6 +7,21 @@ Auto Arena is a Telegram WebApp car tycoon game built with a full-stack TypeScri
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
+- **Date: August 19, 2025** - Implemented complete GIBDD (Russian license plate) purchase system:
+  - Replaced "Подарки" button with "ГИБДД" 🚔 button for license plate purchases
+  - Created comprehensive license plate generation using proper Russian format (Б123ББ РР)
+  - Added database schema for license plates with regional codes and user ownership
+  - Implemented region selection from all Russian regions (01-799) in numerical order
+  - Redesigned license plate visual design to match authentic Russian plates:
+    * Removed "РОССИЙСКАЯ ФЕДЕРАЦИЯ" header
+    * Made all letters bold with font-black styling
+    * Moved region code to right side in separate bordered section
+    * Added "RUS" text with Russian flag 🇷🇺 below region code
+  - Added purchase functionality for 2,500₽ per plate with balance checking
+  - Created management interface with Sell/Reissue/Market/Taxes action buttons
+  - Moved "🚔 Мои номера" title into main content area above license plates
+  - Set up API endpoints and storage layer for license plate operations
+  - Integrated unique plate generation using approved Russian letters only
 - **Date: August 15, 2025** - Successfully completed migration from Replit Agent to standard Replit environment and implemented upgrade cards system and Telegram avatar integration:
   - Fixed missing tsx dependency and reinstalled all packages
   - Created PostgreSQL database with proper schema setup
