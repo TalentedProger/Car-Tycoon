@@ -367,12 +367,9 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col p-4">
-          {/* Spacer for perfect centering */}
-          <div className="flex-1"></div>
-          
-          {/* Centered content */}
-          <div className="flex flex-col items-center justify-center">
+        <div className="flex-1 flex flex-col justify-between p-4">
+          {/* Top section with title, price and license plate preview */}
+          <div className="flex-1 flex flex-col items-center justify-center pt-4">
             <div className="text-center mb-6">
               <h2 className="text-xl font-bold mb-2">Подтвердите покупку</h2>
               <p className="text-gray-300 mb-4">
@@ -412,11 +409,8 @@ export default function GIBDD({ onBack }: GIBDDProps) {
             </div>
           </div>
 
-          {/* Spacer for perfect centering */}
-          <div className="flex-1"></div>
-
           {/* Bottom button */}
-          <div className="flex justify-center">
+          <div className="pb-4 flex justify-center">
             <Button
               onClick={handlePurchase}
               disabled={!canAfford || generatePlateMutation.isPending}
