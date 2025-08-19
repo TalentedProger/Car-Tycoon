@@ -439,19 +439,25 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         </div>
 
         {/* Content */}
-        <div className="p-4 flex flex-col items-center justify-center min-h-[60vh]">
-          <div className="text-center mb-8">
-            <h2 className="text-xl font-bold mb-4">Ваш номер готов!</h2>
-            <LicensePlateComponent plate={generatedPlate} />
+        <div className="flex-1 flex flex-col justify-between p-4">
+          {/* Top section with title and license plate */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="text-center mb-8">
+              <h2 className="text-xl font-bold mb-4">Ваш номер готов!</h2>
+              <LicensePlateComponent plate={generatedPlate} />
+            </div>
           </div>
 
-          <Button
-            onClick={handleGetPlate}
-            className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-4"
-            size="lg"
-          >
-            Получить
-          </Button>
+          {/* Bottom button */}
+          <div className="pb-4 flex justify-center">
+            <Button
+              onClick={handleGetPlate}
+              className="bg-green-600 hover:bg-green-700 text-white text-lg w-3/5 py-4"
+              size="lg"
+            >
+              Получить
+            </Button>
+          </div>
         </div>
       </div>
     );
