@@ -149,9 +149,13 @@ const REGIONS_DATA = {
   "799": "Москва"
 };
 
-// Sort regions by numeric order
+// Sort regions by numeric order with proper zero-padding consideration
 const REGIONS = Object.entries(REGIONS_DATA)
-  .sort(([a], [b]) => parseInt(a) - parseInt(b))
+  .sort(([a], [b]) => {
+    const numA = parseInt(a);
+    const numB = parseInt(b);
+    return numA - numB;
+  })
   .reduce((acc, [code, name]) => ({ ...acc, [code]: name }), {} as Record<string, string>);
 
 interface LicensePlate {
@@ -319,7 +323,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         <div className="p-4">
           <div className="text-center mb-6">
             <h2 className="text-xl font-bold mb-2">Выберите регион</h2>
-            <p className="text-gray-300">Стоимость номера: 2,500 ₽</p>
+            <p className="text-gray-300">Стоимость номера: <span className="text-yellow-400">2,500 ₽</span></p>
           </div>
 
           <div className="max-h-96 overflow-y-auto space-y-2">
@@ -327,11 +331,11 @@ export default function GIBDD({ onBack }: GIBDDProps) {
               <Button
                 key={code}
                 onClick={() => handleRegionSelect(code)}
-                className="w-full text-left justify-start bg-blue-900/30 hover:bg-blue-800/50 border border-blue-400/30"
+                className="w-full text-left justify-start bg-blue-900/30 hover:bg-blue-800/50 border border-blue-400/30 overflow-hidden"
                 variant="ghost"
               >
-                <span className="font-mono mr-3 text-yellow-400">{code}</span>
-                <span>{name}</span>
+                <span className="font-mono mr-3 text-yellow-400 flex-shrink-0">{code}</span>
+                <span className="truncate">{name}</span>
               </Button>
             ))}
           </div>
