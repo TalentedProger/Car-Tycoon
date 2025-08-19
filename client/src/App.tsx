@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Detailing from './pages/Detailing';
 import AutoSalon from './pages/AutoSalon';
 import UpgradeCards from './pages/UpgradeCards';
+import GIBDD from './pages/GIBDD';
 import { DailyProfitModal } from './components/DailyProfitModal';
 import OfflineIncomeModal from './components/OfflineIncomeModal';
 
@@ -66,7 +67,7 @@ function App() {
   }, []);
   const { userId, userName, sendDataToBot } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
-  const [currentView, setCurrentView] = useState<'home' | 'upgrade-cards'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'upgrade-cards' | 'gibdd'>('home');
   const [showRewardModal, setShowRewardModal] = useState(false);
   const [offlineIncomeData, setOfflineIncomeData] = useState<{ hours: number; income: number } | null>(null);
 
@@ -142,6 +143,11 @@ function App() {
       return <UpgradeCards onBack={() => setCurrentView('home')} />;
     }
 
+    // Handle GIBDD view
+    if (currentView === 'gibdd') {
+      return <GIBDD onBack={() => setCurrentView('home')} />;
+    }
+
     switch (activeTab) {
       case 'home':
         return (
@@ -160,6 +166,7 @@ function App() {
             onOpenReward={() => setShowRewardModal(true)}
             canClaimReward={canClaimDailyProfit()}
             setCurrentView={setCurrentView}
+            onShowGIBDD={() => setCurrentView('gibdd')}
           />
         );
       case 'factories':
@@ -198,6 +205,7 @@ function App() {
             onOpenReward={() => setShowRewardModal(true)}
             canClaimReward={canClaimDailyProfit()}
             setCurrentView={setCurrentView}
+            onShowGIBDD={() => setCurrentView('gibdd')}
           />
         );
     }

@@ -153,6 +153,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // License plate routes
+  app.post('/api/generate-license-plate', async (req, res) => {
+    try {
+      const { userId, regionCode, regionName } = req.body;
+      
+      if (!userId || !regionCode || !regionName) {
+        return res.status(400).json({ error: 'userId, regionCode and regionName are required' });
+      }
+
+      const licensePlate = await storage.generateLicensePlate(regionCode, regionName, userId);
+      res.json(licensePlate);
+    } catch (error) {
+      console.error('Error generating license plate:', error);
+      res.status(500).json({ error: 'Failed to generate license plate' });
+    }
+  });
+
+  app.get('/api/license-plates/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const plates = await storage.getUserLicensePlates(userId);
+      res.json(plates);
+    } catch (error) {
+      console.error('Error fetching user license plates:', error);
+      res.status(500).json({ error: 'Failed to fetch license plates' });
+    }
+  });
+
   // Get user profile photo from Telegram
   app.get('/api/user-photo/:userId', async (req, res) => {
     try {

@@ -1,6 +1,6 @@
-import { users, gameProfiles, upgradeCards, userCards, type User, type InsertUser, type GameProfile, type InsertGameProfile, type UpgradeCard, type InsertUpgradeCard, type UserCard, type InsertUserCard } from "@shared/schema";
+import { users, gameProfiles, upgradeCards, userCards, licensePlates, type User, type InsertUser, type GameProfile, type InsertGameProfile, type UpgradeCard, type InsertUpgradeCard, type UserCard, type InsertUserCard, type LicensePlate, type InsertLicensePlate } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, sum } from "drizzle-orm";
+import { eq, desc, sum, isNull } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -18,6 +18,10 @@ export interface IStorage {
   createUpgradeCard(card: InsertUpgradeCard): Promise<UpgradeCard>;
   calculateOfflineIncome(userId: string): Promise<{ hours: number; income: number } | null>;
   updateUserHourlyIncome(userId: string, carPrice: number, upgradeCardBonus?: number): Promise<void>;
+  // License plate operations
+  generateLicensePlate(regionCode: string, regionName: string, userId: string): Promise<LicensePlate>;
+  getUserLicensePlates(userId: string): Promise<LicensePlate[]>;
+  checkPlateAvailability(plateNumber: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -142,6 +146,58 @@ export class DatabaseStorage implements IStorage {
       .set({ hourlyIncome: totalHourlyIncome })
       .where(eq(gameProfiles.userId, userId));
   }
+
+  // License plate operations
+  async generateLicensePlate(regionCode: string, regionName: string, userId: string): Promise<LicensePlate> {
+    const allowedLetters = ["А", "В", "Е", "К", "М", "Н", "О", "Р", "С", "Т", "У", "Х", "D"];
+    let plateNumber = "";
+    let isUnique = false;
+    
+    // Generate unique plate number
+    while (!isUnique) {
+      // Generate format: БББ-ЦЦЦ where Б = letter, Ц = digit
+      const letter1 = allowedLetters[Math.floor(Math.random() * allowedLetters.length)];
+      const letter2 = allowedLetters[Math.floor(Math.random() * allowedLetters.length)];
+      const letter3 = allowedLetters[Math.floor(Math.random() * allowedLetters.length)];
+      const digit1 = Math.floor(Math.random() * 10);
+      const digit2 = Math.floor(Math.random() * 10);
+      const digit3 = Math.floor(Math.random() * 10);
+      
+      plateNumber = `${letter1}${digit1}${digit2}${digit3}${letter2}${letter3} ${regionCode}`;
+      isUnique = await this.checkPlateAvailability(plateNumber);
+    }
+    
+    const [licensePlate] = await db
+      .insert(licensePlates)
+      .values({
+        plateNumber,
+        regionCode,
+        regionName,
+        userId,
+        purchasedAt: Math.floor(Date.now() / 1000),
+        price: 2500,
+      })
+      .returning();
+    
+    return licensePlate;
+  }
+
+  async getUserLicensePlates(userId: string): Promise<LicensePlate[]> {
+    return await db
+      .select()
+      .from(licensePlates)
+      .where(eq(licensePlates.userId, userId));
+  }
+
+  async checkPlateAvailability(plateNumber: string): Promise<boolean> {
+    const existing = await db
+      .select()
+      .from(licensePlates)
+      .where(eq(licensePlates.plateNumber, plateNumber))
+      .limit(1);
+    
+    return existing.length === 0; // true if available
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -206,6 +262,18 @@ export class MemStorage implements IStorage {
     // In-memory storage implementation - would need to store this data somewhere
     // For now this is just a stub implementation
     return;
+  }
+
+  async generateLicensePlate(regionCode: string, regionName: string, userId: string): Promise<LicensePlate> {
+    return {} as LicensePlate;
+  }
+
+  async getUserLicensePlates(userId: string): Promise<LicensePlate[]> {
+    return [];
+  }
+
+  async checkPlateAvailability(plateNumber: string): Promise<boolean> {
+    return true;
   }
 }
 
