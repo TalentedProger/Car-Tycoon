@@ -449,7 +449,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
           </div>
 
           {/* Bottom button */}
-          <div className="pb-4 flex justify-center">
+          <div className="pt-8 pb-4 flex justify-center">
             <Button
               onClick={handleGetPlate}
               className="bg-green-600 hover:bg-green-700 text-white text-lg w-3/5 py-4"
