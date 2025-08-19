@@ -381,21 +381,23 @@ export default function GIBDD({ onBack }: GIBDDProps) {
             </div>
 
             {/* License plate preview with question marks and neon glow */}
-            <div className="mx-auto max-w-lg mb-8">
+            <div className="w-4/5 mb-8">
               <div 
-                className="bg-white text-black rounded-lg p-4 border-2 border-gray-400 shadow-lg relative"
+                className="bg-white text-black rounded-lg px-4 py-3 border-2 border-gray-400 shadow-lg relative"
                 style={{
                   boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1)'
                 }}
               >
                 <div className="flex items-center justify-between w-full">
                   <div className="flex-1 text-center">
-                    <div className="text-4xl font-black tracking-wider text-gray-400">
-                      ??? ???
+                    <div className="flex items-center justify-center space-x-1 text-gray-400 font-black">
+                      <span className="text-2xl">?</span>
+                      <span className="text-3xl">???</span>
+                      <span className="text-2xl">??</span>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center ml-4">
-                    <div className="text-3xl font-black mb-1">
+                  <div className="border-l-2 border-gray-300 pl-3 flex flex-col items-center">
+                    <div className="text-2xl font-black mb-1">
                       {selectedRegion}
                     </div>
                     <div className="text-xs font-bold">
@@ -408,11 +410,11 @@ export default function GIBDD({ onBack }: GIBDDProps) {
           </div>
 
           {/* Bottom button */}
-          <div className="pb-4">
+          <div className="pb-4 flex justify-center">
             <Button
               onClick={handlePurchase}
               disabled={!canAfford || generatePlateMutation.isPending}
-              className={`w-full text-lg py-4 ${
+              className={`w-3/5 text-lg py-4 ${
                 canAfford 
                   ? 'bg-green-600 hover:bg-green-700 text-white' 
                   : 'bg-gray-600 text-gray-400 cursor-not-allowed'
