@@ -439,17 +439,44 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col justify-between p-4">
-          {/* Top section with title and license plate */}
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold mb-4">Ваш номер готов!</h2>
-              <LicensePlateComponent plate={generatedPlate} />
+        <div className="flex-1 flex flex-col p-4">
+          {/* Top title */}
+          <div className="text-center pt-8 mb-8">
+            <h2 className="text-3xl font-bold text-green-400">Ваш номер готов!</h2>
+          </div>
+
+          {/* Center license plate with enhanced shadows */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="w-4/5">
+              <div 
+                className="bg-white text-black rounded-lg px-4 py-3 border-2 border-gray-400 shadow-lg relative"
+                style={{
+                  boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1), 0 10px 30px rgba(0, 0, 0, 0.4), 0 20px 60px rgba(0, 0, 0, 0.2)'
+                }}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex-1 text-center">
+                    <div className="flex items-center justify-center space-x-1 text-black font-black">
+                      <span className="text-2xl">{generatedPlate.plateNumber.charAt(0)}</span>
+                      <span className="text-3xl">{generatedPlate.plateNumber.substring(1, 4)}</span>
+                      <span className="text-2xl">{generatedPlate.plateNumber.substring(4, 6)}</span>
+                    </div>
+                  </div>
+                  <div className="border-l-2 border-gray-300 pl-3 flex flex-col items-center">
+                    <div className="text-2xl font-black mb-1">
+                      {generatedPlate.region}
+                    </div>
+                    <div className="text-xs font-bold">
+                      RUS
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Bottom button */}
-          <div className="pb-4 flex justify-center ml-[0px] mr-[0px] mt-[100px] mb-[100px]">
+          <div className="pb-4 flex justify-center">
             <Button
               onClick={handleGetPlate}
               className="bg-green-600 hover:bg-green-700 text-white text-lg w-3/5 py-4"
