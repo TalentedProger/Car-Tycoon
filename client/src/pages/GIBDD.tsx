@@ -259,7 +259,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
     setGeneratedPlate(null);
   };
 
-  // License plate component
+  // License plate component - updated design
   const LicensePlateComponent = ({ plate }: { plate: LicensePlate }) => {
     // Extract plate number and region from plateNumber
     const parts = plate.plateNumber.split(' ');
@@ -267,19 +267,20 @@ export default function GIBDD({ onBack }: GIBDDProps) {
     const regionCode = parts[1] || plate.regionCode;
     
     return (
-      <div className="mx-auto max-w-sm">
+      <div className="mx-auto max-w-lg">
         <div className="bg-white text-black rounded-lg p-4 border-2 border-gray-400 shadow-lg">
-          <div className="flex items-center justify-between">
-            <div className="text-3xl font-black tracking-wider">
-              {plateText}
+          <div className="flex items-center justify-between w-full">
+            <div className="flex-1 text-center">
+              <div className="text-4xl font-black tracking-wider">
+                {plateText}
+              </div>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="text-lg font-black mb-1">
+            <div className="flex flex-col items-center ml-4">
+              <div className="text-3xl font-black mb-1">
                 {regionCode}
               </div>
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-bold">RUS</span>
-                <span className="text-sm">🇷🇺</span>
+              <div className="text-xs font-bold">
+                RUS
               </div>
             </div>
           </div>
@@ -291,7 +292,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
   if (currentStep === 'select-region') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-        {/* Header */}
+        {/* Header - no title */}
         <div className="flex items-center justify-between p-4 border-b border-blue-400/30">
           <Button 
             onClick={onBack}
@@ -303,10 +304,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
             Назад
           </Button>
           
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🚔</span>
-            <h1 className="text-lg font-bold">ГИБДД</h1>
-          </div>
+          <div className="w-16"></div>
           
           <div className="flex items-center gap-2">
             <div className="text-xs text-gray-300">Баланс:</div>
@@ -347,7 +345,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
     
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-        {/* Header */}
+        {/* Header - no title */}
         <div className="flex items-center justify-between p-4 border-b border-blue-400/30">
           <Button 
             onClick={handleBackToRegions}
@@ -359,10 +357,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
             Назад
           </Button>
           
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🚔</span>
-            <h1 className="text-lg font-bold">ГИБДД</h1>
-          </div>
+          <div className="w-16"></div>
           
           <div className="flex items-center gap-2">
             <div className="text-xs text-gray-300">Баланс:</div>
@@ -406,12 +401,9 @@ export default function GIBDD({ onBack }: GIBDDProps) {
   if (currentStep === 'generated-plate' && generatedPlate) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-        {/* Header */}
+        {/* Header - no title */}
         <div className="flex items-center justify-center p-4 border-b border-blue-400/30">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🚔</span>
-            <h1 className="text-lg font-bold">ГИБДД</h1>
-          </div>
+          <div className="w-16"></div>
         </div>
 
         {/* Content */}
@@ -436,7 +428,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
   // My plates view
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-      {/* Header */}
+      {/* Header - no title */}
       <div className="flex items-center justify-between p-4 border-b border-blue-400/30">
         <Button 
           onClick={onBack}
@@ -448,10 +440,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
           Назад
         </Button>
         
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">🚔</span>
-          <h1 className="text-lg font-bold">ГИБДД</h1>
-        </div>
+        <div className="w-16"></div>
         
         <div className="w-16"></div> {/* Empty space to maintain balance */}
       </div>
