@@ -439,14 +439,14 @@ export default function GIBDD({ onBack }: GIBDDProps) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col p-4">
+        <div className="flex-1 flex flex-col justify-between p-4">
           {/* Top title */}
-          <div className="text-center pt-8 mb-8">
+          <div className="text-center pt-8">
             <h2 className="text-3xl font-bold text-green-400">Ваш номер готов!</h2>
           </div>
 
           {/* Center license plate with enhanced shadows */}
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex-1 flex items-center justify-center py-16">
             <div className="w-4/5">
               <div 
                 className="bg-white text-black rounded-lg px-4 py-3 border-2 border-gray-400 shadow-lg relative"
@@ -464,7 +464,7 @@ export default function GIBDD({ onBack }: GIBDDProps) {
                   </div>
                   <div className="border-l-2 border-gray-300 pl-3 flex flex-col items-center">
                     <div className="text-2xl font-black mb-1">
-                      {generatedPlate.region}
+                      {generatedPlate.regionCode}
                     </div>
                     <div className="text-xs font-bold">
                       RUS
